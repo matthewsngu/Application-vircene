@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Vircène — Soin, Routine &amp; Analyse</title>
+<link rel="icon" type="image/svg+xml" href="assets/logo/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/beauty-home.css?v=19">
+<link rel="stylesheet" href="css/account-badge.css?v=8">
+<link rel="stylesheet" href="css/entrance.css">
+<script>try{if(sessionStorage.getItem('vircene_entrance')==='1')document.documentElement.classList.add('is-entrance-pending')}catch(e){}</script>
+</head>
+<body class="dior-page" data-account-badge-mount="#diorHeaderProfile">
+
+<a class="dior-skip" href="#diorMain">Passer au contenu principal</a>
+
+<div class="dior-promo" id="diorPromo">
+  <p class="dior-promo-text">Accès complet à 4,99&nbsp;€/mois — annulable à tout moment.</p>
+  <button type="button" class="dior-promo-close" id="diorPromoClose" aria-label="Fermer la bannière">×</button>
+</div>
+
+<header class="dior-header" id="diorHeader">
+  <div class="dior-header-bar">
+    <div class="dior-header-left" aria-hidden="true"></div>
+    <a href="beauty.html" class="dior-logo" aria-label="Vircène — accueil">VIRCÈNE</a>
+    <div class="dior-header-right" id="diorHeaderProfile"></div>
+  </div>
+</header>
+
+<main id="diorMain" class="dior-main">
+  <section class="dior-story" data-hero-story aria-label="Mise en avant">
+    <div class="dior-story__track">
+      <div class="dior-story__sticky">
+        <div class="dior-story__layout">
+
+          <a href="analyse-cutanee.html" class="dior-story__tile dior-story__tile--left">
+            <div class="dior-story__tile-media">
+              <img src="assets/images/hero-pillar-peau.jpg" alt="" width="800" height="1200">
+              <span class="dior-story__shade"></span>
+            </div>
+            <span class="dior-story__tile-copy">
+              <span class="dior-story__tile-title">Mon historique,<br>analyse cutanée et routine</span>
+              <span class="dior-story__tile-sub">Profil peau</span>
+              <span class="dior-discover">Découvrir</span>
+            </span>
+          </a>
+
+          <div class="dior-story__middle">
+            <a href="diagnostic.html" class="dior-story__visual-link" data-hero-cta-link>
+              <div class="dior-story__visual">
+                <img src="assets/steps/step-3-actives.png" alt="" width="1920" height="1080">
+                <span class="dior-story__shade"></span>
+              </div>
+            </a>
+            <div class="dior-story__intro dior-story__intro--ready">
+              <span class="dior-kicker dior-intro-item">Analyse cutanée</span>
+              <h1 class="dior-h1 dior-intro-item">Mon dernier profil peau,<br>révélé</h1>
+              <a href="diagnostic.html" class="dior-discover dior-intro-item" data-hero-cta>Découvrir</a>
+            </div>
+            <a href="diagnostic.html" class="dior-story__center-copy" data-hero-cta-link>
+              <span class="dior-kicker">Analyse cutanée</span>
+              <span class="dior-story__tile-title">Mon dernier profil peau,<br>révélé</span>
+              <span class="dior-discover" data-hero-cta>Découvrir</span>
+            </a>
+          </div>
+
+          <a href="app.html?view=accueil" class="dior-story__tile dior-story__tile--right">
+            <div class="dior-story__tile-media">
+              <img src="assets/steps/step-4-routine.png" alt="" width="800" height="1200">
+              <span class="dior-story__shade"></span>
+            </div>
+            <span class="dior-story__tile-copy">
+              <span class="dior-story__tile-title">Ma dernière routine<br>cutanée</span>
+              <span class="dior-story__tile-sub">Routine ordonnée</span>
+              <span class="dior-discover">Découvrir</span>
+            </span>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dior-footer-promo" data-footer-promo>
+    <div class="dior-footer-promo-track">
+      <a href="account.html" class="dior-footer-promo-slide is-active">
+        <strong>Avantages e-boutique</strong>
+        <span>Accès complet à 4,99&nbsp;€/mois — annulable à tout moment.</span>
+      </a>
+      <a href="account.html" class="dior-footer-promo-slide">
+        <strong>Offre Premium</strong>
+        <span>Analyse illimitée, suivi photo et compatibilité d'actifs.</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="dior-footer">
+  <div class="dior-footer-bottom">
+    <a href="app.html" class="dior-discover">← Retour à mon espace</a>
+    <p class="dior-footer-legal">Conseil cosmétique à visée informative — ne remplace pas un avis médical.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/config.js?v=4"></script>
+<script src="js/paywall.js?v=2"></script>
+<script src="js/auth.js?v=4"></script>
+<script src="js/account-badge.js?v=13"></script>
+<script src="js/entrance.js"></script>
+<script src="js/beauty-home.js?v=9"></script>
+</body>
+</html>

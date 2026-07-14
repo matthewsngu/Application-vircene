@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion en cours — Vircène</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <main class="auth-page">
+    <article class="card auth-card">
+      <h1>Connexion en cours</h1>
+      <p class="subtitle" id="status">On finalise ta connexion…</p>
+      <p class="auth-error" id="error" role="alert" hidden></p>
+    </article>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/paywall.js"></script>
+  <script src="js/stripe.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    (async function () {
+      const status = document.getElementById('status');
+      const errorEl = document.getElementById('error');
+
+      try {
+        let session = await VirceneAuth.completeSupabaseAuth();
+        if (!session) session = await VirceneAuth.syncSupabaseSession();
+
+        if (session) {
+          VirceneAuth.redirectAfterAuth(session);
+          return;
+        }
+
+        status.textContent = 'Session introuvable.';
+        const hasCode = window.location.search.includes('code=');
+        errorEl.textContent = hasCode
+          ? 'Le code Google a expiré. Retourne sur login et réessaie.'
+          : 'Ajoute dans Supabase → URL Configuration : http://localhost:3000/auth-callback.html';
+        errorEl.hidden = false;
+        setTimeout(() => { window.location.replace('login.html'); }, 4000);
+      } catch (error) {
+        status.textContent = 'La connexion a échoué.';
+        errorEl.textContent = VirceneAuth.formatAuthError(error);
+        errorEl.hidden = false;
+        setTimeout(() => { window.location.replace('login.html'); }, 4000);
+      }
+    })();
+  </script>
+</body>
+</html>

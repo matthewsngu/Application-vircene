@@ -1,0 +1,36 @@
+:root {
+  /* Couleurs */
+  --beige: #DBC4AF;
+  --beige-rgb: 219, 196, 175;
+  --creme: #F9F2EB;
+  --creme-rgb: 249, 242, 235;
+  --dore: #F0C998;
+  --dore-rgb: 240, 201, 152;
+  --texte: #3F3833;
+  --texte-rgb: 63, 56, 51;
+  --texte-doux: #B99B7A;
+  --texte-doux-rgb: 185, 155, 122;
+  --brown: #352e2a;
+  --brown-rgb: 53, 46, 42;
+  --blanc: #FFFCF8;
+
+  /* Typo */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-ui: "Archivo", system-ui, sans-serif;
+
+  /* Layout */
+  --site-max: 1200px;
+  --gutter: clamp(1.25rem, 4vw, 5rem);
+  --section-y: clamp(4rem, 10vh, 7rem);
+  --radius-pill: 999px;
+  --radius-lg: 1.5rem;
+  --radius-md: 1rem;
+
+  /* Motion */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration: 0.35s;
+
+  /* Shadows */
+  --shadow-soft: 0 12px 40px rgba(var(--texte-rgb), 0.06);
+  --shadow-nav: 0 8px 32px rgba(var(--texte-rgb), 0.08);
+}

@@ -1,0 +1,33 @@
+---
+description: Règles projet Vircène — landing, identité, ton
+globs: ["**/*.html", "**/*.css", "**/*.md", "**/*.js"]
+alwaysApply: true
+---
+
+# Vircène — règles projet
+
+## Identité (non négociable)
+- Palette : beige #DBC4AF, crème #F9F2EB, doré #F0C998, texte #3F3833
+- Fonts : Fraunces (titres décoratifs), Archivo (UI/nav/corps — style Protocol)
+- Langue : français, tutoiement
+- Modèle : paywall dur — Premium **4,99 €/mois** — jamais beta/waitlist
+- Slogan : Une routine. Pas une tendance.
+
+## Fichiers principaux
+- Landing : `index.html`
+- Auth : `login.html`, `register.html`, `auth-callback.html`, `forgot-password.html`
+- Compte : `account.html`
+- JS : `js/auth.js`, `js/stripe.js`, `js/paywall.js`, `js/config.js`
+
+## Design Protocol
+- Nav : transparente en haut, pill glass au scroll
+- Typo nav : Archivo uppercase bold
+- Tarif unique centré : 4,99 €/mois
+
+## Backend
+- Auth + DB : Supabase (`docs/SETUP-SUPABASE.md`)
+- Paiement : Stripe Payment Links (`docs/SETUP-STRIPE.md`)
+- Webhook : `netlify/functions/stripe-webhook.js`
+
+## Hub projet
+- `VIRCENE-PROJET.md`, `ROADMAP.md`, `docs/BRAND.md`

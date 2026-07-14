@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon profil — Vircène</title>
+<link rel="icon" type="image/svg+xml" href="assets/logo/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="auth.css?v=4">
+</head>
+<body class="auth-profile">
+
+<div class="auth-grain" aria-hidden="true"></div>
+
+<div class="auth-page auth-page--bronze">
+  <div class="auth-wrap auth-wrap--profile">
+    <a href="index.html" class="auth-back" data-home-link>← Retour au site</a>
+
+    <div class="auth-logo">
+      <a href="index.html" class="auth-logo-mark" data-home-link aria-label="Vircène — accueil">
+        <span class="auth-logo-monogram" aria-hidden="true">
+          <img src="assets/logo/vircene-monogram-white.png" srcset="assets/logo/vircene-monogram-white.png 1x, assets/logo/vircene-monogram-white@2x.png 2x" alt="" width="20" height="14" loading="eager">
+        </span>
+        <span class="auth-logo-wordmark">VIRCÈNE</span>
+      </a>
+    </div>
+
+    <div class="auth-head auth-head--account">
+      <p class="account-kicker">Mon espace</p>
+      <h1>Profil</h1>
+      <p>Tes informations et le résumé de ton diagnostic peau.</p>
+    </div>
+
+    <div class="profile-stack">
+      <section class="account-panel profile-panel" aria-label="Informations personnelles">
+        <div class="profile-hero">
+          <div class="profile-avatar" id="profileAvatar" aria-hidden="true">V</div>
+          <div class="profile-hero-copy">
+            <p class="profile-plan" id="profilePlan">Compte gratuit</p>
+            <h2 class="profile-name" id="profileName">—</h2>
+            <p class="profile-email" id="profileEmail">—</p>
+          </div>
+        </div>
+
+        <dl class="profile-meta">
+          <div class="profile-meta-row">
+            <dt>Prénom</dt>
+            <dd id="profileFirstName">—</dd>
+          </div>
+          <div class="profile-meta-row">
+            <dt>Nom</dt>
+            <dd id="profileLastName">—</dd>
+          </div>
+          <div class="profile-meta-row profile-meta-row--full">
+            <dt>Email</dt>
+            <dd id="profileEmailField">—</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="account-panel profile-panel profile-panel--diag" aria-labelledby="profileDiagTitle">
+        <p class="profile-block-kicker">Diagnostic</p>
+        <h2 class="profile-block-title" id="profileDiagTitle">Résumé de ton questionnaire</h2>
+        <p class="profile-empty" id="profileDiagLead">Complète le questionnaire depuis la landing pour afficher ton profil peau.</p>
+        <div class="profile-diag" id="profileDiag" hidden></div>
+      </section>
+
+      <section class="profile-foot">
+        <a href="account.html" class="profile-foot-link" id="profileManage" hidden>Gérer mon abonnement</a>
+        <a href="account.html" class="profile-foot-link" id="profileSubscribe" hidden>S'abonner — 4,99&nbsp;€/mois</a>
+        <button type="button" class="profile-logout" id="logoutBtn">Déconnexion</button>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script src="js/config.js?v=3"></script>
+<script src="js/paywall.js?v=2"></script>
+<script src="js/auth.js?v=3"></script>
+<script src="js/diagnostic.js?v=118"></script>
+<script src="js/profile-page.js?v=9"></script>
+</body>
+</html>

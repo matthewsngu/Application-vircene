@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Compatibilité d'actifs — Vircène</title>
+<link rel="icon" type="image/svg+xml" href="assets/logo/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/diagnostic.css?v=105">
+<link rel="stylesheet" href="css/actives-compat.css?v=17">
+<link rel="stylesheet" href="css/account-badge.css?v=1">
+</head>
+<body class="diag-flow compat-flow" data-account-badge-light>
+
+<a href="app.html?view=accueil" class="diag-back-link">← Retour</a>
+
+<section class="compat-hero" aria-label="Compatibilité d'actifs">
+  <div class="compat-hero__media">
+    <video class="compat-hero__video" src="assets/videos/hero.mp4" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+    <span class="compat-hero__overlay" aria-hidden="true"></span>
+  </div>
+
+  <div class="compat-hero__panel" aria-labelledby="compatSelectTitle">
+    <h2 class="compat-panel-head" id="compatSelectTitle">Tes actifs</h2>
+    <div class="compat-grid" id="compatGrid" role="group" aria-label="Sélection d'actifs"></div>
+    <div class="compat-actions">
+      <button type="button" class="compat-btn compat-btn--primary" id="compatAnalyzeBtn" disabled>Analyser ma sélection</button>
+      <button type="button" class="compat-btn compat-btn--ghost" id="compatResetBtn">Tout effacer</button>
+    </div>
+  </div>
+
+  <p class="compat-hero__tagline">Sélectionne deux actifs ou plus — Vircène croise les combinaisons et te dit quoi espacer, alterner ou éviter.</p>
+
+  <div class="compat-hero__content">
+    <p class="compat-hero__kicker">Actifs</p>
+    <h1 class="compat-hero__kicker compat-hero__kicker--h1">Compatibilité</h1>
+    <p class="compat-hero__brand">Vircène</p>
+  </div>
+
+  <p class="diag-foot-note compat-foot">Conseil cosmétique à visée informative — ne remplace pas un avis médical.</p>
+</section>
+
+<main class="compat-suite" id="compatSuite">
+  <section class="compat-panel" id="compatResultsPanel" hidden aria-live="polite">
+    <h2 class="compat-panel-head">Résultat</h2>
+    <div id="compatResults"></div>
+  </section>
+</main>
+
+<script src="js/config.js"></script>
+<script src="js/paywall.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/actives-compat.js"></script>
+<script src="js/account-badge.js"></script>
+<script>
+  (async function () {
+    const grid = document.getElementById('compatGrid');
+    const analyzeBtn = document.getElementById('compatAnalyzeBtn');
+    const resetBtn = document.getElementById('compatResetBtn');
+    const resultsPanel = document.getElementById('compatResultsPanel');
+    const resultsEl = document.getElementById('compatResults');
+    const selected = new Set();
+
+    let session = VirceneAuth.readSession();
+    if (!session) {
+      try {
+        session = await VirceneAuth.resolveAuthOnLoad();
+      } catch {
+        session = null;
+      }
+    }
+    if (!session) {
+      window.location.replace('login.html?next=compatibilite-actifs.html');
+      return;
+    }
+    session = VirceneAuth.requirePremiumOrRedirect(session);
+    if (!session) return;
+
+    function esc(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function badgeLabel(status) {
+      if (status === 'avoid') return 'À éviter';
+      if (status === 'caution') return 'Prudence';
+      return 'Compatible';
+    }
+
+    function updateActions() {
+      analyzeBtn.disabled = selected.size < 2;
+    }
+
+    function renderGrid() {
+      grid.innerHTML = VirceneActivesCompat.ACTIVES.map((active) => {
+        const on = selected.has(active.id);
+        return `
+          <button type="button" class="compat-chip${on ? ' is-selected' : ''}" data-active-id="${esc(active.id)}" aria-pressed="${on ? 'true' : 'false'}">
+            <span>${esc(active.label)}</span>
+            <span class="compat-chip-hint">${esc(active.hint)}</span>
+          </button>`;
+      }).join('');
+
+      grid.querySelectorAll('[data-active-id]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.activeId;
+          if (selected.has(id)) selected.delete(id);
+          else selected.add(id);
+          renderGrid();
+          updateActions();
+        });
+      });
+    }
+
+    function renderResults() {
+      const report = VirceneActivesCompat.analyze([...selected]);
+      if (!report.pairs.length) {
+        resultsPanel.hidden = false;
+        resultsEl.innerHTML = '<p class="compat-empty">Choisis au moins deux actifs pour lancer l’analyse.</p>';
+        return;
+      }
+
+      const summaryClass = report.hasAvoid
+        ? 'compat-summary--avoid'
+        : report.hasCaution
+          ? 'compat-summary--caution'
+          : 'compat-summary--ok';
+
+      resultsEl.innerHTML = `
+        <p class="compat-summary ${summaryClass}">${esc(report.summary)}</p>
+        <div class="compat-results">
+          ${report.pairs.map((pair) => `
+            <article class="compat-result">
+              <div class="compat-result-head">
+                <h3 class="compat-result-title">${esc(pair.title)}</h3>
+                <span class="compat-badge compat-badge--${esc(pair.status)}">${esc(badgeLabel(pair.status))}</span>
+              </div>
+              <p class="compat-result-body">${esc(pair.body)}</p>
+              <p class="compat-result-tip"><strong>Conseil :</strong> ${esc(pair.tip)}</p>
+            </article>
+          `).join('')}
+        </div>`;
+      resultsPanel.hidden = false;
+      resultsPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    analyzeBtn.addEventListener('click', renderResults);
+    resetBtn.addEventListener('click', () => {
+      selected.clear();
+      renderGrid();
+      updateActions();
+      resultsPanel.hidden = true;
+      resultsEl.innerHTML = '';
+    });
+
+    renderGrid();
+    updateActions();
+  })();
+</script>
+</body>
+</html>

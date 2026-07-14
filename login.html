@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion — Vircène</title>
+  <meta name="description" content="Connecte-toi à ton compte Vircène.">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <main class="auth-page">
+    <article class="card auth-card">
+      <a href="index.html" class="logo">Vircène</a>
+      <h1>Bon retour</h1>
+      <p class="subtitle">Connecte-toi pour accéder à ta routine.</p>
+
+      <p class="auth-error" id="loginError" role="alert" hidden></p>
+
+      <form id="loginForm" action="#" method="post">
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" autocomplete="email" required placeholder="toi@exemple.fr">
+        </div>
+        <div class="form-field">
+          <label for="password">Mot de passe</label>
+          <input type="password" id="password" name="password" autocomplete="current-password" required placeholder="••••••••">
+        </div>
+        <p class="auth-forgot"><a href="forgot-password.html">Mot de passe oublié ?</a></p>
+        <button type="submit" class="btn btn--primary">Se connecter</button>
+      </form>
+
+      <p class="auth-divider">ou</p>
+      <button type="button" class="btn btn--google" data-auth-provider="google">
+        Continuer avec Google
+      </button>
+
+      <p class="auth-footer">
+        Pas encore de compte ? <a href="register.html">Créer un compte</a>
+      </p>
+    </article>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/paywall.js"></script>
+  <script src="js/stripe.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    (async function () {
+      const err = document.getElementById('loginError');
+
+      try {
+        const existing = await VirceneAuth.resolveAuthOnLoad();
+        if (existing && !VirceneAuth.hasOAuthReturn()) {
+          VirceneAuth.redirectAfterAuth(existing);
+          return;
+        }
+      } catch (error) {
+        err.textContent = VirceneAuth.formatAuthError(error);
+        err.hidden = false;
+      }
+
+      VirceneAuth.bindSocialAuth({ errorEl: 'loginError' });
+
+      document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        err.hidden = true;
+        try {
+          const session = await VirceneAuth.login(
+            document.getElementById('email').value,
+            document.getElementById('password').value
+          );
+          VirceneAuth.redirectAfterAuth(session);
+        } catch (error) {
+          err.textContent = VirceneAuth.formatAuthError(error);
+          err.hidden = false;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

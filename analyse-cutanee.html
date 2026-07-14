@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Compatibilité produits — Vircène</title>
+<link rel="icon" type="image/svg+xml" href="assets/logo/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/diagnostic.css?v=105">
+<link rel="stylesheet" href="css/product-scan.css?v=5">
+<link rel="stylesheet" href="css/routine-results.css?v=14">
+<link rel="stylesheet" href="css/account-badge.css?v=13">
+<style>
+  body.analyse-page {
+    margin: 0;
+    min-height: 100dvh;
+    padding: 0;
+    background: #0e0c0a;
+  }
+
+  body.analyse-page:not(.analyse-has-results) .diag-back-link {
+    display: none;
+  }
+
+  body.analyse-page:not(.analyse-has-results) .vc-account-badge {
+    display: none;
+  }
+
+  body.analyse-page .analyse-error {
+    color: var(--diag-ink, #2a2420);
+    background: transparent;
+  }
+
+  #analyseRoot {
+    position: relative;
+    min-height: 100dvh;
+  }
+
+  /* Hors overlay diagnostic : afficher l'écran scanner / résultats directement */
+  #analyseRoot > .diag-screen {
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    transform: none;
+    position: relative;
+    inset: auto;
+    width: 100%;
+    min-height: 100dvh;
+    z-index: 1;
+  }
+
+  #analyseRoot .diag-screen--product-scan,
+  #analyseRoot .diag-screen--routine-analyzing,
+  #analyseRoot .diag-screen--routine-results {
+    min-height: 100dvh;
+  }
+
+  /* Hors overlay diagnostic : pas d'animation reveal (évite page blanche) */
+  #analyseRoot .diag-screen--routine-results .rr-hero,
+  #analyseRoot .diag-screen--routine-results .rr-card,
+  #analyseRoot .diag-screen--routine-results .rr-paywall-card {
+    opacity: 1;
+    transform: none;
+  }
+
+  .analyse-error {
+    padding: 48px 24px;
+    text-align: center;
+    font-family: var(--diag-font);
+    color: var(--diag-ink-faint);
+  }
+
+  .analyse-results-footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 16px 20px max(24px, env(safe-area-inset-bottom));
+    position: sticky;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(244, 240, 232, 0.98) 70%, transparent);
+  }
+
+  .analyse-results-rescan {
+    border: 1px solid rgba(var(--diag-gold-rgb, 196, 160, 106), 0.35);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.72);
+    padding: 14px 18px;
+    font-family: var(--diag-font);
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--diag-ink);
+    cursor: pointer;
+  }
+
+  .analyse-results-done {
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .analyse-source-notice {
+    margin: 0;
+    padding: 10px 16px;
+    font-family: var(--diag-font);
+    font-size: 0.78rem;
+    text-align: center;
+    color: var(--diag-ink-faint);
+    background: rgba(255, 255, 255, 0.55);
+    border-bottom: 1px solid rgba(var(--diag-gold-rgb, 196, 160, 106), 0.2);
+  }
+</style>
+</head>
+<body class="diag-flow analyse-page">
+
+<a href="app.html?view=accueil" class="diag-back-link">← Mon espace</a>
+
+<div id="analyseRoot" aria-live="polite"></div>
+
+<p class="diag-foot-note analyse-foot" hidden>Conseil cosmétique à visée informative — ne remplace pas un avis médical.</p>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/config.js?v=4"></script>
+<script src="js/paywall.js?v=4"></script>
+<script src="js/stripe.js"></script>
+<script src="js/auth.js?v=3"></script>
+<script src="js/user-data.js"></script>
+<script src="js/product-sync.js?v=2"></script>
+<script src="js/diagnostic.js?v=2"></script>
+<script src="js/actives-compat.js?v=2"></script>
+<script src="js/ai-mocks.js?v=4"></script>
+<script src="js/routine-analysis.js?v=5"></script>
+<script src="js/product-detect.js?v=7"></script>
+<script src="js/product-scan.js?v=4"></script>
+<script src="js/routine-results.js?v=18"></script>
+<script src="js/scan-photo-store.js?v=1"></script>
+<script src="js/account-badge.js?v=13"></script>
+<script src="js/analyse-cutanee.js?v=9"></script>
+<script>
+  VirceneAnalyseCutanee.init().catch(function (err) {
+    console.error('[Vircène analyse]', err);
+    var root = document.getElementById('analyseRoot');
+    if (root) root.innerHTML = '<div class="analyse-error"><p>Erreur au chargement. Recharge la page.</p></div>';
+  });
+</script>
+</body>
+</html>

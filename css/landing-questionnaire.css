@@ -1,0 +1,117 @@
+/* Questionnaire landing — overlay plein écran (hero CTA) */
+
+.landing-diag-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  background: var(--diag-bg, #FAF6EE);
+  isolation: isolate;
+  touch-action: pan-y;
+}
+
+.landing-diag-overlay[hidden] {
+  display: none !important;
+}
+
+.landing-diag-overlay::before,
+.landing-diag-overlay::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.landing-diag-overlay::before {
+  background:
+    radial-gradient(ellipse 55% 45% at 72% 8%, rgba(224, 176, 88, 0.2), transparent 52%),
+    radial-gradient(ellipse 90% 70% at 65% 15%, rgba(196, 160, 106, 0.16), transparent 58%),
+    radial-gradient(ellipse 70% 60% at 25% 85%, rgba(212, 190, 152, 0.18), transparent 62%),
+    linear-gradient(180deg, #FDF9F3 0%, #FAF6EE 38%, #F2E8D8 68%, #EBDFCF 100%);
+}
+
+.landing-diag-overlay::after {
+  background:
+    radial-gradient(ellipse 100% 70% at 88% -8%, rgba(224, 176, 88, 0.1), transparent 48%),
+    radial-gradient(ellipse 80% 55% at 12% 92%, rgba(168, 150, 124, 0.09), transparent 58%);
+}
+
+.landing-diag-overlay #diagRoot {
+  position: relative;
+  z-index: 1;
+  min-height: 100%;
+}
+
+/* Scroll naturel : le contenu grandit, l’overlay défile */
+.landing-diag-overlay .diag-immersive,
+.landing-diag-overlay .diag-hero-content {
+  min-height: auto;
+}
+
+.landing-diag-overlay .diag-hero-content {
+  display: block;
+  padding-bottom: max(32px, env(safe-area-inset-bottom));
+}
+
+.landing-diag-overlay .diag-stage {
+  overflow: visible;
+  min-height: auto;
+  max-height: none;
+  flex: none;
+}
+
+.landing-diag-overlay .diag-screen.is-active {
+  position: relative;
+  inset: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: auto;
+  max-height: none;
+  overflow: visible;
+}
+
+.landing-diag-overlay .diag-screen--routine {
+  overflow: visible;
+  padding-bottom: clamp(24px, 6vh, 48px);
+}
+
+.landing-diag-close {
+  position: fixed;
+  top: max(16px, env(safe-area-inset-top));
+  right: max(16px, env(safe-area-inset-right));
+  z-index: 10001;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.72);
+  color: #2A2420;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(42, 36, 32, 0.08);
+}
+
+.landing-diag-close:hover {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.landing-diag-overlay .diag-flow-progress {
+  position: fixed;
+  top: max(20px, calc(env(safe-area-inset-top) + 8px));
+  left: max(20px, env(safe-area-inset-left));
+  right: max(64px, calc(env(safe-area-inset-right) + 48px));
+  z-index: 10001;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+body.landing-diag-open {
+  overflow: hidden;
+}

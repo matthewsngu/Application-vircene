@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon espace — Vircène</title>
+<link rel="icon" type="image/svg+xml" href="assets/logo/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css?v=72">
+<link rel="stylesheet" href="css/skin-tracking.css?v=60">
+<link rel="stylesheet" href="css/entrance.css">
+<script>try{if(sessionStorage.getItem('vircene_entrance')==='1')document.documentElement.classList.add('is-entrance-pending')}catch(e){}</script>
+</head>
+<body class="app-theme-sol is-accueil-view">
+
+<div class="app-shell">
+  <main class="app-main">
+    <header class="app-topbar">
+      <nav class="app-topbar-nav" aria-label="Sections principales">
+        <div class="app-topbar-accueil">
+          <button type="button" class="app-topbar-home" data-view="accueil" aria-label="Accueil">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1h-5v-7H9v7H4a1 1 0 01-1-1V9.5z"/></svg>
+          </button>
+        </div>
+        <a href="beauty.html" class="app-topbar-tab app-topbar-tab--link">Vircène</a>
+        <button type="button" class="app-topbar-tab" data-view="aujourdhui">Suivi peau</button>
+      </nav>
+      <div class="app-greeting">
+        <h1 class="app-greeting-title">
+          <span class="app-greeting-time" id="greetingTime">Bonjour</span><span class="app-greeting-sep">,</span>
+          <span class="app-greeting-name" id="greetingName"> Toi</span>
+        </h1>
+        <p class="app-greeting-note" id="greetingNote">On croise tes actifs pour une routine sans conflit.</p>
+      </div>
+      <div class="app-topbar-account">
+        <button type="button" class="app-topbar-profile" id="topbarProfileBtn" data-view="profil" aria-haspopup="true" aria-label="Mon profil">
+          <span class="app-topbar-profile-avatar" id="topbarProfileAvatar" aria-hidden="true">V</span>
+        </button>
+        <div class="app-topbar-menu" role="menu" aria-label="Compte">
+          <a href="account.html" class="app-topbar-menu-item" id="topbarAccountLink" role="menuitem">Gérer mon abonnement</a>
+          <button type="button" class="app-topbar-menu-item app-topbar-menu-logout" data-action="logout" role="menuitem">Déconnexion</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Suivi peau — contexte du jour, activité, vue d'ensemble -->
+    <section class="app-view" id="view-aujourdhui">
+      <div class="tracking-welcome">
+        <article class="day-card reveal" aria-labelledby="dayCardAdvice">
+          <header class="day-card-head">
+            <p class="day-card-meta" id="dayCardMeta">Localisation en cours…</p>
+          </header>
+
+          <div class="day-card-hero">
+            <p class="day-card-advice" id="dayCardAdvice">Je prépare ton conseil du jour…</p>
+            <p class="day-card-trigger" id="dayCardTrigger">J'analyse ton environnement…</p>
+          </div>
+
+          <footer class="day-card-actions">
+            <button type="button" class="day-card-cta" id="dayCardCta" data-goto="routine" data-routine-period="matin">Commencer la routine du matin</button>
+          </footer>
+        </article>
+      </div>
+
+      <!-- Score peau + activité suivi -->
+      <div class="tracking-shell">
+
+        <article class="skin-dashboard-card reveal" aria-label="Évolution de ta peau">
+          <p class="skin-dash-section-kicker" id="skinSnapshotKicker">Score peau</p>
+          <div class="skin-health-score">
+            <div class="skin-health-score-main">
+              <p class="skin-health-percent" id="scoreText">—</p>
+            </div>
+            <p class="skin-health-score-label" id="scoreContext">Prends ta première photo dans Suivi peau pour voir ton évolution.</p>
+          </div>
+          <p class="skin-health-score-delta" id="scoreDelta" hidden></p>
+          <p class="skin-health-score-photo" id="scorePhotoLabel"></p>
+          <div class="skin-health-bars" id="scoreBreakdown"></div>
+          <div id="skinOverviewBody"></div>
+        </article>
+
+        <article class="tracking-activity-card reveal" aria-labelledby="trackingActivityTitle">
+          <header>
+            <p class="skin-dash-section-kicker" id="trackingActivityTitle">Routine cette semaine</p>
+            <p class="skin-dash-section-title skin-dash-section-title--sub" id="skinHealthDate"></p>
+            <p class="tracking-greeting-meta" aria-hidden="true">
+              <span id="trackingGreetingTime"></span>
+              <span id="trackingGreetingName"></span>
+            </p>
+          </header>
+          <div class="home-activity-week" id="trackingActivityWeek" role="list" aria-label="Jours de la semaine"></div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Compatibilité produits -->
+    <section class="app-view is-active" id="view-accueil" aria-label="Compatibilité des produits">
+      <div class="app-grid app-grid--home">
+
+        <article class="app-card app-card--span-6 compat-card compat-card--hero">
+          <div class="compat-card-inner">
+            <div class="compat-hero-media" aria-hidden="true">
+              <img
+                class="compat-hero-photo"
+                src="assets/mockups/scan-trio.png"
+                alt=""
+                width="320"
+                height="320"
+                loading="eager"
+                decoding="async">
+              <span class="compat-hero-logo">
+                <img
+                  src="assets/logo/vircene-monogram-white.png"
+                  srcset="assets/logo/vircene-monogram-white.png 1x, assets/logo/vircene-monogram-white@2x.png 2x"
+                  alt=""
+                  width="28"
+                  height="20">
+              </span>
+            </div>
+            <div class="compat-card-body">
+              <h2 class="compat-editorial-title">Actifs de ta routine</h2>
+              <p class="compat-status"><span class="compat-check" aria-hidden="true">✓</span> Compatible pour l’instant</p>
+              <p class="compat-editorial-lead">Vitamine C le matin, céramides le soir — rien ne se contredit.</p>
+              <p class="compat-editorial-note">Quand tu ajoutes un produit, on croise les ingrédients avec ce que tu utilises déjà. <a href="advisor.html" class="compat-hero-link">Parler à Vira →</a></p>
+              <div class="compat-hero-actions">
+                <a href="analyse-cutanee.html" class="app-scan-btn app-scan-btn--primary">Scanner un produit</a>
+                <button type="button" class="compat-hero-link compat-hero-link--btn" data-view="analyse">Mon analyse</button>
+                <button type="button" class="compat-hero-link compat-hero-link--btn" id="addProductCta">Ajouter manuellement</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Routine matin preview -->
+        <div class="app-card app-card--span-6 routine-card routine-card--matin">
+          <div class="routine-card-head">
+            <div class="routine-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2"/></svg>
+            </div>
+            <h2>Matin</h2>
+          </div>
+          <div id="homeRoutineMatin"></div>
+          <button type="button" class="routine-card-more" data-goto="routine" data-routine-period="matin">Voir toute la routine →</button>
+        </div>
+
+        <!-- Routine soir preview -->
+        <div class="app-card app-card--span-6 routine-card routine-card--soir">
+          <div class="routine-card-head">
+            <div class="routine-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </div>
+            <h2>Soir</h2>
+          </div>
+          <div id="homeRoutineSoir"></div>
+          <button type="button" class="routine-card-more" data-goto="routine" data-routine-period="soir">Voir toute la routine →</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Ma routine -->
+    <section class="app-view" id="view-routine" aria-label="Ma routine">
+      <div class="peau-shell">
+        <div class="routine-view-wrap routine-view-wrap--matin">
+          <div class="routine-tabs" role="tablist">
+            <button type="button" class="routine-tab routine-tab--matin is-active" data-period="matin" role="tab" aria-selected="true">
+              <svg class="routine-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2"/></svg>
+              Matin
+            </button>
+            <button type="button" class="routine-tab routine-tab--soir" data-period="soir" role="tab" aria-selected="false">
+              <svg class="routine-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+              Soir
+            </button>
+          </div>
+          <div class="routine-list" id="routineList"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ma vitrine -->
+    <section class="app-view" id="view-peau">
+      <div class="peau-shell">
+        <section class="peau-main" id="peauLandingHero" aria-label="Ma vitrine">
+          <div class="peau-main__panel">
+            <p class="peau-panel-title">Mes produits</p>
+            <p class="peau-lead"><span id="productsCount">0 produit</span> dans ta routine</p>
+            <button type="button" class="peau-action-link peau-analyse-link" data-view="analyse">Mon analyse →</button>
+            <div class="peau-products-list" id="productsGrid"></div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- Mon analyse — synthèse du scan produits -->
+    <section class="app-view" id="view-analyse" aria-label="Mon analyse">
+      <div class="peau-shell">
+        <section class="peau-main" id="monAnalyseRoot"></section>
+      </div>
+    </section>
+
+    <!-- Profil — données personnelles -->
+    <section class="app-view app-profile app-profile--revealed" id="view-profil">
+      <div class="app-profile-inner" id="appProfileContent">
+        <div class="app-card app-card--span-12">
+          <h2>Mon profil</h2>
+          <div class="profile-grid">
+            <div class="profile-field">
+              <label>Nom</label>
+              <p class="profile-value" id="profileName">—</p>
+            </div>
+            <div class="profile-field">
+              <label>Email</label>
+              <p class="profile-value" id="profileEmail">—</p>
+            </div>
+            <div class="profile-field">
+              <label>Type de peau</label>
+              <p class="profile-value" id="profileSkin">—</p>
+            </div>
+            <div class="profile-field">
+              <label>Objectifs</label>
+              <div class="profile-goals" id="profileGoals"></div>
+            </div>
+            <div class="profile-field profile-field--full">
+              <label>À propos de ma peau</label>
+              <p class="profile-value" id="profileAbout">—</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-account">
+        <span class="app-plan-badge" id="planBadge">Premium</span>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<nav class="app-dock" aria-label="Navigation principale">
+  <p class="app-dock-caption" id="dockCaption" aria-hidden="true"></p>
+  <div class="app-dock-pill app-dock-pill--balanced">
+    <a href="app.html?view=accueil" class="app-dock-item" data-view="accueil" aria-label="Accueil">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1h-5v-7H9v7H4a1 1 0 01-1-1V9.5z"/></svg>
+    </a>
+    <a href="app.html?view=analyse" class="app-dock-item" data-view="analyse" aria-label="Mon analyse">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4L12 3z"/><circle cx="18" cy="17" r="1.4"/><circle cx="6.5" cy="16.5" r="1"/></svg>
+    </a>
+    <a href="analyse-cutanee.html" class="app-dock-item app-dock-item--scan" aria-label="Scanner">
+      <span class="app-dock-scan-btn">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M4 8V4h4"/><path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M16 4h4v4"/><path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M4 16v4h4"/><path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M20 16v4h-4"/><rect x="9.25" y="9.75" width="5.5" height="4.5" rx="1.1" fill="currentColor" stroke="none"/><path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" d="M5.5 12h3.25"/><path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" d="M15.25 12H18.5"/></svg>
+      </span>
+    </a>
+    <a href="#" class="app-dock-item" data-view="peau" aria-label="Ma vitrine">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h10M4 12h14M4 17h8"/><rect x="14" y="5" width="7" height="14" rx="2"/><circle cx="17.5" cy="12" r="2.2"/></svg>
+    </a>
+  </div>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/config.js"></script>
+<script src="js/paywall.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/user-data.js"></script>
+<script src="js/cloud-sync.js?v=1"></script>
+<script src="js/product-sync.js?v=1"></script>
+<script src="js/scoring.js?v=3"></script>
+<script src="js/ingredient-ai.js?v=1"></script>
+<script src="js/premium-ux.js"></script>
+<script src="js/stripe.js"></script>
+<script src="js/dock.js"></script>
+<script src="js/daily-context.js"></script>
+<script src="js/entrance.js"></script>
+<script src="js/actives-compat.js?v=2"></script>
+<script src="js/routine-analysis.js?v=5"></script>
+<script src="js/scan-photo-store.js?v=1"></script>
+<script src="js/mon-analyse.js?v=5"></script>
+<script src="js/app.js?v=11"></script>
+</body>
+</html>

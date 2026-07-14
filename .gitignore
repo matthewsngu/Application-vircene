@@ -1,0 +1,29 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+node_modules/
+dist/
+.netlify/
+.vercel/
+*.log
+js/config.js
+
+# Vidéos lourdes — servies en CDN, pas dans git
+assets/videos/*.mp4
+
+# Images de développement / tests non essentielles
+assets/images/vf-*.jpg
+assets/images/uns-*.jpg
+assets/images/cand-*.jpg
+assets/images/pex-*.jpg
+assets/images/px-*.jpg
+assets/images/u1.jpg
+assets/images/u2.jpg
+assets/images/u3.jpg
+assets/images/u4.jpg
+assets/images/f1.jpg
+assets/images/f2.jpg
+assets/images/f3.jpg
+assets/images/f4.jpg
+assets/images/f5.jpg

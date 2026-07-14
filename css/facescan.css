@@ -1,0 +1,607 @@
+/* Vircène — Face Scan IA (overlay) — thème sombre premium */
+/* S'appuie sur les tokens définis dans app.css (--ivory, --dore, --texte…) */
+
+.fs-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.fs-overlay[hidden] { display: none; }
+
+.fs-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 6, 5, 0.62);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: fs-fade 0.3s var(--ease-out, ease);
+}
+
+.fs-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
+  background: #211A15;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--radius-lg, 24px);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  padding: 28px 26px 26px;
+  color: var(--ivory, #F4ECE3);
+  animation: fs-rise 0.4s var(--ease-out, ease);
+}
+
+@keyframes fs-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fs-rise {
+  from { opacity: 0; transform: translateY(18px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+.fs-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 5;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(240, 201, 152, 0.14);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ivory, #F4ECE3);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s, transform 0.25s;
+}
+.fs-close:hover { background: rgba(240, 201, 152, 0.16); border-color: rgba(240, 201, 152, 0.4); transform: rotate(90deg); }
+
+.fs-step { animation: fs-fade 0.35s var(--ease-out, ease); }
+.fs-step[hidden] { display: none; }
+
+/* Boutons */
+.fs-btn {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill, 999px);
+  padding: 15px 26px;
+  font-family: 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.35s, border-color 0.35s, color 0.35s;
+}
+.fs-btn:active { transform: scale(0.98); }
+.fs-btn--primary {
+  background: transparent;
+  border-color: rgba(198, 173, 130, 0.32);
+  color: var(--ivory, #F4ECE3);
+  box-shadow: none;
+}
+.fs-btn--primary:hover {
+  background: rgba(198, 173, 130, 0.1);
+  border-color: rgba(198, 173, 130, 0.45);
+  transform: none;
+  box-shadow: none;
+}
+.fs-btn--ghost {
+  background: transparent;
+  color: var(--texte-doux, #B7A892);
+  border-color: rgba(198, 173, 130, 0.18);
+}
+.fs-btn--ghost:hover {
+  background: rgba(198, 173, 130, 0.06);
+  border-color: rgba(198, 173, 130, 0.28);
+}
+
+.fs-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+.fs-actions .fs-btn { width: 100%; }
+
+/* ---------- ÉTAPE 1 : Intro ---------- */
+.fs-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400;
+  font-size: 27px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--ivory, #F4ECE3);
+  text-align: center;
+  margin: 4px 12px 0;
+}
+
+.fs-face {
+  position: relative;
+  width: 230px;
+  height: 230px;
+  margin: 26px auto 30px;
+}
+.fs-face-circle {
+  position: absolute;
+  inset: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 38%, #2C231C, #16110E);
+  border: 1px solid rgba(240, 201, 152, 0.16);
+  overflow: hidden;
+  display: grid;
+  place-items: end center;
+}
+.fs-face-silhouette {
+  width: 78%;
+  height: auto;
+  color: rgba(240, 201, 152, 0.22);
+}
+.fs-face-mesh {
+  position: absolute;
+  inset: 22px;
+  border-radius: 50%;
+  pointer-events: none;
+  color: var(--dore, #F0C998);
+}
+.fs-face-mesh svg { width: 100%; height: 100%; display: block; }
+
+.fs-tag {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px;
+  background: rgba(33, 26, 21, 0.9);
+  border: 1px solid rgba(240, 201, 152, 0.2);
+  border-radius: var(--radius-pill, 999px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ivory, #F4ECE3);
+  white-space: nowrap;
+  animation: fs-float 4s ease-in-out infinite;
+}
+.fs-tag-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.fs-tag-dot svg { width: 11px; height: 11px; }
+.fs-tag--cernes { top: 4px; right: -6px; }
+.fs-tag--cernes .fs-tag-dot { background: rgba(196, 122, 90, 0.28); color: #E0996F; }
+.fs-tag--rougeurs { top: 92px; left: -18px; animation-delay: 0.8s; }
+.fs-tag--rougeurs .fs-tag-dot { background: rgba(79, 163, 97, 0.28); color: #5DBE74; }
+.fs-tag--brillance { bottom: 10px; right: 4px; animation-delay: 1.6s; }
+.fs-tag--brillance .fs-tag-dot { background: rgba(var(--dore-rgb, 240, 201, 152), 0.32); color: var(--dore, #F0C998); }
+
+@keyframes fs-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.fs-bullets {
+  list-style: none;
+  margin: 0 0 24px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.fs-bullets li {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  font-size: 14.5px;
+  line-height: 1.4;
+  color: var(--ivory, #F4ECE3);
+}
+.fs-check {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: rgba(var(--dore-rgb, 240, 201, 152), 0.2);
+  border: 1px solid rgba(240, 201, 152, 0.3);
+  color: var(--dore, #F0C998);
+  display: grid;
+  place-items: center;
+}
+.fs-check svg { width: 12px; height: 12px; }
+
+/* ---------- ÉTAPE 2 : Caméra ---------- */
+.fs-viewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  margin: 8px 0 22px;
+  border-radius: var(--radius-lg, 24px);
+  overflow: hidden;
+  background: #1c1814;
+}
+.fs-viewport video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+}
+.fs-cam-mesh {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  color: rgba(var(--dore-rgb, 240, 201, 152), 0.85);
+}
+.fs-cam-mesh svg { width: 62%; height: auto; filter: drop-shadow(0 0 6px rgba(240, 201, 152, 0.4)); }
+
+.fs-corners span {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  border: 3px solid rgba(247, 244, 239, 0.9);
+}
+.fs-corners span:nth-child(1) { top: 16px; left: 16px; border-right: 0; border-bottom: 0; border-top-left-radius: 10px; }
+.fs-corners span:nth-child(2) { top: 16px; right: 16px; border-left: 0; border-bottom: 0; border-top-right-radius: 10px; }
+.fs-corners span:nth-child(3) { bottom: 16px; left: 16px; border-right: 0; border-top: 0; border-bottom-left-radius: 10px; }
+.fs-corners span:nth-child(4) { bottom: 16px; right: 16px; border-left: 0; border-top: 0; border-bottom-right-radius: 10px; }
+.fs-corners span { transition: border-color 0.4s var(--ease-out, ease), box-shadow 0.4s; }
+
+/* Balayage de cadrage tant que le visage n'est pas verrouillé */
+.fs-viewport::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 30%;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 247, 235, 0), rgba(255, 247, 235, 0.32), rgba(255, 247, 235, 0));
+  animation: fs-camsweep 2.6s ease-in-out infinite;
+}
+@keyframes fs-camsweep {
+  0% { transform: translateY(-100%); opacity: 0.2; }
+  50% { opacity: 0.8; }
+  100% { transform: translateY(340%); opacity: 0.2; }
+}
+
+/* Verrouillage : le cadre passe au doré quand le visage est bien positionné */
+.fs-cam-mesh { transition: color 0.4s; }
+.fs-viewport.is-locked::before { animation: none; opacity: 0; }
+.fs-viewport.is-locked .fs-corners span {
+  border-color: var(--dore, #F0C998);
+  box-shadow: 0 0 14px rgba(var(--dore-rgb, 240, 201, 152), 0.7);
+}
+.fs-viewport.is-locked .fs-cam-mesh { color: rgba(var(--dore-rgb, 240, 201, 152), 1); }
+.fs-viewport.is-locked .fs-hint { background: rgba(79, 163, 97, 0.88); }
+
+.fs-pills {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+}
+.fs-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill, 999px);
+  background: rgba(16, 12, 10, 0.6);
+  color: rgba(247, 244, 239, 0.85);
+  font-size: 12.5px;
+  font-weight: 500;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: background 0.4s, color 0.4s;
+}
+.fs-status-pill .fs-tick {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: rgba(247, 244, 239, 0.25);
+  color: transparent;
+  transition: background 0.4s, color 0.4s;
+}
+.fs-status-pill .fs-tick svg { width: 10px; height: 10px; }
+.fs-status-pill.is-on { background: rgba(79, 163, 97, 0.92); color: #fff; }
+.fs-status-pill.is-on .fs-tick { background: rgba(255, 255, 255, 0.28); color: #fff; }
+
+.fs-hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px 18px;
+  border-radius: var(--radius-pill, 999px);
+  background: rgba(16, 12, 10, 0.66);
+  color: var(--ivory, #F4ECE3);
+  font-size: 14px;
+  font-weight: 500;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  white-space: nowrap;
+}
+
+.fs-capture {
+  display: block;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: var(--ivory, #F4ECE3);
+  border: 4px solid var(--dore, #F0C998);
+  box-shadow: 0 0 0 4px rgba(var(--dore-rgb, 240, 201, 152), 0.25);
+  cursor: pointer;
+  transition: transform 0.2s var(--ease-out, ease), box-shadow 0.2s;
+}
+.fs-capture:hover { transform: scale(1.06); }
+.fs-capture:active { transform: scale(0.94); }
+
+/* Fallback (pas de caméra / permission refusée) */
+.fs-fallback {
+  text-align: center;
+  padding: 18px 4px 4px;
+}
+.fs-fallback-icon {
+  width: 56px; height: 56px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(240, 201, 152, 0.16);
+  color: var(--texte-doux, #B7A892);
+  display: grid; place-items: center;
+}
+.fs-fallback-icon svg { width: 26px; height: 26px; }
+.fs-fallback p {
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: var(--texte-doux, #B7A892);
+  margin: 0 8px 18px;
+}
+.fs-file-label {
+  display: inline-block;
+  width: 100%;
+}
+.fs-file-label input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+/* ---------- ÉTAPE 3 : Validation ---------- */
+.fs-review-frame {
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 3 / 4;
+  margin: 10px auto 22px;
+  border-radius: var(--radius-lg, 24px);
+  overflow: hidden;
+  border: 4px solid #4FA361;
+  box-shadow: 0 0 0 5px rgba(79, 163, 97, 0.18);
+}
+.fs-review-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ---------- ÉTAPE 4 : Analyse (expérience premium) ---------- */
+.fs-step--analyse { text-align: center; padding: 10px 0 6px; }
+.fs-analyse-photo {
+  position: relative;
+  width: 218px;
+  aspect-ratio: 3 / 4;
+  margin: 6px auto 22px;
+  border-radius: var(--radius-lg, 24px);
+  overflow: hidden;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.5);
+  background: #1c1814;
+}
+.fs-analyse-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Maillage Face ID qui se dessine sur le visage */
+.fs-mesh-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  opacity: 0;
+  color: rgba(var(--dore-rgb, 240, 201, 152), 0.95);
+  transition: opacity 0.5s var(--ease-out, ease);
+}
+.fs-mesh-overlay svg { width: 82%; height: auto; filter: drop-shadow(0 0 5px rgba(240, 201, 152, 0.55)); }
+.fs-mesh-overlay svg polyline { stroke-dasharray: 420; stroke-dashoffset: 420; }
+.is-scanning .fs-mesh-overlay { opacity: 1; }
+.is-scanning .fs-mesh-overlay svg polyline { animation: fs-draw 1.2s var(--ease-out, ease) forwards; }
+@keyframes fs-draw { to { stroke-dashoffset: 0; } }
+
+/* Balayage de lumière vive (haut → bas) */
+.fs-sweep {
+  position: absolute;
+  left: 0; right: 0;
+  top: 0;
+  height: 42%;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(180deg, rgba(255, 247, 235, 0) 0%, rgba(255, 248, 236, 0.8) 48%, rgba(255, 247, 235, 0) 100%);
+  mix-blend-mode: screen;
+}
+.is-scanning .fs-sweep { opacity: 1; animation: fs-sweep 1.5s var(--ease-out, ease) infinite; }
+@keyframes fs-sweep {
+  0% { transform: translateY(-110%); }
+  100% { transform: translateY(280%); }
+}
+
+/* Points de résultat qui apparaissent zone par zone */
+.fs-points { position: absolute; inset: 0; pointer-events: none; }
+.fs-point {
+  position: absolute;
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  background: var(--dore, #F0C998);
+  transform: translate(-50%, -50%) scale(0.4);
+  opacity: 0;
+  box-shadow: 0 0 0 4px rgba(var(--dore-rgb, 240, 201, 152), 0.3), 0 0 10px rgba(255, 255, 255, 0.6);
+  transition: opacity 0.35s var(--ease-out, ease), transform 0.35s var(--ease-out, ease);
+}
+.fs-point.is-on {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  animation: fs-point-pulse 1.8s ease-in-out infinite;
+}
+.fs-point::after {
+  content: attr(data-label);
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill, 999px);
+  background: rgba(16, 12, 10, 0.66);
+  color: var(--ivory, #F4ECE3);
+  font-size: 10.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+.fs-point--l::after { left: auto; right: 16px; }
+@keyframes fs-point-pulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(var(--dore-rgb, 240, 201, 152), 0.35), 0 0 10px rgba(255, 255, 255, 0.6); }
+  50% { box-shadow: 0 0 0 8px rgba(var(--dore-rgb, 240, 201, 152), 0), 0 0 10px rgba(255, 255, 255, 0.3); }
+}
+
+.fs-analyse-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 21px;
+  color: var(--ivory, #F4ECE3);
+}
+.fs-analyse-sub {
+  font-size: 14px;
+  color: var(--texte-doux, #B7A892);
+  margin-top: 6px;
+}
+
+/* Barre de progression — l'attente devient une expérience */
+.fs-progress {
+  width: 180px;
+  height: 4px;
+  margin: 16px auto 4px;
+  border-radius: var(--radius-pill, 999px);
+  background: rgba(240, 201, 152, 0.16);
+  overflow: hidden;
+}
+.fs-progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: var(--radius-pill, 999px);
+  background: linear-gradient(90deg, var(--dore, #F0C998), #E0B074);
+}
+.fs-step--analyse:not([hidden]) .fs-progress span {
+  animation: fs-fill 2.9s var(--ease-out, ease) forwards;
+}
+@keyframes fs-fill { from { width: 0; } to { width: 100%; } }
+
+/* ---------- ÉTAPE 5 : Résultats ---------- */
+.fs-results-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400;
+  font-size: 25px;
+  letter-spacing: -0.01em;
+  color: var(--ivory, #F4ECE3);
+  margin: 2px 0 2px;
+}
+.fs-results-subtitle {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--dore, #F0C998);
+  margin-bottom: 14px;
+}
+.fs-results-body {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ivory, #F4ECE3);
+}
+.fs-results-body p { margin-bottom: 12px; }
+.fs-results-body strong { font-weight: 600; color: var(--ivory, #F4ECE3); }
+
+.fs-results-next-label {
+  margin-top: 18px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--texte-doux, #B7A892);
+}
+.fs-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 12px;
+}
+.fs-chip {
+  appearance: none;
+  border: 1px solid rgba(240, 201, 152, 0.2);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-pill, 999px);
+  padding: 10px 16px;
+  font-family: 'Archivo', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ivory, #F4ECE3);
+  cursor: pointer;
+  transition: background 0.22s, border-color 0.22s, transform 0.22s;
+}
+.fs-chip:hover {
+  background: rgba(var(--dore-rgb, 240, 201, 152), 0.16);
+  border-color: var(--dore, #F0C998);
+}
+.fs-chip:active { transform: scale(0.97); }
+
+.fs-disclaimer {
+  margin-top: 22px;
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--texte-doux, #B7A892);
+  text-align: center;
+}
+
+/* ---------- Responsive (mobile) ---------- */
+@media (max-width: 540px) {
+  .fs-overlay { padding: 0; }
+  .fs-dialog {
+    max-width: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+    border: 0;
+    padding: 64px 20px 28px;
+  }
+  .fs-title { font-size: 24px; }
+  .fs-viewport { aspect-ratio: auto; flex: 1; min-height: 52vh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fs-tag, .fs-sweep, .fs-point, .fs-viewport::before { animation: none; }
+  .fs-mesh-overlay svg polyline { animation: none; stroke-dashoffset: 0; }
+  .is-scanning .fs-mesh-overlay { opacity: 1; }
+  .fs-progress span { animation: none; width: 100%; }
+  .fs-step, .fs-backdrop, .fs-dialog { animation: none; }
+}

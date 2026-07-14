@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 120" fill="none" role="img" aria-label="Monogramme Vircene VC">
+  <!-- Monogramme VC : trace continu, V symetrique, liaison douce V->C. currentColor. -->
+  <path d="M 38 26 L 70 92 C 88 54, 100 28, 104 30 C 120 34, 128 52, 128 72 C 128 90, 108 98, 90 92" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

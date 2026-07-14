@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vircène — L'alternative accessible au dermatologue</title>
+  <meta name="description" content="Analyse ta routine skincare, détecte les conflits entre tes produits et ta peau. Accès complet 4,99 €/mois. Annulable à tout moment.">
+  <link rel="icon" type="image/svg+xml" href="assets/logo/favicon.svg">
+  <link rel="icon" type="image/png" href="assets/logo/favicon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="Vircène — L'alternative accessible au dermatologue">
+  <meta property="og:description" content="Une routine. Pas une tendance. Analyse peau, compatibilité actifs et suivi — 4,99 €/mois.">
+  <meta property="og:image" content="assets/images/hero-pillar-peau.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="assets/images/hero-pillar-peau.jpg">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+  <header class="site-nav" aria-label="Navigation principale">
+    <div class="site-nav__inner">
+      <a href="/" class="logo">Vircène</a>
+      <ul class="nav-links">
+        <li><a href="#piliers">Piliers</a></li>
+        <li><a href="#tarifs">Tarifs</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn--secondary">Connexion</a>
+        <a href="register.html?plan=monthly" class="btn btn--primary" data-stripe-plan="monthly">Commencer</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero__grid">
+        <div class="hero__content reveal">
+          <p class="eyebrow">Skincare intelligent</p>
+          <h1 class="display hero__title">Une routine.<br>Pas une tendance.</h1>
+          <p class="lead">Vircène analyse ta peau et tes produits pour te proposer une routine cohérente — sans promesses vides, avec des preuves.</p>
+          <div class="hero__actions">
+            <a href="register.html?plan=monthly" class="btn btn--primary" data-stripe-plan="monthly">Commencer — 4,99 €/mois</a>
+            <a href="#piliers" class="btn btn--secondary">Découvrir</a>
+          </div>
+        </div>
+        <div class="hero__visual reveal">
+          <img
+            src="assets/images/hero-pillar-peau.jpg"
+            alt="Portrait peau naturelle — analyse Vircène"
+            width="640"
+            height="800"
+            loading="eager"
+          >
+          <p class="hero__badge">L'alternative accessible au dermatologue — compatibilité actifs, scan produits, suivi.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust-strip" aria-label="Points clés">
+      <ul class="trust-strip__list container">
+        <li>Compatibilité actifs</li>
+        <li>Scan INCI</li>
+        <li>Routine ordonnée</li>
+        <li>Suivi évolutif</li>
+      </ul>
+    </section>
+
+    <section id="piliers" class="section">
+      <div class="container">
+        <header class="pillars__header reveal">
+          <p class="eyebrow">Nos piliers</p>
+          <h2 class="display">Tout ce qu'il te faut pour une routine qui tient la route</h2>
+          <p class="lead">Quatre modules pensés pour remplacer le guesswork — pas pour te vendre encore un sérum de plus.</p>
+        </header>
+        <div class="pillars__grid">
+          <article class="card pillar-card reveal">
+            <div class="pillar-card__media">
+              <img src="assets/images/peau-scan-portrait.jpg" alt="" width="400" height="300" loading="lazy">
+            </div>
+            <h3>Peau</h3>
+            <p>Analyse de ton type de peau et de tes objectifs pour calibrer chaque recommandation.</p>
+          </article>
+          <article class="card pillar-card reveal">
+            <div class="pillar-card__media">
+              <img src="assets/steps/step-3-actives.png" alt="" width="400" height="300" loading="lazy">
+            </div>
+            <h3>Actifs</h3>
+            <p>Détection des conflits entre rétinol, AHA, vitamine C et le reste de ta routine.</p>
+          </article>
+          <article class="card pillar-card reveal">
+            <div class="pillar-card__media">
+              <img src="assets/mockups/resultat-routine.png" alt="" width="400" height="300" loading="lazy">
+            </div>
+            <h3>Routine</h3>
+            <p>Ordre d'application matin/soir, généré automatiquement à partir de tes produits.</p>
+          </article>
+          <article class="card pillar-card reveal">
+            <div class="pillar-card__media">
+              <img src="assets/images/hero-pillar-suivi.jpg" alt="" width="400" height="300" loading="lazy">
+            </div>
+            <h3>Suivi</h3>
+            <p>Compare tes progrès dans le temps et ajuste ta routine au fil des saisons.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section preview-section" aria-label="Aperçu produit">
+      <div class="container preview__grid">
+        <div class="preview__content reveal">
+          <p class="eyebrow">Aperçu</p>
+          <h2 class="display">Scanne. Analyse. Ajuste.</h2>
+          <p class="lead">Photographie tes produits, Vircène détecte les conflits et te propose une routine ordonnée — visible en un coup d'œil.</p>
+        </div>
+        <figure class="preview__visual reveal">
+          <img
+            src="assets/mockups/scan-phone.png"
+            alt="Mockup app Vircène — scan produit skincare sur smartphone"
+            width="560"
+            height="640"
+            loading="lazy"
+          >
+        </figure>
+      </div>
+    </section>
+
+    <section id="tarifs" class="section section--dark">
+      <div class="container">
+        <header class="pricing__header reveal">
+          <p class="eyebrow">Tarifs</p>
+          <h2 class="display">Accès complet. Sans surprise.</h2>
+        </header>
+        <div class="pricing__cards pricing__cards--single">
+          <article class="card pricing-card pricing-card--featured reveal">
+            <span class="pricing-card__tag">Premium</span>
+            <h3>Tout inclus</h3>
+            <p class="pricing-card__price">4,99 €<span>/mois</span></p>
+            <ul class="pricing-card__features">
+              <li>Analyse peau complète</li>
+              <li>Scans produits illimités</li>
+              <li>Compatibilité actifs</li>
+              <li>Routine personnalisée</li>
+              <li>Suivi photo + score</li>
+              <li>Annulation en un clic</li>
+            </ul>
+            <a href="register.html?plan=monthly" class="btn btn--primary" data-stripe-plan="monthly">Commencer maintenant</a>
+            <p class="pricing-card__note">Sans engagement · Données hébergées en UE</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="statement">
+      <div class="container">
+        <p class="statement__text display reveal">Commence aujourd'hui.<br>Sans aucun engagement.</p>
+      </div>
+    </section>
+
+    <section id="faq" class="section">
+      <div class="container faq">
+        <h2 class="display reveal">Questions fréquentes</h2>
+        <details class="faq-item reveal">
+          <summary>Vircène remplace-t-il un dermatologue ?</summary>
+          <p>Non. Vircène t'aide à optimiser ta routine skincare au quotidien. En cas de pathologie cutanée, consulte un professionnel de santé.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>Puis-je annuler à tout moment ?</summary>
+          <p>Oui. Tu peux annuler ton abonnement depuis ton espace compte, sans frais ni engagement.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>Comment fonctionne le scan produit ?</summary>
+          <p>Photographie l'étiquette INCI ou saisis les ingrédients. Vircène analyse la compatibilité avec ta peau et le reste de ta routine.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>Mes données sont-elles sécurisées ?</summary>
+          <p>Tes données sont chiffrées et hébergées en Europe. Nous ne vendons jamais tes informations à des tiers.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <span class="logo">Vircène</span>
+        <p>Une routine. Pas une tendance.</p>
+      </div>
+      <nav class="site-footer__links" aria-label="Liens légaux">
+        <a href="mentions-legales.html">Mentions légales</a>
+        <a href="cgu.html">CGU</a>
+        <a href="confidentialite.html">Confidentialité</a>
+        <a href="cookies.html">Cookies</a>
+      </nav>
+    </div>
+    <p class="site-footer__legal container">
+      Vircène est un outil d'aide à la routine skincare et ne constitue pas un avis médical.
+      Consulte un dermatologue pour tout problème cutané persistant.
+      © 2026 Vircène. Tous droits réservés.
+    </p>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/paywall.js"></script>
+  <script src="js/stripe.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/landing.js"></script>
+</body>
+</html>

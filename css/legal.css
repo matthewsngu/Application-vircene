@@ -1,0 +1,181 @@
+/* Vircène — pages légales & utilitaires site */
+:root {
+  --legal-bg: #F5EDE0;
+  --legal-text: #3F3833;
+  --legal-muted: rgba(63, 56, 51, 0.62);
+  --legal-gold: #9E7348;
+  --legal-max: 720px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--legal-bg);
+  color: var(--legal-text);
+  line-height: 1.65;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.legal-header {
+  padding: 28px 24px 12px;
+  max-width: calc(var(--legal-max) + 96px);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.legal-brand {
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--legal-text);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.legal-back {
+  font-size: 0.82rem;
+  color: var(--legal-gold);
+  text-decoration: none;
+}
+
+.legal-back:hover { text-decoration: underline; }
+
+.legal-main {
+  max-width: var(--legal-max);
+  margin: 0 auto;
+  padding: 24px 24px 80px;
+}
+
+.legal-main h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.legal-updated {
+  font-size: 0.82rem;
+  color: var(--legal-muted);
+  margin-bottom: 36px;
+}
+
+.legal-main h2 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin: 32px 0 12px;
+}
+
+.legal-main p,
+.legal-main li {
+  color: rgba(63, 56, 51, 0.88);
+  margin-bottom: 12px;
+}
+
+.legal-main ul {
+  padding-left: 1.2rem;
+  margin-bottom: 16px;
+}
+
+.legal-main a {
+  color: var(--legal-gold);
+}
+
+.legal-footer {
+  border-top: 1px solid rgba(63, 56, 51, 0.12);
+  padding: 24px;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--legal-muted);
+}
+
+.legal-nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin-bottom: 40px;
+  font-size: 0.82rem;
+}
+
+.legal-nav-links a {
+  color: var(--legal-gold);
+  text-decoration: none;
+}
+
+.legal-nav-links a:hover { text-decoration: underline; }
+
+/* Cookie banner */
+.vc-cookie-banner {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 99999;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: rgba(35, 29, 25, 0.94);
+  color: #F5EDE0;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transform: translateY(120%);
+  opacity: 0;
+  transition: transform 0.45s ease, opacity 0.45s ease;
+}
+
+.vc-cookie-banner.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.vc-cookie-banner p {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin-bottom: 14px;
+  color: rgba(245, 237, 224, 0.88);
+}
+
+.vc-cookie-banner a { color: #E8C9A0; }
+
+.vc-cookie-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.vc-cookie-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.vc-cookie-btn--accept {
+  background: #C4A06A;
+  color: #1B1714;
+}
+
+.vc-cookie-btn--prefs {
+  background: transparent;
+  color: #F5EDE0;
+  border: 1px solid rgba(245, 237, 224, 0.28);
+}
+
+@media (min-width: 640px) {
+  .vc-cookie-banner { left: auto; right: 24px; margin: 0; }
+}

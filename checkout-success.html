@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paiement confirmé — Vircène</title>
+<link rel="icon" type="image/svg+xml" href="assets/logo/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="auth.css">
+</head>
+<body class="auth-account">
+
+<div class="auth-grain" aria-hidden="true"></div>
+
+<div class="auth-page auth-page--bronze">
+  <div class="auth-wrap">
+    <div class="auth-logo">
+      <span class="auth-logo-mark" aria-label="Vircène">
+        <span class="auth-logo-monogram" aria-hidden="true">
+          <img src="assets/logo/vircene-monogram-white.png" srcset="assets/logo/vircene-monogram-white.png 1x, assets/logo/vircene-monogram-white@2x.png 2x" alt="" width="20" height="14" loading="eager">
+        </span>
+        <span class="auth-logo-wordmark">VIRCÈNE</span>
+      </span>
+    </div>
+
+    <div class="auth-head auth-head--account">
+      <p class="account-kicker">Premium</p>
+      <h1 id="title">Activation en cours…</h1>
+      <p id="message">Nous confirmons ton paiement et activons ton accès Premium.</p>
+    </div>
+
+    <div class="account-panel" id="panel">
+      <p class="account-plan" id="status">Vérification du compte…</p>
+      <div class="account-actions">
+        <a href="app.html?view=accueil" class="account-cta" id="continueBtn" style="display:none">Continuer vers l'app →</a>
+        <a href="account.html" class="account-cta account-cta--secondary" id="accountBtn" style="display:none">Mon abonnement</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/config.js?v=3"></script>
+<script src="js/paywall.js?v=4"></script>
+<script src="js/auth.js?v=3"></script>
+<script>
+  (async function () {
+    const title = document.getElementById('title');
+    const message = document.getElementById('message');
+    const status = document.getElementById('status');
+    const continueBtn = document.getElementById('continueBtn');
+    const accountBtn = document.getElementById('accountBtn');
+    const panel = document.getElementById('panel');
+
+    let session = VirceneAuth.readSession();
+    if (!session) {
+      location.replace('login.html?next=' + encodeURIComponent('checkout-success.html'));
+      return;
+    }
+
+    async function waitForPremium(maxAttempts) {
+      for (let i = 0; i < maxAttempts; i += 1) {
+        try {
+          session = await VirceneAuth.refreshSessionFromSupabase();
+        } catch { /* retry */ }
+        if (session && VircenePaywall.isPremium(session)) return session;
+        await new Promise(r => setTimeout(r, 1500));
+      }
+      return session;
+    }
+
+    session = await waitForPremium(12);
+    const premium = session && VircenePaywall.isPremium(session);
+
+    if (premium) {
+      title.textContent = 'Bienvenue en Premium';
+      message.textContent = 'Ton abonnement est actif. Tu peux utiliser toute l\'app Vircène.';
+      status.textContent = 'Premium actif';
+      panel.classList.add('is-premium');
+      continueBtn.style.display = 'inline-flex';
+      setTimeout(function () {
+        location.replace('app.html?view=accueil');
+      }, 2500);
+      return;
+    }
+
+    title.textContent = 'Paiement reçu';
+    message.textContent = 'L\'activation peut prendre une minute. Si ton accès n\'apparaît pas, contacte-nous.';
+    status.textContent = 'Activation en attente';
+    accountBtn.style.display = 'inline-flex';
+    continueBtn.style.display = 'inline-flex';
+    continueBtn.textContent = 'Réessayer →';
+    continueBtn.href = 'checkout-success.html';
+  })();
+</script>
+</body>
+</html>

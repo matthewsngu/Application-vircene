@@ -1,0 +1,90 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "20"
+  SECRETS_SCAN_OMIT_KEYS = "SUPABASE_URL"
+
+# ── Clean URLs (HTML sans extension) ────────────────────────
+[[redirects]]
+  from = "/auth-callback"
+  to   = "/auth-callback.html"
+  status = 200
+
+[[redirects]]
+  from = "/app"
+  to   = "/app.html"
+  status = 200
+
+[[redirects]]
+  from = "/account"
+  to   = "/account.html"
+  status = 200
+
+[[redirects]]
+  from = "/login"
+  to   = "/login.html"
+  status = 200
+
+[[redirects]]
+  from = "/register"
+  to   = "/register.html"
+  status = 200
+
+[[redirects]]
+  from = "/advisor"
+  to   = "/advisor.html"
+  status = 200
+
+[[redirects]]
+  from = "/diagnostic"
+  to   = "/diagnostic.html"
+  status = 200
+
+[[redirects]]
+  from = "/beauty"
+  to   = "/beauty.html"
+  status = 200
+
+[[redirects]]
+  from = "/profile"
+  to   = "/profile.html"
+  status = 200
+
+[[redirects]]
+  from = "/checkout-success"
+  to   = "/checkout-success.html"
+  status = 200
+
+# ── Headers de sécurité globaux ──────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(self), microphone=()"
+
+# ── Cache assets statiques (immutables) ─────────────────────
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ── Cache JS/CSS versionnés ──────────────────────────────────
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
+
+# ── HTML : jamais en cache long ──────────────────────────────
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

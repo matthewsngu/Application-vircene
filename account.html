@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mon abonnement — Vircène</title>
+  <meta name="description" content="Gère ton abonnement Vircène Premium.">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <main class="auth-page">
+    <article class="card auth-card auth-card--wide">
+      <a href="index.html" class="logo">Vircène</a>
+      <h1>Abonnement</h1>
+      <p class="subtitle" id="accountIntro">Gère ta formule Premium.</p>
+
+      <div class="account-panel" id="accountPanel">
+        <p class="account-plan" id="currentPlan">Accès non actif</p>
+        <p class="account-price" id="planPrice">4,99 €/mois</p>
+        <p class="account-desc" id="planDesc">Choisis une formule pour débloquer l'app complète.</p>
+        <div class="account-actions">
+          <a href="#" class="btn btn--primary" id="upgradeMonthly" data-stripe-plan="monthly">Obtenir mon accès — 4,99 €/mois</a>
+          <a href="#" class="btn btn--secondary" id="managePortal" hidden>Gérer mon abonnement</a>
+          <button type="button" class="btn btn--secondary" id="logoutBtn">Se déconnecter</button>
+        </div>
+        <p class="account-note" id="stripeNote">Configure tes Payment Links Stripe dans <code>js/config.js</code> pour activer le paiement en ligne.</p>
+      </div>
+    </article>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/paywall.js"></script>
+  <script src="js/stripe.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    (async function () {
+      let session = VirceneAuth.readSession();
+      if (!session) {
+        try { session = await VirceneAuth.resolveAuthOnLoad(); } catch {}
+      }
+      if (!session) {
+        location.replace('login.html');
+        return;
+      }
+
+      const premium = VircenePaywall.isPremium(session);
+      const panel = document.getElementById('accountPanel');
+
+      document.getElementById('currentPlan').textContent = premium ? 'Premium actif' : 'Accès non actif';
+      document.getElementById('planDesc').textContent = premium
+        ? 'Analyse produits illimitée, compatibilité actifs, suivi photo.'
+        : 'Choisis une formule pour débloquer l\'app complète.';
+
+      if (premium) panel.classList.add('is-premium');
+
+      const monthly = document.getElementById('upgradeMonthly');
+      const portal = document.getElementById('managePortal');
+      const stripeNote = document.getElementById('stripeNote');
+
+      if (premium) {
+        monthly.hidden = true;
+        portal.hidden = false;
+        portal.href = VirceneStripe.portalUrl();
+      } else if (VirceneStripe.isEnabled()) {
+        monthly.href = VirceneStripe.checkoutUrl('monthly', session);
+        stripeNote.hidden = true;
+      }
+
+      document.getElementById('logoutBtn').addEventListener('click', async () => {
+        await VirceneAuth.logout();
+        location.replace('index.html');
+      });
+    })();
+  </script>
+</body>
+</html>

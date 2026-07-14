@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vircène AI — Vira, ton conseiller peau</title>
+<link rel="icon" type="image/svg+xml" href="assets/logo/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="css/advisor.css">
+<link rel="stylesheet" href="css/facescan.css">
+<link rel="stylesheet" href="css/account-badge.css?v=1">
+</head>
+<body class="advisor-page">
+
+<div class="advisor-aura" aria-hidden="true">
+  <div class="advisor-aura-glow"></div>
+  <div class="advisor-aura-glow advisor-aura-glow--2"></div>
+  <div class="advisor-aura-lines"></div>
+  <div class="advisor-aura-grain"></div>
+</div>
+
+<div class="app-shell">
+  <header class="advisor-top">
+    <span class="advisor-top-brand">Vircène AI</span>
+    <span class="advisor-top-status"><span class="advisor-pulse" aria-hidden="true"></span> Vira en ligne</span>
+  </header>
+
+  <main class="app-main advisor-main">
+    <section class="advisor-hero" id="advisorHero">
+      <div class="advisor-orb-wrap reveal">
+        <div class="advisor-orb-ring" aria-hidden="true"></div>
+        <div class="advisor-orb">
+          <div class="advisor-orb-shine" aria-hidden="true"></div>
+          <svg class="advisor-orb-mesh" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="0.65" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="50,18 36,28 30,48 32,68 38,82 50,90 62,82 68,68 70,48 64,28 50,18"/>
+            <polyline points="50,18 50,50 50,68 50,90"/>
+            <polyline points="36,28 50,50 64,28"/>
+            <polyline points="30,48 42,56 50,58 58,56 70,48"/>
+            <polyline points="32,68 44,72 50,74 56,72 68,68"/>
+          </svg>
+        </div>
+      </div>
+
+      <p class="advisor-greeting reveal">Coucou <strong id="advisorUserName">toi</strong>, moi c'est Vira.</p>
+      <h1 class="advisor-title reveal">On enlève le <em>flou</em><br>de ta skincare</h1>
+      <p class="advisor-sub reveal">Science de la peau, conseils clairs — étape par étape, sans jargon inutile.</p>
+
+      <div class="advisor-actions">
+        <button type="button" class="advisor-action advisor-action--scan reveal" data-action="facescan" data-prompt="J'aimerais faire un scan de mon visage.">
+          <span class="advisor-action-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="10" r="5"/><path d="M5 20c0-4 3.5-7 7-7s7 3 7 7"/><path d="M12 3v2M12 15v2M4.5 7.5l1.5 1.5M18 7.5l-1.5 1.5"/></svg>
+          </span>
+          <span class="advisor-action-text">
+            <span class="advisor-action-label">Scanner mon visage</span>
+            <span class="advisor-action-hint">Face Scan IA · photo privée, résultats instantanés</span>
+          </span>
+          <span class="advisor-action-arrow" aria-hidden="true">→</span>
+        </button>
+
+        <button type="button" class="advisor-action reveal" data-prompt="Trouve-moi un produit adapté à ma peau." data-send="1">
+          <span class="advisor-action-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 3h6l1 4H8l1-4z"/><rect x="6" y="7" width="12" height="14" rx="2"/><path d="M10 12h4M10 16h4"/></svg>
+          </span>
+          <span class="advisor-action-text">
+            <span class="advisor-action-label">Produit adapté</span>
+            <span class="advisor-action-hint">Recommandations ciblées</span>
+          </span>
+        </button>
+
+        <button type="button" class="advisor-action reveal" data-prompt="J'ai une préoccupation peau, peux-tu m'aider ?" data-send="1">
+          <span class="advisor-action-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+          </span>
+          <span class="advisor-action-text">
+            <span class="advisor-action-label">Ma préoccupation</span>
+            <span class="advisor-action-hint">Rougeurs, acné, éclat…</span>
+          </span>
+        </button>
+
+        <button type="button" class="advisor-action reveal" data-prompt="J'ai des questions sur ma routine." data-send="1">
+          <span class="advisor-action-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </span>
+          <span class="advisor-action-text">
+            <span class="advisor-action-label">Ma routine</span>
+            <span class="advisor-action-hint">Matin, soir, actifs</span>
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <section class="advisor-thread" id="advisorThread" hidden aria-live="polite"></section>
+  </main>
+</div>
+
+<div class="advisor-dock">
+  <div class="advisor-dock-inner">
+    <form class="advisor-composer" id="advisorForm" autocomplete="off">
+      <input type="text" id="advisorInput" class="advisor-composer-input" placeholder="Parle-moi de ta peau…" aria-label="Écris ton message à Vira">
+      <button type="submit" class="advisor-composer-send" aria-label="Envoyer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </form>
+    <p class="advisor-disclaimer">Les réponses générées par l'IA peuvent contenir des erreurs. Vircène ne remplace pas un avis médical.</p>
+  </div>
+</div>
+
+<nav class="app-dock" aria-label="Navigation principale">
+  <p class="app-dock-caption" id="dockCaption" aria-hidden="true"></p>
+  <div class="app-dock-pill app-dock-pill--balanced">
+    <a href="app.html?view=accueil" class="app-dock-item" aria-label="Accueil">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1h-5v-7H9v7H4a1 1 0 01-1-1V9.5z"/></svg>
+    </a>
+    <a href="advisor.html" class="app-dock-item is-active" aria-label="Vircène AI">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4L12 3z"/><circle cx="18" cy="17" r="1.4"/><circle cx="6.5" cy="16.5" r="1"/></svg>
+    </a>
+    <a href="analyse-cutanee.html" class="app-dock-item app-dock-item--scan" aria-label="Scanner">
+      <span class="app-dock-scan-btn">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M4 8V4h4"/><path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M16 4h4v4"/><path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M4 16v4h4"/><path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M20 16v4h-4"/><rect x="9.25" y="9.75" width="5.5" height="4.5" rx="1.1" fill="currentColor" stroke="none"/><path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" d="M5.5 12h3.25"/><path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" d="M15.25 12H18.5"/></svg>
+      </span>
+    </a>
+    <a href="app.html?view=peau" class="app-dock-item" aria-label="Ma vitrine">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h10M4 12h14M4 17h8"/><rect x="14" y="5" width="7" height="14" rx="2"/><circle cx="17.5" cy="12" r="2.2"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- Overlay Face Scan IA -->
+<div class="fs-overlay" id="faceScanOverlay" role="dialog" aria-modal="true" aria-label="Face Scan IA" hidden aria-hidden="true">
+  <div class="fs-backdrop" data-fs-close></div>
+  <div class="fs-dialog" role="document">
+    <button type="button" class="fs-close" id="fsClose" aria-label="Fermer le scan">✕</button>
+
+    <section class="fs-step fs-step--intro" data-step="intro">
+      <h2 class="fs-title">Analysons ta peau avec notre Face Scan IA</h2>
+      <div class="fs-face">
+        <div class="fs-face-circle">
+          <svg class="fs-face-silhouette" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true">
+            <circle cx="50" cy="36" r="22"/>
+            <path d="M10 100c0-22 18-34 40-34s40 12 40 34z"/>
+          </svg>
+        </div>
+        <div class="fs-face-mesh" aria-hidden="true">
+          <svg viewBox="0 0 200 240" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linejoin="round">
+            <polyline points="100,28 72,42 58,75 62,120 70,170 100,205 130,170 138,120 142,75 128,42 100,28"/>
+            <polyline points="100,28 100,100 100,135 100,168 100,205"/>
+            <polyline points="72,42 100,100 128,42"/>
+            <polyline points="58,75 78,95 100,100 122,95 142,75"/>
+            <polyline points="62,120 85,128 100,135 115,128 138,120"/>
+            <polyline points="58,75 62,120"/><polyline points="142,75 138,120"/>
+            <polyline points="78,95 85,128"/><polyline points="122,95 115,128"/>
+            <polyline points="70,170 88,160 100,168 112,160 130,170"/>
+            <polyline points="85,128 88,160"/><polyline points="115,128 112,160"/>
+            <polyline points="72,42 58,75"/><polyline points="128,42 142,75"/>
+            <polyline points="62,120 70,170"/><polyline points="138,120 130,170"/>
+            <polyline points="100,100 78,95"/><polyline points="100,100 122,95"/>
+            <polyline points="100,135 85,128"/><polyline points="100,135 115,128"/>
+          </svg>
+        </div>
+        <span class="fs-tag fs-tag--cernes">
+          <span class="fs-tag-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg></span>
+          Cernes
+        </span>
+        <span class="fs-tag fs-tag--rougeurs">
+          <span class="fs-tag-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span>
+          Rougeurs
+        </span>
+        <span class="fs-tag fs-tag--brillance">
+          <span class="fs-tag-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg></span>
+          Brillance
+        </span>
+      </div>
+      <ul class="fs-bullets">
+        <li><span class="fs-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>Conçu avec des experts peau &amp; IA pour des résultats fiables</li>
+        <li><span class="fs-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>Entraîné sur des milliers de selfies variés et réels</li>
+        <li><span class="fs-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>Analyse IA instantanée — photo non conservée sur nos serveurs</li>
+      </ul>
+      <div class="fs-actions">
+        <button type="button" class="fs-btn fs-btn--primary" id="fsStart">Démarrer mon scan →</button>
+        <button type="button" class="fs-btn fs-btn--ghost" data-fs-close>Plus tard</button>
+      </div>
+    </section>
+
+    <section class="fs-step fs-step--camera" data-step="camera" hidden>
+      <div class="fs-viewport" id="fsViewport">
+        <video id="fsVideo" autoplay playsinline muted></video>
+        <div class="fs-cam-mesh" aria-hidden="true">
+          <svg viewBox="0 0 200 240" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linejoin="round">
+            <polyline points="100,28 72,42 58,75 62,120 70,170 100,205 130,170 138,120 142,75 128,42 100,28"/>
+            <polyline points="100,28 100,100 100,135 100,168 100,205"/>
+            <polyline points="72,42 100,100 128,42"/>
+            <polyline points="58,75 78,95 100,100 122,95 142,75"/>
+            <polyline points="62,120 85,128 100,135 115,128 138,120"/>
+            <polyline points="58,75 62,120"/><polyline points="142,75 138,120"/>
+            <polyline points="78,95 85,128"/><polyline points="122,95 115,128"/>
+            <polyline points="70,170 88,160 100,168 112,160 130,170"/>
+            <polyline points="100,100 78,95"/><polyline points="100,100 122,95"/>
+          </svg>
+        </div>
+        <div class="fs-corners" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+        <div class="fs-pills">
+          <span class="fs-status-pill"><span class="fs-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>Position de la tête</span>
+          <span class="fs-status-pill"><span class="fs-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>Regarde devant</span>
+        </div>
+        <div class="fs-hint">Parfait ! Appuie sur le bouton</div>
+      </div>
+      <button type="button" class="fs-capture" id="fsCapture" aria-label="Prendre la photo"></button>
+      <div class="fs-fallback" id="fsFallback" hidden>
+        <div class="fs-fallback-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="12" cy="12.5" r="3.2"/><path d="M8 6l1.5-2h5L16 6"/></svg></div>
+        <p>On n'a pas pu accéder à ta caméra. Pas de souci — tu peux importer une photo à la place.</p>
+        <label class="fs-btn fs-btn--primary fs-file-label">
+          Importer une photo
+          <input type="file" accept="image/*" id="fsFile">
+        </label>
+      </div>
+    </section>
+
+    <section class="fs-step fs-step--review" data-step="review" hidden>
+      <div class="fs-review-frame">
+        <img id="fsReviewImg" alt="Photo capturée">
+      </div>
+      <div class="fs-actions">
+        <button type="button" class="fs-btn fs-btn--primary" id="fsUse">Utiliser la photo</button>
+        <button type="button" class="fs-btn fs-btn--ghost" id="fsRetake">Reprendre</button>
+      </div>
+    </section>
+
+    <section class="fs-step fs-step--analyse" data-step="analyse" hidden>
+      <div class="fs-analyse-photo" id="fsAnalyseStage">
+        <img id="fsAnalyseImg" alt="">
+        <div class="fs-mesh-overlay" aria-hidden="true">
+          <svg viewBox="0 0 200 240" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linejoin="round">
+            <polyline points="100,28 72,42 58,75 62,120 70,170 100,205 130,170 138,120 142,75 128,42 100,28"/>
+            <polyline points="100,28 100,100 100,135 100,168 100,205"/>
+            <polyline points="72,42 100,100 128,42"/>
+            <polyline points="58,75 78,95 100,100 122,95 142,75"/>
+            <polyline points="62,120 85,128 100,135 115,128 138,120"/>
+            <polyline points="58,75 62,120"/><polyline points="142,75 138,120"/>
+            <polyline points="78,95 85,128"/><polyline points="122,95 115,128"/>
+            <polyline points="70,170 88,160 100,168 112,160 130,170"/>
+            <polyline points="100,100 78,95"/><polyline points="100,100 122,95"/>
+          </svg>
+        </div>
+        <div class="fs-sweep" aria-hidden="true"></div>
+        <div class="fs-points" aria-hidden="true">
+          <span class="fs-point" style="top:21%;left:50%" data-label="Front"></span>
+          <span class="fs-point" style="top:45%;left:31%" data-label="Joue"></span>
+          <span class="fs-point fs-point--l" style="top:45%;left:69%" data-label="Joue"></span>
+          <span class="fs-point" style="top:58%;left:50%" data-label="Zone T"></span>
+          <span class="fs-point" style="top:76%;left:50%" data-label="Menton"></span>
+        </div>
+      </div>
+      <p class="fs-analyse-title" id="fsAnalyseTitle">Analyse en cours…</p>
+      <p class="fs-analyse-sub" id="fsAnalyseSub">Cartographie de ton visage ✦</p>
+      <div class="fs-progress" aria-hidden="true"><span></span></div>
+    </section>
+
+    <section class="fs-step fs-step--results" data-step="results" hidden>
+      <h2 class="fs-results-title">Résultats du scan</h2>
+      <p class="fs-results-subtitle">Ton analyse peau</p>
+      <div class="fs-results-body" id="fsResultsBody"></div>
+      <p class="fs-results-next-label">Prochaines étapes</p>
+      <div class="fs-chips" id="fsChips">
+        <button type="button" class="fs-chip" data-prompt="Donne-moi des conseils pour ma peau.">Donne-moi des conseils</button>
+        <button type="button" class="fs-chip" data-prompt="Montre-moi des produits adaptés à ma peau.">Voir des produits adaptés</button>
+        <button type="button" class="fs-chip" data-prompt="Crée ma routine personnalisée.">Crée ma routine</button>
+        <button type="button" class="fs-chip" data-prompt="Explique-moi ces termes (peau sèche, rougeurs, déshydratation, ridules).">Explique ces termes</button>
+      </div>
+      <p class="fs-disclaimer">Les réponses générées par l'IA peuvent contenir des erreurs. Vircène ne remplace pas un avis médical.</p>
+    </section>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/config.js"></script>
+<script src="js/paywall.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/premium-ux.js"></script>
+<script src="js/stripe.js"></script>
+<script src="js/ai-mocks.js?v=1"></script>
+<script src="js/vira-api.js?v=2"></script>
+<script src="js/facescan.js?v=3"></script>
+<script src="js/advisor-ui.js?v=3"></script>
+<script src="js/dock.js"></script>
+<script src="js/account-badge.js"></script>
+<script>
+  (async function () {
+    let session = VirceneAuth.readSession();
+    if (!session || (VirceneAuth.hasOAuthReturn && VirceneAuth.hasOAuthReturn())) {
+      try {
+        const resolved = await VirceneAuth.resolveAuthOnLoad();
+        if (resolved) session = resolved;
+      } catch { /* ignore */ }
+    }
+    if (!session) { window.location.replace('login.html'); return; }
+
+    session = VirceneAuth.requirePremiumOrRedirect(session);
+    if (!session) return;
+
+    VirceneAdvisorUI.init(session);
+    VircenePremiumUX?.refresh?.(document);
+  })();
+</script>
+</body>
+</html>
