@@ -77,16 +77,23 @@ def main():
 
     tmp = ROOT / "audio" / "mix-raw.wav"
     sf.write(tmp, bus, SR)
-    # two-pass loudnorm; pass 2 aims 0.4 LU high because AAC encoding lands ~0.4 LU low → -14 LUFS measured
+    # two-pass loudnorm to -14 LUFS (measured on the final AAC file)
     p = subprocess.run(["ffmpeg", "-hide_banner", "-i", str(tmp), "-af", "aformat=channel_layouts=stereo,loudnorm=I=-14:TP=-1.5:LRA=11:print_format=json",
                         "-f", "null", "-"], capture_output=True, text=True)
     js = json.loads(p.stderr[p.stderr.rindex("{"):p.stderr.rindex("}") + 1])
-    af = (f"aformat=channel_layouts=stereo,loudnorm=I=-13.6:TP=-1.5:LRA=11:measured_I={js['input_i']}:measured_TP={js['input_tp']}:"
-          f"measured_LRA={js['input_lra']}:measured_thresh={js['input_thresh']}:offset={js['target_offset']}:linear=false")
-    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", vin, "-i", str(tmp), "-af", af, "-ar", "48000",
-                    "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-shortest", vout], check=True)
-    m = subprocess.run(["ffmpeg", "-hide_banner", "-i", vout, "-af", "ebur128", "-f", "null", "-"], capture_output=True, text=True)
-    print("→", vout, [l.strip() for l in m.stderr.splitlines() if l.strip().startswith("I:")][-1])
+    def encode(target):
+        af = (f"aformat=channel_layouts=stereo,loudnorm=I={target:.2f}:TP=-1.5:LRA=11:measured_I={js['input_i']}:measured_TP={js['input_tp']}:"
+              f"measured_LRA={js['input_lra']}:measured_thresh={js['input_thresh']}:offset={js['target_offset']}:linear=false")
+        subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", vin, "-i", str(tmp), "-af", af, "-ar", "48000",
+                        "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-shortest", vout], check=True)
+        m = subprocess.run(["ffmpeg", "-hide_banner", "-i", vout, "-af", "ebur128", "-f", "null", "-"], capture_output=True, text=True)
+        return float([l for l in m.stderr.splitlines() if l.strip().startswith("I:")][-1].split()[1])
+
+    got = encode(-14.0)
+    if abs(got + 14) > 0.2:  # AAC + dynamic loudnorm drift: correct once by the measured error
+        got = encode(-14.0 - (got + 14))
+    tmp.unlink(missing_ok=True)
+    print("→", vout, f"{got:.1f} LUFS")
 
 
 if __name__ == "__main__":
