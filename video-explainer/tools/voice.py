@@ -22,7 +22,9 @@ import soundfile as sf
 ROOT = Path(__file__).resolve().parent.parent
 SAY = {  # pronunciation guides for spots the TTS mangles (meaning unchanged)
     "1963": "mille neuf cent soixante-trois",
-    "Point Loma": "Pointe Loma",
+    "Point Loma": "Poïnte Loma",
+    "footballeur": "foute-balleur",
+    "soixante-cinq :": "soixante-cinq.",
     "de sept en sept depuis cent": "de sept... en sept... depuis cent",
 }
 # Whisper writes numbers as digits: map them back to the script's words.
@@ -75,21 +77,22 @@ def main():
         cf = cache / (hashlib.md5(say.encode()).hexdigest()[:10] + ".wav")
         syl = sum(max(1, len(re.findall(r"[aeiouyàâéèêëîïôùûœ]+", w.lower()))) for w in say.split())
         expect = 0.17 * syl
-        if cf.exists():
+        force = REDO is not None and (i + 1) in REDO
+        if cf.exists() and not force:
             a_, _ = librosa.load(cf, sr=model.sr)
             note = "cache"
         else:
             best = None
             for attempt in range(4):
-                torch.manual_seed(1234 + i * 17 + attempt * 101)
+                torch.manual_seed(1234 + i * 17 + attempt * 101 + (555 if force else 0))
                 wav = model.generate(say, language_id="fr", audio_prompt_path=str(refwav),
                                      exaggeration=0.55, cfg_weight=0.3, temperature=0.7)
                 a_ = wav.squeeze(0).cpu().numpy()
                 core = librosa.effects.trim(a_, top_db=38)[0]
                 ratio = len(core) / model.sr / expect
-                if best is None or abs(ratio - 1) < abs(best[1] - 1):
+                if best is None or abs(ratio - 1.15) < abs(best[1] - 1.15):
                     best = (a_, ratio)
-                if 0.7 <= ratio <= 1.6:
+                if 0.7 <= ratio <= 1.45:  # longer = babble/repeats, shorter = truncation
                     break
             a_, ratio = best
             sf.write(cf, a_, model.sr)
@@ -116,7 +119,7 @@ def main():
     sf.write(tmp, voice, sr)
     final = ROOT / "audio" / "voix.wav"
     if dur < 55 or dur > 65:
-        target = 60.0
+        target = 65.0 if dur > 65 else 55.0  # nearest edge of 55-65 s: least tempo change
         subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", str(tmp), "-af", f"atempo={dur / target:.4f}", str(final)], check=True)
     else:
         tmp.replace(final)
@@ -127,8 +130,9 @@ def main():
     # word timestamps
     from faster_whisper import WhisperModel
     wm = WhisperModel("small", device="cpu", compute_type="int8")
+    # no initial_prompt: with the script as prompt whisper skips and loops
     segs, _ = wm.transcribe(str(final), language="fr", word_timestamps=True, beam_size=5,
-                            initial_prompt=script[:200])
+                            vad_filter=True, condition_on_previous_text=False)
     hw = []
     for seg in segs:
         for w in seg.words:
