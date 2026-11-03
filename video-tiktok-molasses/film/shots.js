@@ -212,7 +212,12 @@ window.buildFilm = (A) => {
     withPop(g, 600, 1700, s.t, T('lunchtime') - 0.1, () => clock(g, 600, 1700, 200));
     const b = clamp((s.t - T('bursts')) / 0.6);
     tank(g, 1450, 2900, 1100, 1700, '#6e4a28', s.t, b);
-    if (b > 0) { goo(g, 3000 - 600 * b, s.t); puff(g, 1450, 2200, 600, s.t, T('bursts')); }
+    if (b > 0) { // molasses gushes out of the tank's base and spreads (no instant flat layer)
+      const e = 1 - Math.pow(1 - b, 3);
+      g.fillStyle = MOL; g.beginPath(); g.ellipse(1450, 2950, 250 + 2200 * e, 90 + 520 * e, 0, Math.PI, 0); g.fill();
+      g.fillRect(1450 - 250 - 2200 * e, 2950, 2 * (250 + 2200 * e), PH);
+      puff(g, 1450, 2200, 600, s.t, T('bursts'));
+    }
   });
   // P9 — mechanism 2: heavier than water, the wave hits at 35 mph, 25 ft high; then the elevated railway bends
   const street = (g, s) => {
