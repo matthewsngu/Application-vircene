@@ -85,7 +85,7 @@ def main():
         af = (f"aformat=channel_layouts=stereo,loudnorm=I={target:.2f}:TP=-1.5:LRA=11:measured_I={js['input_i']}:measured_TP={js['input_tp']}:"
               f"measured_LRA={js['input_lra']}:measured_thresh={js['input_thresh']}:offset={js['target_offset']}:linear=false")
         subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", vin, "-i", str(tmp), "-af", af, "-ar", "48000",
-                        "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-shortest", vout], check=True)
+                        "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", "-shortest", vout], check=True)
         m = subprocess.run(["ffmpeg", "-hide_banner", "-i", vout, "-af", "ebur128", "-f", "null", "-"], capture_output=True, text=True)
         return float([l for l in m.stderr.splitlines() if l.strip().startswith("I:")][-1].split()[1])
 
