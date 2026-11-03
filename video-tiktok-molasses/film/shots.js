@@ -216,8 +216,8 @@ window.buildFilm = (A) => {
   });
   // P9 — mechanism 2: heavier than water, the wave hits at 35 mph, 25 ft high; then the elevated railway bends
   const street = (g, s) => {
-    typeText(g, '35 MPH', [200, 650, 820, 300], T('thirty-five'), s.t);
-    typeText(g, '25 FT HIGH', [1060, 650, 820, 300], T('twenty-five'), s.t);
+    popBoard(g, s, [200, 650, 820, 300], '35 MPH', T('thirty-five') - 0.1);
+    popBoard(g, s, [1060, 650, 820, 300], '25 FT HIGH', T('twenty-five') - 0.1);
     const wp = clamp((s.t - T('wave', 2)) / 2.2);
     const bend = clamp((s.t - T('bends')) / 0.5);
     elevated(g, 100, bend, s.t);
@@ -227,10 +227,10 @@ window.buildFilm = (A) => {
     molassesWaveL(g, lerp(2400, -300, wp), lerp(2600, 1700, wp), s.t);
   };
   const streetBoards = (g) => { board(g, [200, 650, 820, 300]); board(g, [1060, 650, 820, 300]); };
-  shot('P9', T('molasses', 4), 'CITY', full(30), (g, s) => { streetBoards(g); street(g, s); });
-  shot('P9x', T('so', 2), 'CITY', cam(1300, 2500, 1.35, 1.41, 0, 0), (g, s) => { streetBoards(g); street(g, s); });
-  shot('P9y', T('up'), 'CITY', full(10), (g, s) => { streetBoards(g); street(g, s); }); // wide: how high the wave is
-  shot('P9b', T('it', 4), 'CITY', cam(1080, 1800, 1.15, 1.19, 0, 20), (g, s) => { streetBoards(g); street(g, s); });
+  shot('P9', T('molasses', 4), 'CITY', full(30), (g, s) => street(g, s));
+  shot('P9x', T('so', 2), 'CITY', cam(1300, 2500, 1.35, 1.41, 0, 0), (g, s) => street(g, s));
+  shot('P9y', T('up'), 'CITY', full(10), (g, s) => street(g, s)); // wide: how high the wave is
+  shot('P9b', T('it', 4), 'CITY', cam(1080, 1800, 1.15, 1.19, 0, 20), (g, s) => street(g, s));
   // P10 — the counter climbs: 2,300,000 gallons
   shot('P10', T('the', 9), 'WORKSHOP', full(30), (g, s) => {
     const r = [240, 700, 1500, 640];
