@@ -315,11 +315,14 @@ window.buildFilm = (A) => {
   // P17 — twist: Netflix paid her for the story
   const p17 = (g, s) => {
     popBoard(g, s, [280, 650, 1500, 480], 'FOR HER STORY', T('story', 2) - 0.2);
-    cheque(g, s, 1080, 1600, '$320,000', T('three', 2));
+    cheque(g, s, 1080, 1600, '$320,000', T('paid'));
     anna(g, s, 1080, { smile: 1, arms: [{ to: [800, 2050], hand: 'open' }, { to: [1360, 2050], hand: 'open' }] });
   };
-  shot('P17', T('and', 7), 'LOBBY', full(30), p17);
-  shot('P17b', T('netflix'), 'LOBBY', cam(1080, 1700, 1.2, 1.25, 0, 20), p17);
+  shot('P17', T('and', 7), 'STAGE', full(30), (g, s) => {
+    typeOn(g, 'STAGE', 'name', 'PLOT\nTWIST', T('twist') - 0.1, s.t);
+    withPop(g, 1000, FEET, s.t, s.t0 + 0.05, () => anna(g, s, 1000, { k: 1.2, smile: 1, look: 0.4 }), 'squash');
+  });
+  shot('P17b', T('netflix'), 'LOBBY', full(20), p17);
 
   // P18 — the question; the viewer reacts; sign holds to the end
   const finale = (g, s) => {
