@@ -267,11 +267,11 @@ window.buildFilm = (A) => {
     typeOn(g, 'BANK', 'screen', 'LOAN REQUEST\n$22,000,000', T('asked'), s.t);
     withPop(g, 1000, 2350, s.t, T('fake') - 0.05, () => { paper(g, 800, 2050, 400, 500); }, 'squash');
     redX(g, [800, 2050, 400, 500], T('documents'), s.t);
-    drawChar(g, CH.banker, { x: 1600, y: FEET, k: 1.0, face: -1, pose: 'stand', t: s.t, look: -1 });
+    drawChar(g, CH.banker, { x: 1400, y: FEET, k: 1.0, face: -1, pose: 'stand', t: s.t, look: -1 });
     anna(g, s, 560, { k: 1.0, arms: [null, { to: [800, 2250], hand: 'point' }] });
   };
-  shot('P13', T('she', 5), 'BANK', full(30), p13);
-  shot('P13b', T('and', 6), 'BANK', cam(1050, 1500, 1.15, 1.19, 0, 20), p13);
+  shot('P13', T('she', 5), 'BANK', cam(1050, 2350, 1.3, 1.36, 0, -20), p13); // close: the fake documents
+  shot('P13b', T('and', 6), 'BANK', full(30), p13); // wide: the $22M loan request on screen
   // P14 — mechanism 3: Morocco, a friend stuck with the bill
   const p14 = (g, s) => {
     const rp = clamp((s.t - T('sixty-two-thousand-dollar') + 0.2) / 0.8);
