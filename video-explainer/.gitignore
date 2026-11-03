@@ -2,3 +2,5 @@ preview/*.mp4
 audio/mix-raw.wav
 audio/voix-ref/
 audio/voix-tmp.wav
+audio/phrases/
+final/video-60fps.mp4

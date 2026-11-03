@@ -136,7 +136,7 @@ window.buildFilm = (A) => {
     const j = spring(s.t - T('faux'), 3, 0.3);
     drawChar(g, CH.toi, { x: 1050, y: 1520 - 80 * Math.sin(Math.PI * clamp((s.t - T('faux')) / 0.35)), k: 0.9, face: 1, pose: 'sit', t: s.t, look: -1.2 * j, tilt: -0.08 * j,
       arms: [{ to: [1050 - 200, 1520 - 900], hand: 'open' }, { to: [1050 + 320, 1520 - 950], hand: 'open' }] });
-    mark(g, 1150, 380, '!', s.t, T('faux') + 0.08);
+    mark(g, 1420, 880, '!', s.t, T('faux') + 0.08);
   });
 
   // P3 — stakes: road sign + icons popping one per word
@@ -175,13 +175,16 @@ window.buildFilm = (A) => {
   });
 
   // P7 — origin: the real place, date card, people coming and going
-  shot('P7', T('décembre'), 'PL04', cam(1920, 1200, 1.02, 1.06, 100, 0), (g, s) => {
+  const school = (g, s) => {
+    const lt = s.t - T('décembre'); // continuous across P7/P7b
     typeOn(g, 'PL04', 'school', 'POINT LOMA HIGH SCHOOL\nSAN DIEGO', T('lycée'), s.t);
-    drawChar(g, CH.eleve1, { x: walkX(1900, -1, 0.62, s.lt), y: 1800, k: 0.62, face: -1, pose: 'walk', walkT: s.lt, t: s.t });
-    drawChar(g, CH.eleve2, { x: walkX(2350, 1, 0.66, s.lt), y: 1840, k: 0.66, face: 1, pose: 'walk', walkT: s.lt + 0.3, t: s.t });
-    drawChar(g, CH.randy, { x: walkX(400, 1, 0.75, s.lt), y: 1900, k: 0.75, face: 1, pose: 'walk', walkT: s.lt + 0.15, t: s.t });
+    drawChar(g, CH.eleve1, { x: walkX(1900, -1, 0.62, lt), y: 1800, k: 0.62, face: -1, pose: 'walk', walkT: lt, t: s.t });
+    drawChar(g, CH.eleve2, { x: walkX(2350, 1, 0.66, lt), y: 1840, k: 0.66, face: 1, pose: 'walk', walkT: lt + 0.3, t: s.t });
+    drawChar(g, CH.randy, { x: walkX(400, 1, 0.75, lt), y: 1900, k: 0.75, face: 1, pose: 'walk', walkT: lt + 0.15, t: s.t });
     dateCard(g, '28 DÉC.\n1963', s.t, T('décembre'));
-  });
+  };
+  shot('P7', T('décembre'), 'PL04', cam(1920, 1200, 1.02, 1.06, 100, 0), school);
+  shot('P7b', T('san'), 'PL04', cam(1920, 900, 1.45, 1.52, -60, 0), school);
   // P8 — the plan: beat the record
   shot('P8', T('randy', 2), 'PL05', cam(1920, 1050, 1.04, 1.08, -60, 0), (g, s) => {
     const r = S('PL05', 'board').r;
@@ -317,7 +320,7 @@ window.buildFilm = (A) => {
     drawChar(g, CH.joe, { x: 600, y: 1850, k: 0.7, face: 1, pose: 'stand', t: s.t, look: s.t > T('professionnel') ? 1 : -1 });
   });
   // P18 — counting down by sevens: stops at 65
-  shot('P18', T('compter'), 'PL12', cam(1500, 1050, 1.06, 1.1, 80, 0), (g, s) => {
+  const count = (g, s) => {
     const r = S('PL12', 'board').r;
     const span = T('soixante-cinq') - T('rebours');
     const end = typeText(g, '100, 93, 86,\n79, 72, 65…', [r[0] + 60, r[1] + 60, r[2] - 120, r[3] - 120], T('rebours'), s.t, { cps: 21 / span, color: C.ink });
@@ -326,7 +329,9 @@ window.buildFilm = (A) => {
     drawChar(g, CH.randy, { x: 3100, y: 1900, k: 0.85, face: -1, pose: 'stand', t: s.t, tired: true, look: -0.5 });
     mark(g, 3100, 750, '?', s.t, T("s'arrête"));
     void end;
-  });
+  };
+  shot('P18', T('compter'), 'PL12', cam(1500, 1050, 1.06, 1.1, 80, 0), count);
+  shot('P18b', T('il', 2), 'PL12', cam(1500, 850, 1.4, 1.46, 40, 0), count);
   // P19 — reactions
   shot('P19', T('il', 3), 'PL12', cam(2980, 1280, 2.2, 2.28, -30, 0), (g, s) => {
     const r = S('PL12', 'board').r;

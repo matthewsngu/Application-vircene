@@ -23,8 +23,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SAY = {  # pronunciation guides for spots the TTS mangles (meaning unchanged)
     "1963": "mille neuf cent soixante-trois",
     "Point Loma": "Poïnte Loma",
-    "footballeur": "foute-balleur",
-    "soixante-cinq :": "soixante-cinq.",
+    "Il se croit footballeur professionnel.": "Il se prend pour un pro du foot.",  # model mangles the loanword
     "de sept en sept depuis cent": "de sept... en sept... depuis cent",
 }
 # Whisper writes numbers as digits: map them back to the script's words.
@@ -63,8 +62,12 @@ def main():
     torch.set_num_threads(4)
     model = ChatterboxMultilingualTTS.from_pretrained(device="cpu")
     # one short sentence per generation (long inputs get truncated by the model)
+    # joins applied before splitting: very short sentences make the model babble after the text
+    JOIN = {"soixante-cinq : il a oublié": "soixante-cinq, il a oublié"}
     units = []
     for line in lines:
+        for k, v in JOIN.items():
+            line = line.replace(k, v)
         units += [u.strip() for u in re.findall(r"[^.?…:]+[.?…:]*", line) if u.strip()]
     cache = ROOT / "audio" / "phrases"
     cache.mkdir(exist_ok=True)
@@ -83,8 +86,8 @@ def main():
             note = "cache"
         else:
             best = None
-            for attempt in range(4):
-                torch.manual_seed(1234 + i * 17 + attempt * 101 + (555 if force else 0))
+            for attempt in range(10 if force else 4):
+                torch.manual_seed(1234 + i * 17 + attempt * 101 + (int(__import__("os").environ.get("SEED", 555)) if force else 0))
                 wav = model.generate(say, language_id="fr", audio_prompt_path=str(refwav),
                                      exaggeration=0.55, cfg_weight=0.3, temperature=0.7)
                 a_ = wav.squeeze(0).cpu().numpy()
