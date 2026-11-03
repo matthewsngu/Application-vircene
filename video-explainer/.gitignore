@@ -1,2 +1,4 @@
 preview/*.mp4
 audio/mix-raw.wav
+audio/voix-ref/
+audio/voix-tmp.wav
