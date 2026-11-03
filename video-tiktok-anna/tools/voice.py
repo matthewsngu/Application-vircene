@@ -77,6 +77,21 @@ def main():
     cache.mkdir(exist_ok=True)
     pieces = []
     import hashlib
+    from faster_whisper import WhisperModel
+    checker = WhisperModel("small", device="cpu", compute_type="int8")
+    lang = "en"
+
+    def word_match(audio, text):  # share of the sentence's words actually heard in this take
+        tmpf = ROOT / "audio" / "check.wav"
+        sf.write(tmpf, audio, model.sr)
+        segs, _ = checker.transcribe(str(tmpf), language=lang, beam_size=5)
+        heard = [norm(w) for w in " ".join(x.text for x in segs).split()]
+        heard = [h for h in heard if h]
+        want = [norm(w) for w in text.split() if norm(w)]
+        skip = {norm(x) for k in SAY for x in k.split()}  # words said through a pronunciation guide
+        want = [w for w in want if not re.search(r"\d", w) and w not in skip]  # digits come back as numbers
+        hits = sum(1 for w in want if w in heard)
+        return hits / max(1, len(want))
     for i, unit in enumerate(units):
         say = unit
         for k, v in SAY.items():
@@ -96,13 +111,15 @@ def main():
                 a_ = wav.squeeze(0).cpu().numpy()
                 core = librosa.effects.trim(a_, top_db=38)[0]
                 ratio = len(core) / model.sr / expect
-                if best is None or abs(ratio - 1.0) < abs(best[1] - 1.0):
-                    best = (a_, ratio)
-                if 0.7 <= ratio <= 1.45:  # longer = babble/repeats, shorter = truncation
+                wm_ = word_match(a_, unit)  # every word must be there (no swallowed "her", "have")
+                score = (wm_ >= 0.999, -abs(ratio - 1.0) + wm_)
+                if best is None or score > best[2]:
+                    best = (a_, ratio, score, wm_)
+                if wm_ >= 0.999 and 0.7 <= ratio <= 1.45:  # all words, no babble, no truncation
                     break
-            a_, ratio = best
+            a_, ratio, _, wm_ = best
             sf.write(cf, a_, model.sr)
-            note = f"ratio {ratio:.2f}"
+            note = f"ratio {ratio:.2f}, mots {100 * wm_:.0f} %"
         gap = 0.32 if unit[-1:] in ".?…" else 0.18
         pieces += [a_, np.zeros(int(gap * model.sr), dtype=np.float32)]
         print(f"  {i + 1:2d}/{len(units)} {len(a_) / model.sr:4.1f} s ({note}) {unit[:50]}", flush=True)

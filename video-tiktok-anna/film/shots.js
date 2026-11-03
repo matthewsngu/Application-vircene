@@ -146,7 +146,7 @@ window.buildFilm = (A) => {
       signs: { sign: { r: [280, 860, 1500, 520], pole: 0 } } },
     LOBBY: { paint: (g) => { room(g, '#7a2e3a', 2850, '#d8c6a6'); for (let x = 0; x < PW; x += 240) rect(g, x % 480 ? '#cdb994' : '#e3d3b0', x, 2850, 240, 1000);
         blob(g, 1080, 300, 260, 80, P.gold); for (let i = -3; i <= 3; i++) blob(g, 1080 + i * 80, 400, 22, 40, '#f4e2a8'); roundRect(g, 200, 2350, 1760, 500, 20, P.wood); },
-      signs: { sign: { r: [280, 650, 1500, 560] } } },
+      signs: {} }, // boards in the lobby spring in per shot: no blank board on the wall
     BANK: { paint: (g) => { room(g, '#d9d3c7', 2850, '#a9a090'); for (let i = 0; i < 4; i++) roundRect(g, 160 + i * 520, 1300, 180, 1550, 20, P.cream); roundRect(g, 200, 2450, 1760, 400, 20, P.wood); },
       signs: { screen: { kind: 'screen', r: [280, 650, 1500, 560], frame: '#5d6670' } } },
     MOROCCO: { paint: (g, t) => { room(g, '#f0c48a', 2900, '#d9a066'); for (let i = 0; i < 3; i++) { const x = 160 + i * 660; roundRect(g, x, 1600, 520, 1300, 260, '#b5603e'); roundRect(g, x + 60, 1700, 400, 1200, 200, '#f6d9a8'); }
