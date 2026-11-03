@@ -226,19 +226,19 @@ window.buildFilm = (A) => {
   };
   shot('P8', T('stephen', 2), 'THRONE', full(30), trial);
   const crime = (g, s) => { trial(g, s); redX(g, [plates.THRONE.boardR[0] + 60, plates.THRONE.boardR[1] + 270, plates.THRONE.boardR[2] - 120, 380], T('law'), s.t); };
-  shot('P8b', T('the', 8), 'THRONE', cam(1080, 1500, 1.12, 1.16, 0, 20), crime);
+  shot('P8b', T('the', 8), 'THRONE', cam(720, 2640, 1.5, 1.56, 0, 0), crime); // close on Stephen screaming
   shot('P8c', T('bishop'), 'THRONE', cam(1400, 2640, 1.6, 1.66, 0, 0), crime); // close on the accused corpse
   shot('P8x', T('against'), 'THRONE', full(10), crime);
   // P9 — the deacon answers; the dead man says nothing
-  const answer = (g, s) => {
+  const answer = (g, s, closeOnCorpse = false) => {
     throne(g, 1350, 3100, 0.9); corpse(g, s, 1350, 3000, 0.9, true);
     const shake = Math.sin(s.t * 30) * 6;
-    drawChar(g, CH.deacon, { x: 600 + shake, y: FEET + 60, k: 0.95, face: 1, pose: 'stand', t: s.t, look: 0.8, arms: [{ to: [880, 2350], hand: 'open' }, null] });
-    speech(g, s, 260, 1500, 900, 260, 'Um... he...', T('answer'));
+    if (!closeOnCorpse) drawChar(g, CH.deacon, { x: 600 + shake, y: FEET + 60, k: 0.95, face: 1, pose: 'stand', t: s.t, look: 0.8, arms: [{ to: [880, 2350], hand: 'open' }, null] });
+    if (!closeOnCorpse) speech(g, s, 260, 1500, 900, 260, 'Um... he...', T('answer'));
     speech(g, s, 1100, 1700, 600, 240, '...', T('nothing') - 0.1);
   };
   shot('P9', T('the', 9), 'HALL', full(30), answer);
-  shot('P9b', T('the', 10), 'HALL', cam(1080, 2200, 1.15, 1.19, 0, 10), answer);
+  shot('P9b', T('the', 10), 'HALL', cam(1400, 2500, 1.5, 1.56, 0, 0), (g, s) => answer(g, s, true)); // close on the silent corpse
   // P10 — mechanism 3: the counter rolls to 270 days in the grave; then the verdict
   shot('P10', T('nine'), 'WORKSHOP', full(30), (g, s) => {
     const r = [300, 700, 1400, 640];
