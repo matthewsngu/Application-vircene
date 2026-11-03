@@ -66,7 +66,8 @@ def main():
     for line in lines:
         for k, v in JOIN.items():
             line = line.replace(k, v)
-        units += [u.strip() for u in re.findall(r"[^.?…:]+[.?…:]*", line) if u.strip()]
+        # no split on ":" — a fragment that starts after a colon gets a bad attack from the model
+        units += [u.strip() for u in re.findall(r"[^.?…]+[.?…]*", line) if u.strip()]
     cache = ROOT / "audio" / "phrases"
     cache.mkdir(exist_ok=True)
     pieces = []
