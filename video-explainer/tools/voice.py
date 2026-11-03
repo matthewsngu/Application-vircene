@@ -20,7 +20,15 @@ import numpy as np
 import soundfile as sf
 
 ROOT = Path(__file__).resolve().parent.parent
-SAY = {"1963": "mille neuf cent soixante-trois"}  # what to pronounce for tokens TTS may misread
+SAY = {  # pronunciation guides for spots the TTS mangles (meaning unchanged)
+    "1963": "mille neuf cent soixante-trois",
+    "Point Loma": "Pointe, Loma",
+    "de sept en sept depuis cent": "de sept... en sept... depuis cent",
+}
+# Whisper writes numbers as digits: map them back to the script's words.
+DIGITS = {"17": ["dix-sept"], "11": ["onze"], "264": ["deux", "cent", "soixante-quatre"], "65": ["soixante-cinq"],
+          "14": ["quatorze"], "8": ["huit"], "7": ["sept"], "100": ["cent"], "1963": ["1963"]}
+REDO = set(int(x) for x in sys.argv[3].split(",")) if len(sys.argv) > 3 else None
 
 
 def tokens(text):
@@ -53,7 +61,15 @@ def main():
     torch.set_num_threads(4)
     model = ChatterboxMultilingualTTS.from_pretrained(device="cpu")
     pieces = []
+    cache = ROOT / "audio" / "phrases"
+    cache.mkdir(exist_ok=True)
     for i, line in enumerate(lines):
+        cf = cache / f"{i + 1:02d}.wav"
+        if cf.exists() and (REDO is None or (i + 1) not in REDO) and REDO is not None:
+            a, _ = librosa.load(cf, sr=model.sr)
+            pieces += [a, np.zeros(int(0.3 * model.sr), dtype=np.float32)]
+            print(f"  phrase {i + 1}/{len(lines)} : en cache", flush=True)
+            continue
         say = line
         for k, v in SAY.items():
             say = say.replace(k, v)
@@ -61,6 +77,7 @@ def main():
         wav = model.generate(say, language_id="fr", audio_prompt_path=str(refwav),
                              exaggeration=0.55, cfg_weight=0.3, temperature=0.7)
         a = wav.squeeze(0).cpu().numpy()
+        sf.write(cf, a, model.sr)
         pieces.append(a)
         pieces.append(np.zeros(int(0.3 * model.sr), dtype=np.float32))
         print(f"  phrase {i + 1}/{len(lines)} : {len(a) / model.sr:.1f} s", flush=True)
@@ -96,7 +113,16 @@ def main():
     wm = WhisperModel("small", device="cpu", compute_type="int8")
     segs, _ = wm.transcribe(str(final), language="fr", word_timestamps=True, beam_size=5,
                             initial_prompt=script[:200])
-    hw = [{"w": w.word.strip(), "s": w.start, "e": w.end} for s in segs for w in s.words]
+    hw = []
+    for seg in segs:
+        for w in seg.words:
+            key = re.sub(r"[^\d]", "", w.word)
+            if key and key in DIGITS:
+                parts = DIGITS[key]
+                d = (w.end - w.start) / len(parts)
+                hw += [{"w": p, "s": w.start + k * d, "e": w.start + (k + 1) * d} for k, p in enumerate(parts)]
+            else:
+                hw.append({"w": w.word.strip(), "s": w.start, "e": w.end})
 
     # align whisper words onto the script tokens
     st = tokens(script)
