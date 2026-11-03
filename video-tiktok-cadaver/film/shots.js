@@ -168,7 +168,7 @@ window.buildFilm = (A) => {
     typeOn(g, 'ROME', 'sign', 'ROME', T('rome', 1) + 0.05, s.t);
     dateCard(g, 'JAN\n897', s.t, T('897', 2));
     drawChar(g, CH.pass2, { x: walkX(2000, -1, 0.9, lt), y: 3150, k: 0.9, face: -1, pose: 'walk', walkT: lt, t: s.t });
-    stephen(g, s, walkX(300, 1, K, Math.min(lt, 2)), { pose: lt < 2 ? 'walk' : 'stand', walkT: lt, arms: s.t > T('revenge') ? [{ to: [600, 1900], hand: 'fist' }, null] : null });
+    stephen(g, s, walkX(300, 1, K, Math.min(lt, 1.15)), { pose: lt < 1.15 ? 'walk' : 'stand', walkT: lt, arms: s.t > T('revenge') ? [{ to: [600, 1900], hand: 'fist' }, null] : null });
   };
   shot('P5', T('rome', 1), 'ROME', full(40), p5);
   shot('P5x', T('pope', 2), 'ROME', cam(900, 2640, 1.6, 1.66, 0, 0), p5);
@@ -235,10 +235,10 @@ window.buildFilm = (A) => {
     const shake = Math.sin(s.t * 30) * 6;
     drawChar(g, CH.deacon, { x: 600 + shake, y: FEET + 60, k: 0.95, face: 1, pose: 'stand', t: s.t, look: 0.8, arms: [{ to: [880, 2350], hand: 'open' }, null] });
     speech(g, s, 260, 1500, 900, 260, 'Um... he...', T('answer'));
-    speech(g, s, 1100, 1700, 700, 240, '...', T('nothing') - 0.1);
+    speech(g, s, 1100, 1700, 600, 240, '...', T('nothing') - 0.1);
   };
   shot('P9', T('the', 9), 'HALL', full(30), answer);
-  shot('P9b', T('the', 10), 'HALL', cam(1300, 2300, 1.3, 1.36, 0, 10), answer);
+  shot('P9b', T('the', 10), 'HALL', cam(1080, 2200, 1.15, 1.19, 0, 10), answer);
   // P10 — mechanism 3: the counter rolls to 270 days in the grave; then the verdict
   shot('P10', T('nine'), 'WORKSHOP', full(30), (g, s) => {
     const r = [300, 700, 1400, 640];
@@ -286,10 +286,10 @@ window.buildFilm = (A) => {
     typeOn(g, 'PRISON', 'sign', 'PRISON', T('prison') - 0.1, s.t);
     stephen(g, s, 1080, { look: 0, smile: 0, eyesClosed: s.t > T('strangled') + 0.3, tilt: s.t > T('strangled') + 0.3 ? 0.3 : 0 });
     bars(g, 300, 1450, 1560, 1900);
-    if (s.t > T('strangled')) popBoard(g, s, [430, 1550, 1300, 300], 'STRANGLED', T('strangled'));
+    if (s.t > T('strangled')) popBoard(g, s, [540, 1760, 1030, 300], 'STRANGLED', T('strangled'));
   };
   shot('P13', T('and', 5), 'PRISON', full(30), p13);
-  shot('P13x', T('thrown'), 'PRISON', cam(1080, 2000, 1.25, 1.3, 0, 10), p13);
+  shot('P13x', T('thrown'), 'PRISON', cam(1080, 2600, 1.5, 1.56, 0, 0), p13);
   // P13b — the next popes ban trials of the dead
   shot('P13b', T('and', 7), 'THRONE', full(30), (g, s) => {
     popBoard(g, s, [260, 650, 1500, 700], 'NO TRIALS\nFOR THE DEAD', T('ban') - 0.1);
