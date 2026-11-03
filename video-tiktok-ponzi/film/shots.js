@@ -122,7 +122,7 @@ window.buildFilm = (A) => {
     const r = [260, 620, 1500, 820]; board(g, r);
     typeText(g, '+50%\nIN 45 DAYS', [r[0] + 60, r[1] + 60, r[2] - 120, 440], T('fifty'), s.t);
     typeText(g, '40,000 BELIEVED', [r[0] + 60, r[1] + 560, r[2] - 120, 200], T('forty', 1), s.t);
-    [CH.inv1, CH.inv2, CH.inv3, CH.inv4].forEach((c, i) => withPop(g, 300 + i * 520, FEET, s.t, T('people', 1) + i * 0.1, () => drawChar(g, c, { x: 300 + i * 520, y: FEET, k: 0.85, face: 1, pose: 'stand', t: s.t, smile: 0.8 }), 'squash'));
+    [CH.inv1, CH.inv2, CH.inv3, CH.inv4].forEach((c, i) => withPop(g, 300 + i * 520, FEET, s.t, T('forty', 1) + i * 0.12, () => drawChar(g, c, { x: 300 + i * 520, y: FEET, k: 0.85, face: 1, pose: 'stand', t: s.t, smile: 0.8 }), 'squash'));
   };
   shot('P3', T('in', 1), 'BOSTON', full(40), p3);
   shot('P3b', T('forty', 1), 'BOSTON', cam(1080, 2750, 1.9, 1.96, 0, 0), p3);
@@ -190,7 +190,7 @@ window.buildFilm = (A) => {
   const chain = (g, s) => {
     const r = S('CLASS', 'chalk').r;
     typeOn(g, 'CLASS', 'chalk', 'NEW MONEY', T('new', 1) - 0.1, s.t, { r: [r[0] + 100, r[1] + 100, r[2] - 200, 260] });
-    typeOn(g, 'CLASS', 'chalk', '→ OLD INVESTORS', T('investors', 1) - 0.4, s.t, { r: [r[0] + 100, r[1] + 420, r[2] - 200, 260] });
+    typeOn(g, 'CLASS', 'chalk', '→ OLD INVESTORS', T('investors', 2) - 0.2, s.t, { r: [r[0] + 100, r[1] + 420, r[2] - 200, 260] });
     const xs = [320, 820, 1340, 1840];
     [CH.inv4, CH.inv1, CH.inv2, CH.inv3].forEach((c, i) => {
       const on = s.t >= T('instead') + i * 0.25;
@@ -209,8 +209,8 @@ window.buildFilm = (A) => {
     const a = T('climbs'), b = T('dollars', 2, 'e');
     const v = Math.round(15000000 * Math.pow(clamp((s.t - a) / (b - a)), 1.4) / 1000) * 1000;
     A.ev('ding', b);
-    g.save(); g.fillStyle = '#f6f1e4'; g.font = `800 ${r[3] * 0.28}px Montserrat`; g.textAlign = 'center'; g.textBaseline = 'middle';
-    g.fillText('$' + v.toLocaleString('en-US'), r[0] + r[2] / 2, r[1] + r[3] / 2); g.restore();
+    if (s.t >= a) { g.save(); g.fillStyle = '#f6f1e4'; g.font = `800 ${r[3] * 0.28}px Montserrat`; g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.fillText('$' + v.toLocaleString('en-US'), r[0] + r[2] / 2, r[1] + r[3] / 2); g.restore(); }
     ponzi(g, s, 1080, { smile: 1, y: FEET + 100 });
   };
   shot('P10', T('at'), 'WORKSHOP', full(30), counter);
@@ -244,7 +244,7 @@ window.buildFilm = (A) => {
     withPop(g, 1080, 1700, s.t, T('seventy-five') - 0.05, () => { g.fillStyle = C.ink; g.font = '800 200px Montserrat'; g.textAlign = 'center'; g.fillText('$75', 1080, 1760); });
   };
   shot('P12', T('and', 3), 'RIO', full(30), rio);
-  shot('P12x', T('with', 2), 'RIO', cam(1080, 2100, 1.3, 1.36, 0, 0), rio);
+  shot('P12x', T('with', 2), 'RIO', cam(1080, 2350, 1.5, 1.56, 0, 0), rio);
   const legacy = (g, s) => {
     typeOn(g, 'STAGE', 'name', 'PONZI\nSCHEME', T('name', 2), s.t);
     withPop(g, 1080, 1900, s.t, T('name', 2), () => { g.fillStyle = P.gold; g.font = '800 200px Montserrat'; g.textAlign = 'center'; g.fillText('★', 1080, 1960); });
