@@ -25,6 +25,7 @@ SAY = {  # pronunciation guides (meaning unchanged)
     "Hôtel de Crillon": "Oh-tell de Cree-yon",
     "André Poisson": "On-dray Pwah-son",
     "Poisson": "Pwah-son",  # every occurrence, same pronunciation
+    "His death certificate": "His deathh, certificate",  # keep the "th": otherwise heard as "debt"
 }
 # Whisper writes numbers as digits: map them back to the script's words.
 DIGITS = {"1925": ["1925"], "7300": ["seven", "thousand", "three", "hundred"]}

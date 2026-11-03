@@ -152,11 +152,11 @@ window.buildFilm = (A) => {
     if (wide) { board(g, [280, 1000, 1000, 340]); typeText(g, 'PARIS', [280, 1000, 1000, 340], T('paris') + 0.05, s.t); }
     dateCard(g, '1925', s.t, T('1925', 2));
     newspaper(g, 200, 1550, 820, 1100);
-    typeText(g, 'EIFFEL TOWER\nRUSTING', [240, 1590, 740, 400], T('rusting') - 0.3, s.t);
-    roundRect(g, 900, 2780, 1100, 80, 20, P.wood); lustig(g, s, 1550, { pose: 'sit', y: 2900, face: -1, look: -0.8, arms: [{ to: [1050, 2300], hand: 'point' }, null] });
+    typeText(g, 'EIFFEL TOWER\nRUSTING', [240, 1590, 740, 400], T('newspaper'), s.t);
+    roundRect(g, 900, 2780, 1100, 80, 20, P.wood); if (s.lustigOn !== false) lustig(g, s, 1550, { pose: 'sit', y: 2900, face: -1, look: -0.8, arms: [{ to: [1050, 2300], hand: 'point' }, null] });
   };
   shot('P5', T('paris'), 'CAFE', full(40), cafe);
-  shot('P5x', T('lustig', 2), 'CAFE', cam(700, 2050, 1.4, 1.46, 0, 0), (g, s) => cafe(g, s, false)); // close on the newspaper // close on the newspaper
+  shot('P5x', T('lustig', 2), 'CAFE', cam(650, 2100, 1.5, 1.56, 0, 0), (g, s) => cafe(g, { ...s, lustigOn: false }, false)); // newspaper only // close on the newspaper // close on the newspaper
   shot('P5y', T('costs'), 'CAFE', cam(1500, 2500, 1.6, 1.66, 0, 0), (g, s) => cafe(g, s, false)); // close on Lustig // close on Lustig thinking
   shot('P5b', T('he', 2), 'CAFE', cam(1080, 1920, 1.02, 1.06, 0, 10), (g, s) => { cafe(g, s); mark(g, 1550, 2050, '!', s.t, T('idea')); });
 
@@ -218,7 +218,7 @@ window.buildFilm = (A) => {
   shot('P10', T('one'), 'SUITE', full(30), (g, s) => deal(g, s, 0));
   shot('P10b', T('when'), 'SUITE', cam(1050, 2500, 1.4, 1.46, 0, 0), (g, s) => deal(g, s, 1));
   shot('P10c', T('only'), 'SUITE', full(20), (g, s) => deal(g, s, 2));
-  shot('P10d', T('poisson', 3), 'SUITE', cam(1080, 2400, 1.25, 1.3, 0, 0), (g, s) => deal(g, s, 3));
+  shot('P10d', T('poisson', 3), 'SUITE', cam(1080, 2640, 1.6, 1.66, 0, 0), (g, s) => deal(g, s, 3));
 
   // P11 — flees to Vienna; Poisson too ashamed to call the police
   shot('P11', T('lustig', 4), 'STATION', full(30), (g, s) => {
