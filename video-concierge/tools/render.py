@@ -45,6 +45,15 @@ def cmd_check(page):
         flag = "" if abs(w["s"] - s["t0"]) < 0.01 or s["t0"] == 0 else "  ⚠ pas sur un mot"
         long = "  ⚠ >4 s" if t1 - s["t0"] > 4.05 else ""
         print(f"  {s['id']:5} {s['t0']:6.2f}–{t1:6.2f} ({t1 - s['t0']:.2f} s)  «{w['w']}»{flag}{long}")
+    # anchors written T('mot') without an occurrence number must be unique in the script
+    import re
+    norm = lambda w: re.sub(r"[^\w'’-]", "", w.lower())
+    ws = [norm(w["w"]) for w in words]
+    src = (ROOT / "film" / "shots.js").read_text(encoding="utf-8")
+    for m in sorted(set(re.findall(r"T\(['\"]([^'\"]+)['\"]\)", src))):
+        c = ws.count(norm(m))
+        if c != 1:
+            print(f"  ⚠ ancre T('{m}') ambiguë : le mot apparaît {c} fois — préciser l'occurrence")
     ev = page.evaluate("window.EV")
     kinds = {}
     for e in ev:
