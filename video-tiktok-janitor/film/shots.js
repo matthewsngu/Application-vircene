@@ -307,7 +307,18 @@ window.buildFilm = (A) => {
     typeText(g, 'TIME', [r[0] + 60, r[1] + r[3] * 0.52, r[2] - 120, r[3] * 0.42], T('time'), s.t);
   };
   shot('P18', T('and', 2), 'OFFICE', cam(1100, 1300, 1.08, 1.12, 0, 20), twist);
-  shot('P18b', T('just'), 'OFFICE', cam(1120, 1250, 1.15, 1.19, 0, 20), twist);
+  shot('P18b', T('just'), 'STAGE', cam(1080, 1920, 1.02, 1.06, 0, 30), (g, s) => {
+    typeOn(g, 'STAGE', 'name', 'JUST\nTIME', T('just') + 0.05, s.t);
+    withPop(g, 1450, 1750, s.t, T('time'), () => { // wall clock, hands racing: decades passing
+      blob(g, 1450, 1750, 260, 260, P.gold); blob(g, 1450, 1750, 215, 215, '#fbfaf6');
+      const sp = (s.t - T('time')) * 14;
+      g.save(); g.strokeStyle = C.ink; g.lineCap = 'round';
+      g.lineWidth = 26; g.beginPath(); g.moveTo(1450, 1750); g.lineTo(1450 + Math.sin(sp / 12) * 120, 1750 - Math.cos(sp / 12) * 120); g.stroke();
+      g.lineWidth = 16; g.beginPath(); g.moveTo(1450, 1750); g.lineTo(1450 + Math.sin(sp) * 180, 1750 - Math.cos(sp) * 180); g.stroke();
+      g.restore(); blob(g, 1450, 1750, 22, 22, C.ink);
+    }, 'squash');
+    drawChar(g, CH.ronald, { x: 820, y: FEET, k: 1.15, face: 1, pose: 'stand', t: s.t, smile: 0.8, ...ronald(1), look: 0.6 });
+  });
   // P19 — the bequests
   shot('P19', T('and', 3), 'HOSPITAL', cam(1080, 1920, 1.02, 1.06, 0, 30), (g, s) => {
     typeOn(g, 'HOSPITAL', 'sign', 'BRATTLEBORO\nHOSPITAL', T('and', 3) + 0.1, s.t);
