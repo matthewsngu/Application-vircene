@@ -22,7 +22,7 @@ import soundfile as sf
 ROOT = Path(__file__).resolve().parent.parent
 SAY = {  # pronunciation guides for spots the TTS mangles (meaning unchanged)
     "1963": "mille neuf cent soixante-trois",
-    "Point Loma": "Pointe, Loma",
+    "Point Loma": "Pointe Loma",
     "de sept en sept depuis cent": "de sept... en sept... depuis cent",
 }
 # Whisper writes numbers as digits: map them back to the script's words.
@@ -60,27 +60,43 @@ def main():
     from chatterbox.mtl_tts import ChatterboxMultilingualTTS
     torch.set_num_threads(4)
     model = ChatterboxMultilingualTTS.from_pretrained(device="cpu")
-    pieces = []
+    # one short sentence per generation (long inputs get truncated by the model)
+    units = []
+    for line in lines:
+        units += [u.strip() for u in re.findall(r"[^.?…:]+[.?…:]*", line) if u.strip()]
     cache = ROOT / "audio" / "phrases"
     cache.mkdir(exist_ok=True)
-    for i, line in enumerate(lines):
-        cf = cache / f"{i + 1:02d}.wav"
-        if cf.exists() and (REDO is None or (i + 1) not in REDO) and REDO is not None:
-            a, _ = librosa.load(cf, sr=model.sr)
-            pieces += [a, np.zeros(int(0.3 * model.sr), dtype=np.float32)]
-            print(f"  phrase {i + 1}/{len(lines)} : en cache", flush=True)
-            continue
-        say = line
+    pieces = []
+    import hashlib
+    for i, unit in enumerate(units):
+        say = unit
         for k, v in SAY.items():
             say = say.replace(k, v)
-        torch.manual_seed(1234 + i)
-        wav = model.generate(say, language_id="fr", audio_prompt_path=str(refwav),
-                             exaggeration=0.55, cfg_weight=0.3, temperature=0.7)
-        a = wav.squeeze(0).cpu().numpy()
-        sf.write(cf, a, model.sr)
-        pieces.append(a)
-        pieces.append(np.zeros(int(0.3 * model.sr), dtype=np.float32))
-        print(f"  phrase {i + 1}/{len(lines)} : {len(a) / model.sr:.1f} s", flush=True)
+        cf = cache / (hashlib.md5(say.encode()).hexdigest()[:10] + ".wav")
+        syl = sum(max(1, len(re.findall(r"[aeiouyàâéèêëîïôùûœ]+", w.lower()))) for w in say.split())
+        expect = 0.17 * syl
+        if cf.exists():
+            a_, _ = librosa.load(cf, sr=model.sr)
+            note = "cache"
+        else:
+            best = None
+            for attempt in range(4):
+                torch.manual_seed(1234 + i * 17 + attempt * 101)
+                wav = model.generate(say, language_id="fr", audio_prompt_path=str(refwav),
+                                     exaggeration=0.55, cfg_weight=0.3, temperature=0.7)
+                a_ = wav.squeeze(0).cpu().numpy()
+                core = librosa.effects.trim(a_, top_db=38)[0]
+                ratio = len(core) / model.sr / expect
+                if best is None or abs(ratio - 1) < abs(best[1] - 1):
+                    best = (a_, ratio)
+                if 0.7 <= ratio <= 1.6:
+                    break
+            a_, ratio = best
+            sf.write(cf, a_, model.sr)
+            note = f"ratio {ratio:.2f}"
+        gap = 0.32 if unit[-1:] in ".?…" else 0.18
+        pieces += [a_, np.zeros(int(gap * model.sr), dtype=np.float32)]
+        print(f"  {i + 1:2d}/{len(units)} {len(a_) / model.sr:4.1f} s ({note}) {unit[:50]}", flush=True)
     raw = np.concatenate(pieces)
     sr = model.sr
 
