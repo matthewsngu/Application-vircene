@@ -198,9 +198,9 @@ window.buildFilm = (A) => {
   const p7 = (g, s) => {
     typeOn(g, 'AGENCY', 'board', 'MODEL AGENCY\nSHOOT TODAY', T('rubén') + 0.05, s.t);
     redX(g, [S('AGENCY', 'board').r[0] + 60, S('AGENCY', 'board').r[1] + 300, S('AGENCY', 'board').r[2] - 120, 260], T('cancel'), s.t);
-    drawChar(g, CH.ruben, { x: 700, y: FEET, k: K, face: 1, pose: 'stand', t: s.t, look: 1, arms: s.t > T('cancel') ? [{ to: [420, 2050], hand: 'open' }, { to: [980, 2050], hand: 'open' }] : null });
+    drawChar(g, CH.ruben, { x: 880, y: FEET, k: K, face: 1, pose: 'stand', t: s.t, look: 1, arms: s.t > T('cancel') ? [{ to: [600, 2050], hand: 'open' }, { to: [1160, 2050], hand: 'open' }] : null });
     const ego = 1 + 0.35 * clamp((s.t - T('egos')) / 0.4);
-    const mx = s.t < T('cancel') ? 1500 : walkX(1500, 1, K, s.t - T('cancel'));
+    const mx = s.t < T('cancel') ? 1560 : walkX(1560, 1, K, s.t - T('cancel'));
     drawChar(g, CH.model, { x: mx, y: FEET, k: K * ego, face: s.t < T('cancel') ? -1 : 1, pose: s.t < T('cancel') ? 'stand' : 'walk', walkT: s.t, t: s.t, look: 1 });
   };
   shot('P7', T('rubén'), 'AGENCY', full(30), p7);
