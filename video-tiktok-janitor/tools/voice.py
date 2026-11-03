@@ -106,6 +106,15 @@ def main():
 
     # shorten pauses > 0.24 s to 0.16 s
     iv = librosa.effects.split(raw, top_db=38, frame_length=1024, hop_length=256)
+    # keep 60 ms before / 40 ms after each speech run: soft onsets ("h", "f") sit under the threshold
+    iv = [(max(0, s0 - int(0.06 * sr)), min(len(raw), e0 + int(0.04 * sr))) for s0, e0 in iv]
+    merged = []
+    for s0, e0 in iv:
+        if merged and s0 <= merged[-1][1]:
+            merged[-1] = (merged[-1][0], max(merged[-1][1], e0))
+        else:
+            merged.append((s0, e0))
+    iv = merged
     out, last = [], None
     for s, e in iv:
         if last is not None:

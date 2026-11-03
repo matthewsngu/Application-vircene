@@ -100,7 +100,7 @@ window.buildFilm = (A) => {
       signs: { sign: { r: [300, 900, 1500, 360] } } },
     LIBRARY: { paint: (g, t) => { room(g, P.sky, 2950, P.road); cloud(g, 1500, 250, 0.9, t); roundRect(g, 140, 1250, 1880, 1700, 16, P.beige);
         g.fillStyle = P.brick; g.beginPath(); g.moveTo(60, 1260); g.lineTo(1080, 700); g.lineTo(2100, 1260); g.fill(); for (let i = 0; i < 4; i++) roundRect(g, 330 + i * 450, 1700, 120, 1250, 20, P.cream); },
-      signs: { sign: { r: [300, 1300, 1500, 320] } } },
+      signs: { sign: { r: [300, 980, 1500, 300] } } },
   };
   const S = (pl, name) => plates[pl].signs[name];
   const typeOn = (g, pl, name, text, t0, t, opt = {}) => { const s = S(pl, name); return typeText(g, text, opt.r || textRect(s), t0, t, { color: inkFor(s), ...opt }); };
@@ -198,6 +198,7 @@ window.buildFilm = (A) => {
     }
   };
   shot('P9', T('his', 2), 'GARAGE', cam(1080, 2650, 1.4, 1.46, 0, 0), (g, s) => {
+    popBoard(g, s, [560, 1560, 900, 330], '3 THINGS', T('three'));
     garage(g, s, 1);
     drawChar(g, CH.ronald, { x: 1450, y: FEET + 200, k: 0.95, face: -1, pose: 'stand', t: s.t, look: -1, smile: s.t > T('car') + 0.3 ? 0.5 : 0, ...ronald(0.5),
       arms: s.t < T('car') ? [{ to: [1050, 2300], hand: 'point' }, null] : null });
@@ -235,7 +236,7 @@ window.buildFilm = (A) => {
     drawChar(g, CH.ronald, { x: 1350, y: FEET + 200, k: 0.95, face: -1, pose: 'stand', t: s.t, ...ronald(ageAt(s.t)), arms: [{ to: [1000, 2150], hand: 'point' }, null] });
   };
   shot('P13', T('his', 3), 'CLASS', cam(1080, 1920, 1.0, 1.04, 0, 40), chalkboard);
-  shot('P13b', T('ronald', 2), 'CLASS', cam(1050, 1450, 1.3, 1.36, 0, 30), chalkboard);
+  shot('P13b', T('ronald', 2), 'CLASS', cam(1150, 1500, 1.15, 1.19, 0, 30), chalkboard);
 
   // P14 — mechanism 2: the snowball doubles every ten years
   const hill = (g, s) => {
@@ -282,7 +283,7 @@ window.buildFilm = (A) => {
     g.save(); g.translate(200, 1900); g.scale(1 - 0.85 * open, 1); roundRect(g, 0, 0, 1000, 650, 20, '#9aa5b0'); blob(g, 780, 325, 75, 75, '#c9ced4'); g.restore();
     if (open > 0.6) certStack(g, 700, 2520, Math.min(18, Math.floor((s.t - T('safe') - 0.3) * 30)), 700);
     typeOn(g, 'VAULT', 'screen', '5 INCHES OF\nCERTIFICATES', T('five'), s.t);
-    drawChar(g, CH.rel2, { x: 1550, y: FEET, k: K, face: -1, pose: 'stand', t: s.t, look: -1, arms: [{ to: [1150, 2350], hand: 'point' }, null] });
+    drawChar(g, CH.rel2, { x: 1380, y: FEET, k: K, face: -1, pose: 'stand', t: s.t, look: -1, arms: [{ to: [1000, 2350], hand: 'point' }, null] });
   };
   shot('P16', T('june'), 'VAULT', cam(1080, 1920, 1.02, 1.06, 0, 30), vault);
   shot('P16b', T('in', 3), 'VAULT', cam(1000, 1700, 1.25, 1.31, 0, 30), vault);
@@ -317,9 +318,9 @@ window.buildFilm = (A) => {
   });
   shot('P19b', T('and', 4), 'LIBRARY', cam(1080, 1920, 1.02, 1.06, 0, 30), (g, s) => {
     typeOn(g, 'LIBRARY', 'sign', 'LIBRARY', T('and', 4) + 0.1, s.t);
-    cheque(g, s, 1050, 2050, '$1,200,000', T('library'));
-    drawChar(g, CH.reader, { x: 600, y: FEET, k: K, face: s.t > T('library') + 0.2 ? 1 : -1, pose: 'stand', t: s.t, look: 1 });
-    mark(g, 600, 2050, '!', s.t, T('library') + 0.25);
+    cheque(g, s, 1000, 1820, '$1,200,000', T('library'));
+    drawChar(g, CH.reader, { x: 1450, y: FEET + 120, k: K, face: s.t > T('library') + 0.2 ? -1 : 1, pose: 'stand', t: s.t, look: -1 });
+    mark(g, 1450, 2150, '!', s.t, T('library') + 0.25);
   });
 
   // P20 — the question; the viewer from the hook reacts; the sign holds to the end
