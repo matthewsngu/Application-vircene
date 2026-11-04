@@ -185,10 +185,11 @@ window.buildFilm = (A) => {
     const items = [[T('leaflets', 2), 'leaf'], [T('newspapers'), 'news'], [T('letters'), 'letter']];
     items.forEach(([t0, k], i) => withPop(g, 450 + i * 620, 1500, s.t, t0, () => (k === 'leaf' ? leaflet(g, 450 + i * 620, 1500, -0.1, 1.3) : k === 'news' ? (roundRect(g, 450 + i * 620 - 180, 1300, 360, 420, 10, '#efe9dc'), rect(g, '#2b2d42', 450 + i * 620 - 140, 1340, 280, 30)) : (roundRect(g, 450 + i * 620 - 170, 1380, 340, 230, 10, '#e9dcc0'))), 'squash'));
     if (s.t > T('trick')) popBoard(g, s, [430, 650, 1300, 300], 'ENEMY TRICK', T('trick') - 0.15);
-    onoda(g, s, 1080, { tilt: Math.sin(s.t * 6) * 0.12 * (s.t > T('thinks') ? 1 : 0), smile: 0 });
+    if (!s.noOnoda) onoda(g, s, 1080, { tilt: Math.sin(s.t * 6) * 0.12 * (s.t > T('thinks') ? 1 : 0), smile: 0 });
   };
   shot('P9', T('more'), 'NIGHT', full(30), letters);
-  shot('P9b', T('he', 2), 'NIGHT', cam(1080, 2650, 1.6, 1.66, 0, 0), letters); // close: he shakes his head
+  shot('P9x', T('even'), 'NIGHT', cam(1600, 1650, 1.4, 1.46, 0, 0), (g, s) => letters(g, { ...s, noOnoda: true })); // close on the family letters
+  shot('P9b', T('he', 2), 'NIGHT', cam(1080, 2650, 1.6, 1.66, 0, 0), (g, s) => { letters(g, s); if (s.t > T('trick') - 0.15) popBoard(g, s, [600, 1980, 960, 230], 'ENEMY TRICK', T('trick') - 0.15); }); // close: he shakes his head
   // P10 — his men surrender or die, one by one; his raids kill villagers (stated soberly)
   shot('P10', T('his', 4), 'JUNGLE', full(30), (g, s) => {
     [[CH.soldier2, 600, T('surrender', 2)], [CH.soldier3, 1550, T('one', 3)]].forEach(([c, x, t0]) => { if (s.t < t0) drawChar(g, c, { x, y: FEET, k: 1.0, face: x < 1080 ? 1 : -1, pose: 'stand', t: s.t, cap: CAPG }); else puff(g, x, 2500, 380, s.t, t0); });

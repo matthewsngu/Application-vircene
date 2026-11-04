@@ -21,10 +21,8 @@ import soundfile as sf
 
 ROOT = Path(__file__).resolve().parent.parent
 SAY = {  # pronunciation guides (meaning unchanged)
-    "Hiroo Onoda": "Hee-roh Oh-noh-dah",
-    "Onoda": "Oh-noh-dah",
-    "Lubang": "Loo-bahng",
-    "Norio Suzuki": "Noh-ree-oh Soo-zoo-kee",
+    "Hiroo Onoda": "Hiro Onoda",
+    "Lubang": "Loobahng",
     "1944": "nineteen forty-four",
     "1945": "nineteen forty-five",
     "1974": "nineteen seventy-four",
