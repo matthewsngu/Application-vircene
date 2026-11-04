@@ -167,7 +167,7 @@ window.buildFilm = (A) => {
     person(g, { body: '#2c3e5c', legs: '#26262c', hair: '#1f1b1b' }, -0.5, -9.4, { ry: 0 });
   }
   // Reveal studio: 1925 $1,000 vs its value today
-  let stackOld, stackNew, melt;
+  let stackOld, stackNew, melt, signNew;
   {
     const g = mk('STUDIO', '#2b2f3a', { sun: [6, 16, 10], hemi: 1.1, sunI: 2.0, fogNear: 40, fogFar: 120 });
     box(g, 40, 0.1, 40, '#3a3f4c', 0, 0, -8, { cast: false });
@@ -175,7 +175,7 @@ window.buildFilm = (A) => {
     sign(g, ['1925', '$1,000'], 2.0, 1.0, -1.3, 1.6, -7, { bg: '#26262c', fg: '#f4ecd8' });
     stackNew = new THREE.Group(); stackNew.position.set(1.6, 0, -7); g.add(stackNew);
     for (let i = 0; i < 18; i++) { box(stackNew, 1.0, 0.4, 0.5, '#7fa36a', ((i % 3) - 1) * 1.05, 0.2 + Math.floor(i / 6) * 0.42, (Math.floor(i / 3) % 2) * 0.55 - 0.27); }
-    sign(g, ['TODAY', '$18,300'], 2.4, 1.2, 1.6, 2.6, -7.3, { bg: '#26262c', fg: '#7ee08a' });
+    signNew = sign(g, ['TODAY', '$18,300'], 2.4, 1.2, 1.6, 2.6, -7.3, { bg: '#26262c', fg: '#7ee08a' });
     melt = new THREE.Group(); melt.position.set(0, 0, -5.5); g.add(melt); box(melt, 1.2, 0.5, 0.6, '#7fa36a', 0, 0.25, 0); box(melt, 0.35, 0.51, 0.61, '#e9e4d2', 0, 0.25, 0);
   }
 
@@ -228,6 +228,7 @@ window.buildFilm = (A) => {
   // hook + "spend it twice": walking down the 1925 street, cash in hand
   shot('P1', 0, 'STREET25', (s) => { const w = walk(s, 6, 1.4); return pov(0.3, 1.65 + w.bob, w.z, -0.4, 1.6, w.z - 10); }, (s) => { handsFor(false); poseHands(s.t); });
   shot('P1b', T('wrong'), 'STREET25', (s) => { const w = walk(s, 0, 1.0); return pov(-0.5, 1.65 + w.bob, w.z, -6, 4.5, w.z - 8); }, (s) => { handsFor(false); poseHands(s.t); }); // look up at the shops
+  shot('P1c', T('in', 1), 'STREET25', (s) => { const w = walk(s, -4, 1.0); return pov(1.5, 1.65 + w.bob, w.z, 8, 3.6, w.z - 7); }, (s) => { handsFor(false); poseHands(s.t); }); // the other side of the street
   shot('P2', T('so', 1), 'STREET25', (s) => { const a = ease(s.p); return { ...pov(0, 1.65, -2 - s.lt, lerp(-8, 8, a) * 0.2, 1.8, -12 - s.lt), fov: 70 }; }, (s) => { handsFor(false); poseHands(s.t); });
   shot('P3', T('america'), 'STREET25', (s) => { const w = walk(s, -2, 1.6); return pov(-2.2, 1.65 + w.bob, w.z, -9, 2.4, w.z - 6); }, (s) => { handsFor(false); poseHands(s.t); });
   // Ford dealer
@@ -235,6 +236,7 @@ window.buildFilm = (A) => {
   shot('P4b', T('model'), 'FORD', (s) => pov(3.2, 1.5, -2.6 - s.lt * 0.2, 0, 1.2, -7), (s) => { handsFor(false); poseHands(s.t, give(s, T('purchased', 1))); });
   // soda fountain: crates stack up as you buy a thousand
   shot('P5', T('a', 4), 'SODA', (s) => pov(0, 1.65, 1 - s.lt * 0.4, 0, 1.3, -9), (s) => { handsFor(false); poseHands(s.t, give(s, T('purchased', 2))); const n = Math.floor(40 * clamp((s.t - T('buy', 1)) / 1.4)); crates25.forEach((c, i) => (c.visible = i < n)); });
+  shot('P5x', T('you', 3), 'SODA', (s) => pov(1.2, 1.4, -1.8, -0.3, 0.9, -5), (s) => { handsFor(false); poseHands(s.t, give(s, T('purchased', 2))); const n = Math.floor(40 * clamp((s.t - T('buy', 3)) / 1.4)); crates25.forEach((c, i) => (c.visible = i < n)); });
   shot('P5b', T('purchased', 2), 'SODA', (s) => pov(-1.5, 2.6, -0.5, -0.2, 0.8, -5), (s) => { handsFor(false); poseHands(s.t, give(s, T('purchased', 2))); crates25.forEach((c) => (c.visible = true)); });
   // cinema: tickets pile up
   shot('P6', T('movie', 1), 'CINEMA', (s) => pov(0, 1.7, -1 - s.lt * 0.6, 0, 4.5, -12), (s) => { handsFor(false); poseHands(s.t, give(s, T('purchased', 3))); const n = Math.floor(60 * clamp((s.t - T('hundred', 2)) / 1.2)); tickets.forEach((tk, i) => (tk.visible = i < n)); });
@@ -243,18 +245,20 @@ window.buildFilm = (A) => {
   // post office
   shot('P7', T('stamp', 1), 'POST', (s) => pov(0, 1.65, 0.5 - s.lt * 0.5, 0, 1.4, -8), (s) => { handsFor(false); poseHands(s.t, give(s, T('purchased', 4))); const n = Math.floor(50 * clamp((s.t - T('five', 2)) / 1.2)); letters.forEach((l, i) => (l.visible = i < n)); });
   // still $655 in your pocket: back on the street, looking at the cash
+  shot('P7x', T('you', 5), 'POST', (s) => pov(0.8, 1.9, -5.6, 0, 1.3, -7.8), (s) => { handsFor(false); poseHands(s.t, give(s, T('purchased', 4))); const n = Math.floor(50 * clamp((s.t - T('five', 2)) / 1.2)); letters.forEach((l, i) => (l.visible = i < n)); });
   shot('P8', T('and', 2), 'STREET25', (s) => pov(0, 1.65, -20 - s.lt * 0.3, -0.2, 1.4, -30), (s) => { handsFor(false); poseHands(s.t, 0.7); });
   // era flip → today
   shot('P9', T('now'), 'STREETNOW', (s) => { const w = walk(s, 6, 1.4); return pov(0.5, 1.65 + w.bob, w.z, -0.5, 1.8, w.z - 10); }, (s) => { handsFor(true); poseHands(s.t); });
   shot('P10', T('cheapest'), 'DEALER', (s) => pov(0, 1.65, 1.5 - s.lt * 0.6, 0, 1.2, -7), (s) => { handsFor(true); poseHands(s.t, give(s, T('declined', 1))); });
   shot('P11', T('a', 10), 'STORE', (s) => pov(0, 1.65, 0 - s.lt * 0.8, 0, 2.2, -12), (s) => { handsFor(true); poseHands(s.t, give(s, T('declined', 2))); });
   shot('P12', T('a', 11), 'MULTIPLEX', (s) => pov(0, 1.65, 0 - s.lt * 0.6, 0, 3.6, -15), (s) => { handsFor(true); poseHands(s.t, give(s, T('declined', 3))); });
+  shot('P12x', T('over'), 'MULTIPLEX', (s) => pov(0, 3.0, -10 - s.lt * 0.2, 0, 2.5, -15.8), (s) => { handsFor(true); poseHands(s.t, give(s, T('declined', 3))); }); // the ticket price board
   shot('P13', T('five', 3), 'POSTNOW', (s) => pov(0, 1.65, 0.5 - s.lt * 0.5, 0, 1.4, -8), (s) => { handsFor(true); poseHands(s.t, give(s, T('barely'))); });
   // the reveal: stillness, then the two stacks; then the melt
   shot('P13b', T('your', 2), 'POSTNOW', (s) => pov(1.6, 1.7, -3.6 - s.lt * 0.2, -0.3, 1.5, -8), (s) => { handsFor(true); poseHands(s.t, give(s, T('barely'))); });
-  shot('P14', T("here's"), 'STUDIO', (s) => ({ ...pov(0, 2.0, 0.5 - ease(s.p) * 1.0, 0.1, 1.2, -7), hands: false }), (s) => { const k = clamp((s.t - T('worth')) / 1.2); stackNew.scale.set(1, Math.max(0.01, easeOut(k)), 1); stackNew.visible = k > 0; melt.visible = false; });
-  shot('P14b', T('worth'), 'STUDIO', (s) => ({ ...pov(1.2, 1.8, -2.4 - s.lt * 0.3, 1.6, 1.3, -7), hands: false }), (s) => { const k = clamp((s.t - T('worth')) / 1.2); stackNew.scale.set(1, Math.max(0.01, easeOut(k)), 1); stackNew.visible = k > 0; melt.visible = false; });
-  shot('P15', T('your', 3), 'STUDIO', (s) => ({ ...pov(0, 1.7, -1.6 - s.lt * 0.15, 0, 0.3, -5.5), hands: false }), (s) => { stackNew.visible = true; stackNew.scale.set(1, 1, 1); melt.visible = true; const m = clamp((s.t - T('melted') + 0.1) / 0.9); melt.scale.set(1 + 0.6 * m, Math.max(0.05, 1 - 0.95 * m), 1 + 0.6 * m); });
+  shot('P14', T("here's"), 'STUDIO', (s) => ({ ...pov(0, 2.0, 0.5 - ease(s.p) * 1.0, 0.1, 1.2, -7), hands: false }), (s) => { const k = clamp((s.t - T('worth')) / 1.2); stackNew.scale.set(1, Math.max(0.01, easeOut(k)), 1); stackNew.visible = k > 0; signNew.visible = k > 0.5; melt.visible = false; });
+  shot('P14b', T('worth'), 'STUDIO', (s) => ({ ...pov(1.2, 1.8, -2.4 - s.lt * 0.3, 1.6, 1.3, -7), hands: false }), (s) => { const k = clamp((s.t - T('worth')) / 1.2); stackNew.scale.set(1, Math.max(0.01, easeOut(k)), 1); stackNew.visible = k > 0; signNew.visible = k > 0.5; melt.visible = false; });
+  shot('P15', T('your', 3), 'STUDIO', (s) => ({ ...pov(0, 1.7, -1.6 - s.lt * 0.15, 0, 0.3, -5.5), hands: false }), (s) => { stackNew.visible = true; signNew.visible = true; stackNew.scale.set(1, 1, 1); melt.visible = true; const m = clamp((s.t - T('melted') + 0.1) / 0.9); melt.scale.set(1 + 0.6 * m, Math.max(0.05, 1 - 0.95 * m), 1 + 0.6 * m); });
   // the question: back in 1925 street, cash in hand
   shot('P16', T('so', 2), 'STREET25', (s) => pov(0, 1.65, -20 - s.lt * 0.2, 0.2, 1.4, -30), (s) => { handsFor(false); poseHands(s.t, 0.7); });
 
