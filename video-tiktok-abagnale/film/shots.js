@@ -163,7 +163,7 @@ window.buildFilm = (A) => {
 
   // P6 — the legend: three costumes on a rail, each landing on its label
   const rail = (g, s, upTo) => {
-    const items = [['pilot', 'PILOT\nUNIFORM', T('pan'), 470], ['doctor', "DOCTOR'S\nCOAT", T("doctor's"), 1080], ['lawyer', 'LAW\nDEGREE', T('law'), 1690]];
+    const items = [['pilot', 'PILOT\nUNIFORM', T('three'), 470], ['doctor', "DOCTOR'S\nCOAT", T("doctor's"), 1080], ['lawyer', 'LAW\nDEGREE', T('law'), 1690]];
     items.slice(0, upTo).forEach(([role, label, t0, x]) => {
       withPop(g, x, 1650, s.t, t0, () => { tube(g, [x - 160, 1420], [x + 160, 1420], 16, P.dark); roundRect(g, x - 180, 1440, 360, 620, 90, ROLE[role].top); }, 'squash');
       popBoard(g, s, [x - 200, 650, 400, 300], label, t0);
@@ -192,7 +192,7 @@ window.buildFilm = (A) => {
   shot('P8b', T('he', 6), 'HOSPITAL', full(30), (g, s) => claim(g, s, 'HOSPITAL', 'doctor', 'HOSPITAL WARD\nGEORGIA', T('hospital')));
   shot('P8c', T('and', 4), 'COURT', full(30), (g, s) => claim(g, s, 'COURT', 'lawyer', 'BAR EXAM\nLOUISIANA', T('bar')));
   // P9 — counter: $2,500,000 in fake checks
-  shot('P9', T('the', 4), 'WORKSHOP', full(30), (g, s) => {
+  const counter = (g, s) => {
     const r = [240, 700, 1500, 640];
     withPop(g, r[0] + r[2] / 2, r[1] + r[3] / 2, s.t, s.t0, () => board(g, r, '#22252a'));
     const a = T('climbs'), b = T('checks', 2, 'e');
@@ -200,7 +200,9 @@ window.buildFilm = (A) => {
     A.ev('ding', b);
     if (s.t >= a) { g.save(); g.fillStyle = '#f6f1e4'; g.font = `800 ${r[3] * 0.28}px Montserrat`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('$' + v.toLocaleString('en-US'), r[0] + r[2] / 2, r[1] + r[3] / 2); g.restore(); }
     for (let i = 0; i < 7; i++) { const t0 = a + 0.2 + i * 0.25; if (s.t > t0) cheque2(g, 300 + hash(i) * 1560, Math.min(2850, 1600 + (s.t - t0) * 1800), 0.9, (hash(i * 3) - 0.5) * 0.8); }
-  });
+  };
+  shot('P9', T('the', 4), 'WORKSHOP', full(30), counter);
+  shot('P9b', T('fake', 2), 'WORKSHOP', cam(1080, 2400, 1.3, 1.36, 0, 0), counter); // the checks raining down
   // P10 — book, then Spielberg movie
   const fame = (g, s) => {
     withPop(g, 600, 1900, s.t, T('book'), () => book(g, 600, 1900, 1.4), 'squash');
