@@ -163,11 +163,14 @@ window.buildFilm = (A) => {
   const origin = (g, s, wide) => {
     if (wide) { board(g, [280, 1000, 1100, 400]); typeText(g, 'FRUITA\nCOLORADO', [280, 1000, 1100, 400], T('fruita') + 0.05, s.t); dateCard(g, 'SEPT\n1945', s.t, T('september')); }
     const sw = clamp((s.t - T('swings')) / 0.35);
-    drawChar(g, CH.lloyd, { x: 1500, y: FEET, k: K, face: -1, pose: 'stand', t: s.t, ...OVERALLS, arms: [{ to: [1250, 2050 + sw * 500], hand: 'fist' }, null] });
-    axe(g, 1250, 2050 + sw * 500, -0.4 + sw * 1.9, 1.1);
+    // hand stays within arm reach of the shoulder (≈1505, 2680): raised, swing down, then lowered to his side
+    const back = clamp((s.t - T('swings') - 0.7) / 0.4);
+    const hx = lerp(lerp(1480, 1270, sw), 1560, back), hy = lerp(lerp(2310, 2790, sw), 2960, back);
+    drawChar(g, CH.lloyd, { x: 1650, y: FEET, k: K, face: -1, pose: 'stand', t: s.t, ...OVERALLS, arms: [{ to: [hx, hy], hand: 'fist' }, null] });
+    axe(g, hx, hy, lerp(-0.15 - sw * 1.3, 0.1, back), 1.0);
     if (s.t < T('swings') + 0.3) chicken(g, 700, FEET, 1.3, s.t, {});
     else { puff(g, 700, FEET - 500, 420, s.t, T('swings') + 0.3); chicken(g, s.t > T('up') ? walkX(700, -1, 0.5, s.t - T('up')) : 700, FEET, 1.3, s.t, { headless: true, walk: s.t > T('up'), face: -1 }); }
-    if (s.t > T('up')) mark(g, 1500, 1850, '!', s.t, T('up'));
+    if (s.t > T('up')) mark(g, 1650, 1850, '!', s.t, T('up'));
   };
   shot('P5', T('fruita'), 'FARM', full(40), (g, s) => origin(g, s, true));
   shot('P5b', T('farmer'), 'FARM', cam(1080, 2350, 1.3, 1.36, 0, 0), (g, s) => origin(g, s, false));
@@ -209,7 +212,7 @@ window.buildFilm = (A) => {
     if (grow < 0.2) { dropper(g, 1100, 2280, 1.2, 0.8); for (let i = 0; i < 3; i++) blob(g, 1200, 2330 + ((s.t * 300 + i * 60) % 180), 12, 16, '#f4f1ea'); }
   };
   shot('P9', T('lloyd', 2), 'KITCHEN', full(30), feed);
-  shot('P9b', T('milk'), 'KITCHEN', cam(1250, 2450, 1.6, 1.66, 0, 0), feed); // the dropper and Mike
+  shot('P9b', T('milk'), 'KITCHEN', cam(1480, 2450, 1.6, 1.66, 0, 0), feed); // the dropper and Mike
   shot('P9c', T('and', 6), 'KITCHEN', full(10), feed);
 
   // P10 — the tour: 25¢ tickets, crowds, magazines
@@ -220,7 +223,7 @@ window.buildFilm = (A) => {
     [[CH.fan1, 350, 0], [CH.fan2, 1800, 0.2]].forEach(([c, x, d]) => { const j = Math.max(0, Math.sin(Math.PI * clamp((s.t - T('see', 1) - d) / 0.45))); drawChar(g, c, { x, y: FEET - j * 200, k: 0.9, face: x < 1080 ? 1 : -1, pose: 'stand', t: s.t, smile: 0.9, look: 0 }); });
   };
   shot('P10', T('the', 4), 'TOUR', full(30), tour);
-  shot('P10x', T('people'), 'TOUR', cam(1080, 1700, 1.3, 1.36, 0, 0), tour); // the ticket
+  shot('P10x', T('people'), 'TOUR', cam(1080, 1100, 2.0, 2.06, 0, 0), tour); // the ticket
   shot('P10b', T('time'), 'TOUR', full(10), (g, s) => {
     tour(g, s);
     withPop(g, 700, 1300, s.t, T('time'), () => magazine(g, 700, 1300, 1.3, 'TIME', '#b8322e'), 'squash');
