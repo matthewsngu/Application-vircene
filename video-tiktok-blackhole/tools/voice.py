@@ -20,7 +20,7 @@ import numpy as np
 import soundfile as sf
 
 ROOT = Path(__file__).resolve().parent.parent
-SAY = {}
+SAY = {"Sagittarius A star": "Sagittarius A-star"}
 # Whisper writes numbers as digits: map them back to the script's words.
 DIGITS = {"27000": ["twenty-seven", "thousand"], "40": ["forty"], "2022": ["twenty", "twenty-two"], "4": ["four"], "13": ["thirteen"],
           "40000000": ["forty", "million"]}

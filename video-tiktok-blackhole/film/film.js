@@ -144,7 +144,7 @@ window.buildFilm = (A) => {
     [[-1.6, 0.4], [0, 0.0], [1.6, 0.3]].forEach(([x, z], i) => friends.push(person(g, [{ body: '#2c6fb0', legs: '#26262c' }, { body: '#c96a5a', legs: '#2c3e5c', hair: '#c9a46a' }, { body: '#27ae60', legs: '#26262c' }][i], x, z - 1.5, { ry: Math.PI })));
     const tel = box(g, 0.3, 0.3, 1.6, '#d7dbe0', 2.6, 1.4, -2.4); tel.rotation.x = 0.3;
     const b = blackHole(g, 5); b.bh.position.set(0, 20, -160); b.bh.rotation.z = 0.12; stBH = b;
-    farFaller = astronaut(g, 0, 0, 0); farFaller.root.scale.setScalar(0.6);
+    farFaller = astronaut(g, 0, 0, 0); farFaller.root.scale.setScalar(2.2);
     sets.STATION.update = (s) => { stBH.update(s.t); friends.forEach((f, i) => { idlePose(f, s.t, i); f.head.rotation.x = -0.25; }); };
   }
 
@@ -212,10 +212,10 @@ window.buildFilm = (A) => {
         const clk = (v) => `${String(Math.floor(v / 60)).padStart(2, '0')}:${String(Math.floor(v % 60)).padStart(2, '0')}`;
         hudText(g, `YOUR CLOCK ${clk(mine)}   ·   THEY SEE ${clk(seen)}`, 80, 1150, `${fitText(g, `YOUR CLOCK ${clk(mine)}   ·   THEY SEE ${clk(seen)}`, 'Anton', 46, 840)}px Anton`, '#ffffff', { stroke: 10 });
       }
-    } else if (t < T('so', 4)) {
+    } else if (t < T('so', 4) && sh.set !== 'SMALL') {
       hudText(g, 'INSIDE THE EVENT HORIZON', 80, 960, '800 32px Montserrat', '#ff8a7a', { shadow: 10, stroke: 5 });
       if (t < T("nasa's")) hudText(g, 'NO WAY OUT', 80, 1080, '112px Anton', '#ff5a4a', { stroke: 14 });
-      else if (t < T('so', 4)) { const left = Math.max(0, 13 - (t - T('thirteen')) * 1.0); hudText(g, `00:${String(Math.ceil(left)).padStart(2, '0')} LEFT`, 80, 1080, '112px Anton', '#ff5a4a', { stroke: 14 }); }
+      else if (t < T('so', 4)) { const left = Math.min(13, Math.max(0, 13 - (t - T('thirteen')) * 1.0)); hudText(g, `00:${String(Math.ceil(left)).padStart(2, '0')} LEFT`, 80, 1080, '112px Anton', '#ff5a4a', { stroke: 14 }); }
     }
     stamp(g, t, T('sagittarius'), 'SAGITTARIUS A*', 'THE BLACK HOLE AT THE CENTER OF THE MILKY WAY', '#ffd23f');
     stamp(g, t, T('heavier'), '× 4,000,000', 'THE MASS OF OUR SUN', '#ffd23f');
@@ -237,6 +237,7 @@ window.buildFilm = (A) => {
   let handsReady = false;
   const gloves = (t, g = 0) => { if (!handsReady) { buildHands('#eef1f4'); setHeld('none'); handsReady = true; } poseHands(t, g); };
   const orbitBH = (r, a, y, ly = 0, fov = 50) => pov(Math.sin(a) * r, y, Math.cos(a) * r, 0, ly, 0, fov, { hands: false });
+  const stretch = (t) => { const k = easeOut(clamp((t - T('small')) / 3.0)); noodle.root.position.set(0.5, 2.0 - k * 0.5, 1.0); noodle.root.scale.set(0.4 * Math.max(0.3, 1 - k * 0.7), 0.4 * (1 + k * 3.5), 0.4 * Math.max(0.3, 1 - k * 0.7)); noodle.root.rotation.set(0.15, 0.6, 0.1); };
   const resetFaller = () => { faller.root.visible = false; photons.meshes[0].m.visible = false; };
 
   shot('P1', 0, 'COCKPIT', (s) => pov(0.3, 1.7, 1.6 - s.lt * 0.25, 0, 1.9, -20, 60), (s) => gloves(s.t));
@@ -258,12 +259,20 @@ window.buildFilm = (A) => {
     return orbitBH(16, 0.15, 3.0, 2.2, 30); });
   shot('X1', T('feel'), 'BH', (s) => { resetFaller(); const k = ease(s.p); return { ...pov(0.6 * (1 - k), lerp(2.6, 0.6, k), lerp(9, 2.6, k), 0, 0, 0, 66), hands: false }; }, null, { helmet: true });
   shot('X2', T('cross'), 'BH', (s) => { resetFaller(); const k = ease(clamp(s.lt / 1.6)); return { ...pov(0, lerp(0.6, 0.1, k), lerp(2.6, 1.2, k), 0, lerp(0, 3, k), lerp(0, 20, k), 66), hands: false }; }, null, { helmet: true });
-  shot('K1', T('small'), 'SMALL', (s) => { const k = clamp(s.lt / 2.6); noodle.root.position.set(0, 1.4 - k * 0.6, 3.2 - k * 1.2); noodle.root.scale.set(Math.max(0.15, 1 - k * 0.8), 1 + k * 6, Math.max(0.15, 1 - k * 0.8)); noodle.root.rotation.set(-1.2 * k, 0, 0); return orbitBH(6, 0.5 + s.lt * 0.1, 2.0, 0.2, 54); });
+  shot('K1', T('small'), 'SMALL', (s) => { stretch(s.t); return orbitBH(7, 0.5 + s.lt * 0.08, 2.4, 1.6, 56); });
   shot('K2', T('this', 1), 'BH', (s) => { resetFaller(); return { ...pov(0.2, 0.4 - s.lt * 0.1, 1.4 - s.lt * 0.15, 0, 4, 20, 66) }; }, (s) => gloves(s.t, 0.2 + 0.1 * Math.sin(s.t * 3)), { helmet: true });
   shot('I1', T('inside'), 'INSIDE', (s) => ({ ...pov(0, 0, 4 - s.lt * 6, 0, 0, -100, 70), hands: false }), null, { helmet: true });
   shot('I2', T("nasa's"), 'INSIDE', (s) => ({ ...pov(0.5, 0.3, -20 - s.lt * 8, 0, 0, -120, 64) }), (s) => gloves(s.t, 0.6), { helmet: true });
   shot('E1', T('so', 4), 'COCKPIT', (s) => pov(0.2, 1.7, 1.4 - s.lt * 0.2, 0, 2.6, -20, 60), (s) => gloves(s.t));
   shot('E2', T('tell'), 'COCKPIT', (s) => ({ ...pov(-2.6, 2.7, 2.4 - s.lt * 0.3, 0.3, 2.2, -12, 64), hands: false }));
+
+  shot('G1b', T('monster'), 'GALAXY', (s) => { const k = ease(s.p); showRoute(0); return { ...pov(lerp(200, 60, k), lerp(120, 30, k), lerp(240, 90, k), 0, 0, 0, 55), hands: false }; });
+  shot('F2b', T('loop'), 'BH', (s) => { resetFaller(); const m = photons.meshes[0].m; m.visible = true; for (let i = 0; i < 60; i++) { const a = i / 60 * Math.PI * 2 + s.t * 2.2; photons.place(i, { x: Math.cos(a) * 3.0, y: Math.sin(a) * 0.4, z: Math.sin(a) * 3.0, ry: -a }); } photons.done(); return orbitBH(7 - s.lt * 0.3, 1.2 + s.lt * 0.2, 0.8, -0.6, 60); });
+  shot('O3', T('they', 1), 'STATION', (s) => { farFaller.root.visible = true; farFaller.root.position.set(-3, 22, -138); farFaller.root.rotation.set(0.4, 0.5, 0.2); farFaller.root.traverse((o) => { if (o.isMesh) { if (!o.userData.r) { o.userData.r = 1; o.material = o.material.clone(); } o.material.color.set('#ff3a20'); o.material.emissive = new THREE.Color('#ff2a10'); o.material.emissiveIntensity = 0.5; } }); return { ...pov(1.5, 2.2, 0.4 - s.lt * 0.2, -1.2, 9, -80, 44), hands: false }; });
+  shot('K1b', T('scientists'), 'SMALL', (s) => { stretch(s.t); return orbitBH(5.4 - s.lt * 0.2, 0.9 + s.lt * 0.1, 2.0, 1.6, 58); });
+  shot('K3', T('now', 2), 'BH', (s) => { resetFaller(); return { ...pov(0, 0.6, 3.4 - s.lt * 0.3, 0, -0.4, 0, 70), hands: false }; }, null, { helmet: true });
+  shot('I1b', T('not'), 'INSIDE', (s) => ({ ...pov(1.2, 0.8, -10 - s.lt * 7, 0, 0, -110, 62), hands: false }), null, { helmet: true });
+  shot('I2b', T('thirteen'), 'INSIDE', (s) => ({ ...pov(0, 0, -40 - s.lt * 12, 0, 0, -150, 76), hands: false }), null, { helmet: true });
 
   shots.sort((a, b) => a.t0 - b.t0);
   return { sets, shots, hud, wipes: [], end: A.duration };
