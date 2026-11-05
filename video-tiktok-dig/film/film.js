@@ -337,7 +337,7 @@ window.buildFilm = (A) => {
     stamp(g, t, T('oven'), '≈ 350°F', 'A NORMAL OVEN SETTING', '#ff8a3a', 1.6);
     stamp(g, t, T('fossils'), 'MICROFOSSILS', '24 SPECIES OF PLANKTON', '#7fe8ff', 2.2, 'pop');
     stamp(g, t, T('hoax'), 'HOAX', 'THE "WELL TO HELL" SCREAMS WERE FAKE', '#ff5a4a', 1.7, 'hit');
-    stamp(g, t, T('third'), '~1/3 OF THE CRUST', '12 KM OUT OF ~35 KM', '#ffd23f');
+    stamp(g, t, T('third'), '~1/3 OF THE CRUST', '12 KM OUT OF ~35 KM', '#ffd23f', 1.2);
     bigLine(g, t, T('center') + 0.1, T('you', 5) - 0.05, 'CENTER: 3,959 MILES', '#ffffff', 400, 110);
     bigLine(g, t, T('you', 5), T('so', 1) - 0.05, 'YOU: 7.6 MILES = 0.2%', '#ffd23f', 400, 110);
     ev('hit', T('zero'));
@@ -377,7 +377,7 @@ window.buildFilm = (A) => {
   shot('H1', T('no'), 'HOAX', (s) => ({ ...pov(1.8, 4.4 - s.lt * 0.4, 3.6 - s.lt * 0.3, 0, 2.0, -3.4, 56), hands: false }));
   shot('H2', T('story'), 'HOAX', (s) => ({ ...pov(-1.4, 3.4 - s.lt * 0.3, 1.6, 0.2, 2.0, -3.4, 54), hands: false }));
   shot('R1', T("here's"), 'CRUST', (s) => { const k = ease(s.p); return { ...pov(lerp(20, 60, k), lerp(-40, -150, k), lerp(160, 700, k), 0, lerp(-50, -230, k), 0, 55), hands: false }; });
-  shot('W1', T('center'), 'EARTH', (s) => { const k = ease(s.p); return { ...pov(lerp(8, 160, k), lerp(78, 60, k), lerp(14, 200, k), 0, lerp(66, 0, k), 0, 52), hands: false }; });
+  shot('W1', T('center'), 'EARTH', (s) => { const k = ease(s.p); return { ...pov(lerp(22, 160, k), lerp(84, 60, k), lerp(46, 200, k), 0, lerp(62, 0, k), 0, 52), hands: false }; });
   shot('W2', T('you', 5), 'EARTH', (s) => ({ ...pov(Math.sin(0.7 + s.lt * 0.08) * 230, 70 - s.lt * 4, Math.cos(0.7 + s.lt * 0.08) * 230, 0, -4, 0, 50), hands: false }));
   shot('Z1', T('so', 1), 'YARD', (s) => pov(0.2, 1.7, 2.1 - s.lt * 0.1, 0, -1.5, -0.3, 66), (s) => { dig(s.t, 0.6); pileAt(1e9); });
   shot('Z2', T('tell'), 'YARD', (s) => { const k = ease(s.p); return { ...pov(1, 2.5 + k * 1, 4 - k * 1, 0, -1.8, -0.3, 62), hands: false }; }, (s) => pileAt(1e9));
