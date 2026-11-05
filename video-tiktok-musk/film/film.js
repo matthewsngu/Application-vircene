@@ -415,7 +415,7 @@ window.buildFilm = (A) => {
   const vault = (frac) => () => { showPallets(frac); showStocks(0); };
 
   // hook: the vault, crane up over the cash
-  shot('V1', 0, 'VAULT', (s) => { const k = ease(s.p); return { ...pov(0, 1.7 + k * 9, 12 - k * 10, 0, 2 + k * 2, -40), hands: false }; }, vault(1));
+  shot('V1', 0, 'VAULT', (s) => { const k = ease(s.p); return { ...pov(0, 1.7 + k * 9, 12 - k * 10, 0, -1 + k * 1.5, -40), hands: false }; }, vault(1));
   shot('V2', T('about', 1), 'VAULT', (s) => { const k = ease(s.p); return { ...pov(-12 + k * 8, 4.2, 6 - k * 10, -4 + k * 6, 1.2, -16), hands: false, fov: 58 }; }, vault(1));
   shot('V3', T('rule'), 'VAULT', (s) => pov(0, 1.7, 4 - s.lt * 1.6, 0, 1.5, -40), (s) => { vault(1)(); hands(s.t); });
   // the first jet
