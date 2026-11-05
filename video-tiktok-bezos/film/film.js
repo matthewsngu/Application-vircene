@@ -280,7 +280,7 @@ window.buildFilm = (A) => {
   shot('N2', T('he', 1), 'POST', (s) => ({ ...pov(-6 + s.lt * 2, 1.2 + s.lt * 2, -40 - s.lt * 4, 0, 26, -90, 64), hands: false }));
   shot('A1', T('still', 1), 'ARENA', (s) => { const k = ease(s.p); return { ...pov(-2, 1.6 + k * 5, 6 + k * 4, 0, 4, -14, 66), hands: false }; });
   shot('A2', T('lakers'), 'ARENA', (s) => ({ ...orbit(0, 0, 0, 24, 0.6 + s.lt * 0.15, 10 + s.lt, 3, 60) }));
-  shot('F1', T('then', 2), 'GROCERY', (s) => pov(-0.5, 1.7, 2 - s.lt * 2.0, 0, 1.4, -40), (s) => hands(s.t, give(s, T('fourteen'))));
+  shot('F1', T('then', 2), 'GROCERY', (s) => pov(-0.5, 2.4, 4 - s.lt * 2.0, 0, 0.2, -30), (s) => hands(s.t, give(s, T('fourteen'))));
   shot('V1', T("you've"), 'WAREHOUSE', (s) => { const k = ease(s.p); return { ...pov(14 - k * 10, 14 - k * 4, 10, -2, 2, -50, 60), hands: false }; });
   shot('T1', T("here's", 1), 'YEARS', (s) => { const k = ease(s.p); return { ...pov(lerp(-60, -20, k), lerp(10, 20, k), lerp(60, 30, k), 0, 12, -100, 55), hands: false }; });
   shot('T2', T('run'), 'YEARS', (s) => ({ ...pov(30 - s.lt * 4, 6, 10, 0, 3, -30, 58), hands: false }));
