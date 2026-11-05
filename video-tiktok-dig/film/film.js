@@ -149,7 +149,7 @@ window.buildFilm = (A) => {
     [[-10, 0], [-26, 1]].forEach(([z, k]) => { const c = new THREE.Group(); c.position.set(0, 0, z); g.add(c); box(c, 1.6, 1.0, 2.4, '#5d6670', 0, 0.85, 0, { mat: { metalness: 0.5, roughness: 0.5 } }); for (let i = 0; i < 6; i++) box(c, 0.4, 0.3, 0.4, i % 2 ? '#ffd24a' : '#6a5040', -0.5 + (i % 3) * 0.5, 1.45, -0.6 + Math.floor(i / 3) * 1.0, { mat: i % 2 ? { emissive: '#ffb02a', emissiveIntensity: 0.6, metalness: 0.8 } : {} }); [[-0.6, -0.8], [0.6, -0.8], [-0.6, 0.8], [0.6, 0.8]].forEach(([dx, dz]) => box(c, 0.15, 0.4, 0.4, '#2b2f36', dx, 0.25, dz)); });
     [[-1.6, -7, 0.4], [1.7, -14, -0.6], [-1.4, -20, 0.2], [1.5, -31, -0.3]].forEach(([x, z, ry]) => miners.push(minerMan(g, x, z, ry)));
     // cage shaft at x=200: rock walls rushing past
-    const sw = []; for (let y = 10; y > -240; y -= 1.4) for (let k = 0; k < 4; k++) { const sx = k < 2 ? (k ? 1 : -1) * 2.8 : 0, sz = k < 2 ? 0 : (k === 2 ? 1 : -1) * 2.8; sw.push({ x: 200 + sx + (hash(y + k) - 0.5) * 0.4, y, z: sz + (hash(y * 2 + k) - 0.5) * 0.4, s: 1.6 + hash(y * 3 + k) * 0.5, ry: hash(y + k * 9) }); }
+    const sw = []; for (let y = 10; y > -240; y -= 1.0) for (let k = 0; k < 4; k++) { const sx = k < 2 ? (k ? 1 : -1) * 4.2 : 0, sz = k < 2 ? 0 : (k === 2 ? 1 : -1) * 4.2; sw.push({ x: 200 + sx + (hash(y + k) - 0.5) * 0.4, y, z: sz + (hash(y * 2 + k) - 0.5) * 0.4, s: 0.9 + hash(y * 3 + k) * 0.4, ry: hash(y + k * 9) }); }
     const swk = instanced(g, [{ w: 1.5, h: 1.5, d: 1.5, c: '#fff', tint: true, x: 0, y: 0, z: 0 }], sw.length);
     sw.forEach((o, i) => { swk.place(i, o); swk.color(i, 0, ['#5a4434', '#6a5040', '#4a3a2e'][i % 3]); }); swk.done();
     for (let y = 0; y > -240; y -= 30) { box(g, 3, 2.6, 0.2, '#ffd890', 200, y, -2.0, { cast: false, mat: { emissive: '#ffb050', emissiveIntensity: 1.4 } }); }
@@ -194,7 +194,7 @@ window.buildFilm = (A) => {
     const g = mk('BORE', '#100806', { skyTop: '#100806', sun: [0, 30, 0], sunI: 0.0, hemi: 0.15, hemiSky: '#ff8040', hemiGround: '#100806', fogNear: 8, fogFar: 70, fog: '#1a0a06', lamp: 25, fillI: 0, ground: '#100806', exposure: 1.2 });
     const N = 120, L = 4;
     for (let i = 0; i < N; i++) {
-      const k = i / N, c = new THREE.Color('#6f6a64').lerp(new THREE.Color('#3a2a24'), Math.min(1, k * 1.5)), const e = new THREE.Color('#ff5a10').multiplyScalar(Math.pow(k, 2.6) * 0.7);
+      const k = i / N, c = new THREE.Color('#6f6a64').lerp(new THREE.Color('#3a2a24'), Math.min(1, k * 1.5)), e = new THREE.Color('#ff5a10').multiplyScalar(Math.pow(k, 2.6) * 0.7);
       const m = new THREE.Mesh(new THREE.CylinderGeometry(1.0 + (i % 3 === 0 ? -0.06 : 0), 1.0, L, 20, 1, true), new THREE.MeshStandardMaterial({ color: c, emissive: e, roughness: 0.8, side: THREE.BackSide }));
       m.position.y = -i * L - L / 2; g.add(m);
     }
@@ -253,7 +253,7 @@ window.buildFilm = (A) => {
     box(g, 1200, 4, 42, '#79a64e', 0, 2, -20, { cast: false });
     box(g, 2.5, 123, 1, '#ff3a2a', 0, -61.5, 0.6, { cast: false, mat: { emissive: '#ff3a2a', emissiveIntensity: 2 } });
     sign(g, ['KOLA HOLE', '12 KM'], 70, 26, 70, -60, 0.6, { bg: '#1b1b24', fg: '#ff8a7a' });
-    sign(g, ['CRUST ≈ 35 KM'], 120, 22, -150, -200, 0.6, { bg: '#2b2f36', fg: '#ffffff' });
+    sign(g, ['CRUST ≈ 35 KM'], 110, 20, -40, -200, 0.6, { bg: '#2b2f36', fg: '#ffffff' });
     sign(g, ['MANTLE'], 90, 22, 150, -420, 0.6, { bg: '#7a2a10', fg: '#ffd2a0' });
     for (let i = 0; i < 40; i++) { const h = 2 + hash(i) * 8; box(g, 4, h, 6, '#d7dbe0', -600 + i * 30, 4 + h / 2, -20); }
   }
@@ -334,9 +334,9 @@ window.buildFilm = (A) => {
     stamp(g, t, T('kola'), 'DEEPEST HOLE EVER', 'KOLA SUPERDEEP BOREHOLE · 7.6 MI');
     stamp(g, t, T('took'), '1970 → 1989', 'ABOUT 20 YEARS OF DRILLING', '#ffffff', 2.0, 'pop');
     stamp(g, t, T('nine'), '9 INCHES', 'THAT\'S HOW WIDE IT IS', '#ffffff', 2.0, 'pop');
-    stamp(g, t, T('oven'), '356°F', 'A NORMAL OVEN SETTING', '#ff8a3a', 1.6);
+    stamp(g, t, T('oven'), '≈ 350°F', 'A NORMAL OVEN SETTING', '#ff8a3a', 1.6);
     stamp(g, t, T('fossils'), 'MICROFOSSILS', '24 SPECIES OF PLANKTON', '#7fe8ff', 2.2, 'pop');
-    stamp(g, t, T('hoax'), 'HOAX', 'THE "WELL TO HELL" SCREAMS WERE FAKE', '#ff5a4a', 2.2, 'hit');
+    stamp(g, t, T('hoax'), 'HOAX', 'THE "WELL TO HELL" SCREAMS WERE FAKE', '#ff5a4a', 1.7, 'hit');
     stamp(g, t, T('third'), '~1/3 OF THE CRUST', '12 KM OUT OF ~35 KM', '#ffd23f');
     bigLine(g, t, T('center') + 0.1, T('you', 5) - 0.05, 'CENTER: 3,959 MILES', '#ffffff', 400, 110);
     bigLine(g, t, T('you', 5), T('so', 1) - 0.05, 'YOU: 7.6 MILES = 0.2%', '#ffd23f', 400, 110);
@@ -359,10 +359,11 @@ window.buildFilm = (A) => {
   shot('G2', T('keep'), 'YARD', (s) => pov(0, 0.2 - s.lt * 0.6, 0.5, 0, -3, -0.2, 70), (s) => { dig(s.t, 1.6); pileAt(s.t); });
   shot('S1', T('three', 1), 'SUBWAY', (s) => { const d = depthAt(s.t); shaftTo(digLightS, d); return { ...pov(-6, lerp(-20, -98, ease(s.p)), 46, -2, lerp(-28, -104, ease(s.p)), 0, 60), hands: false }; });
   shot('S2', T('you', 3), 'SUBWAY', (s) => { shaftTo(digLightS, depthAt(s.t)); train.position.x = -34 + s.lt * 12; return { ...pov(8, -99 - s.lt * 0.6, 14, 10, -103, -6, 58), hands: false }; });
+  shot('S3', T('kyiv'), 'SUBWAY', (s) => { shaftTo(digLightS, depthAt(s.t)); train.position.x = -34 + (s.t - T('you', 3)) * 12; return { ...pov(-4, -96 - s.lt * 1.2, 30, 6, -104, -4, 58), hands: false }; });
   shot('E1', T('eleven'), 'EIFFEL', (s) => { const k = ease(s.p); shaftTo(digLightE, depthAt(s.t)); return { ...pov(-20, lerp(-20, -300, k), 360, 10, lerp(-120, -330, k), 0, 60), hands: false }; });
   shot('E2', T('hide'), 'EIFFEL', (s) => { shaftTo(digLightE, depthAt(s.t)); return { ...pov(40, 10 - s.lt * 4, 60, 30, -20 - s.lt * 4, 0, 58), hands: false }; });
   shot('C1', T('seven', 1), 'CAVE', (s) => ({ ...pov(0, 7 - s.lt * 2.2, 0, 0.2, -2 - s.lt * 0.5, -14, 66), hands: false }));
-  shot('C2', T('total'), 'CAVE', (s) => { const off = s.lt > 0.35 && s.lt < 1.5; return { ...pov(0.3, 1 - s.lt * 0.5, -2, -0.5, -1.5, -16, 66), hands: false, lamp: off ? 0 : 45 * (1 - 0.6 * Math.max(0, Math.sin(s.lt * 40)) * (s.lt < 0.35 ? 1 : 0)) }; });
+  shot('C2', T('around'), 'CAVE', (s) => { const lt = s.t - T('total'), off = lt > 0.2 && lt < 1.5; return { ...pov(0.3, 1 - s.lt * 0.5, -2, -0.5, -1.5, -16, 66), hands: false, lamp: off ? 0 : 45 * (1 - 0.6 * Math.max(0, Math.sin(lt * 40)) * (lt > 0 && lt < 0.2 ? 1 : 0)) }; });
   shot('M1', T('two', 1), 'MINE', (s) => { const y = -s.lt * 14; cage.position.set(200, y - 1.6, 0); cage.visible = true; return { ...pov(200, y, 0.6, 200, y - 0.9, -3, 70), hands: false }; });
   shot('M2', T('gold'), 'MINE', (s) => { cage.visible = false; miners.forEach((m, i) => { walkPose(m, s.t + i); }); return { ...pov(0.4, 2.0 - s.lt * 0.12, 3 - s.lt * 1.4, 0, 1.0, -20, 62), hands: false }; });
   shot('M3', T('rock', 1), 'MINE', (s) => { cage.visible = false; miners.forEach((m, i) => idlePose(m, s.t, i)); return { ...pov(-0.4, 1.8 - s.lt * 0.15, -11 - s.lt * 0.6, -2.2, 1.0, -15.5, 56), hands: false }; });
@@ -374,6 +375,7 @@ window.buildFilm = (A) => {
   shot('O1', T('oven'), 'KITCHEN', (s) => ({ ...pov(0.4, 2.4 - s.lt * 0.5, 1.6 - s.lt * 0.6, 0, 0.9, -2.6, 58), hands: false }));
   shot('F1', T('scientists'), 'FOSSIL', (s) => ({ ...pov(0.5, 4 - s.lt * 1.6, 4, 0, -2 - s.lt * 1.6, -14, 60), hands: false }));
   shot('H1', T('no'), 'HOAX', (s) => ({ ...pov(1.8, 4.4 - s.lt * 0.4, 3.6 - s.lt * 0.3, 0, 2.0, -3.4, 56), hands: false }));
+  shot('H2', T('story'), 'HOAX', (s) => ({ ...pov(-1.4, 3.4 - s.lt * 0.3, 1.6, 0.2, 2.0, -3.4, 54), hands: false }));
   shot('R1', T("here's"), 'CRUST', (s) => { const k = ease(s.p); return { ...pov(lerp(20, 60, k), lerp(-40, -150, k), lerp(160, 700, k), 0, lerp(-50, -230, k), 0, 55), hands: false }; });
   shot('W1', T('center'), 'EARTH', (s) => { const k = ease(s.p); return { ...pov(lerp(8, 160, k), lerp(78, 60, k), lerp(14, 200, k), 0, lerp(66, 0, k), 0, 52), hands: false }; });
   shot('W2', T('you', 5), 'EARTH', (s) => ({ ...pov(Math.sin(0.7 + s.lt * 0.08) * 230, 70 - s.lt * 4, Math.cos(0.7 + s.lt * 0.08) * 230, 0, -4, 0, 50), hands: false }));
