@@ -16,9 +16,9 @@ window.buildFilm = (A) => {
   const sprite = (g, color, s, x, y, z, op = 1) => { const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color, transparent: true, opacity: op, blending: THREE.AdditiveBlending, depthWrite: false, fog: false })); sp.scale.setScalar(s); sp.position.set(x, y, z); g.add(sp); return sp; };
   function car(g, x, z, ry, col, low = false) {
     const c = new THREE.Group(); c.position.set(x, 0, z); c.rotation.y = ry; g.add(c);
-    if (!low) { box(c, 1.9, 0.6, 4.6, col, 0, 0.62, 0, { mat: MB }); box(c, 1.7, 0.55, 2.6, col, 0, 1.18, -0.1, { mat: MB }); box(c, 1.72, 0.45, 2.4, '#1b2430', 0, 1.2, -0.1, { cast: false, mat: GL }); }
+    if (!low) { box(c, 1.9, 0.6, 4.6, col, 0, 0.62, 0, { mat: MB }); box(c, 1.7, 0.55, 2.6, col, 0, 1.18, -0.1, { mat: MB }); box(c, 1.72, 0.45, 2.64, '#1b2430', 0, 1.2, -0.1, { cast: false, mat: GL }); box(c, 0.5, 0.12, 0.05, '#ff2a2a', -0.6, 0.75, -2.31, { cast: false, mat: { emissive: '#ff2a2a', emissiveIntensity: 1.2 } }); box(c, 0.5, 0.12, 0.05, '#ff2a2a', 0.6, 0.75, -2.31, { cast: false, mat: { emissive: '#ff2a2a', emissiveIntensity: 1.2 } }); }
     else { box(c, 2.1, 0.5, 4.7, col, 0, 0.5, 0, { mat: MB }); box(c, 1.6, 0.42, 1.8, col, 0, 0.92, -0.3, { mat: MB }); box(c, 1.62, 0.36, 1.6, '#14161c', 0, 0.95, -0.25, { cast: false, mat: GL }); const w = box(c, 1.9, 0.25, 0.5, col, 0, 0.7, 2.2, { mat: MB }); w.rotation.x = 0.35; box(c, 2.2, 0.1, 0.6, '#14161c', 0, 1.0, -2.2); }
-    [[-0.95, -1.5], [0.95, -1.5], [-0.95, 1.5], [0.95, 1.5]].forEach(([dx, dz]) => box(c, 0.26, 0.66, 0.66, '#16171c', dx, 0.33, dz));
+    [[-1.02, -1.5], [1.02, -1.5], [-1.02, 1.5], [1.02, 1.5]].forEach(([dx, dz]) => { box(c, 0.28, 0.72, 0.72, '#16171c', dx, 0.36, dz); box(c, 0.3, 0.32, 0.32, '#c9ced4', dx, 0.36, dz, { cast: false, mat: { metalness: 0.8 } }); });
     box(c, 0.5, 0.1, 0.05, '#f4f6f8', -0.6, 0.72, low ? 2.36 : 2.31, { cast: false, mat: { emissive: '#ffffff', emissiveIntensity: 1 } }); box(c, 0.5, 0.1, 0.05, '#f4f6f8', 0.6, 0.72, low ? 2.36 : 2.31, { cast: false, mat: { emissive: '#ffffff', emissiveIntensity: 1 } });
     return c;
   }
@@ -221,7 +221,7 @@ window.buildFilm = (A) => {
   shot('P2', T('counter'), 'BEDROOM', (s) => { phoneOn(true); return pov(0.6, 1.6 - s.lt * 0.04, -1.3, 0.6, 1.0, -2.2, 34); });
   shot('K1', T('over'), 'TANK', (s) => { phoneOn(false); const k = ease(s.p); return pov(lerp(9, 6, k), lerp(5, 7, k), lerp(8, 3, k), 0, 3.4, -6, 55); });
   shot('K2', T('roughly'), 'TANK', (s) => { phoneOn(false); return pov(-4 + s.lt * 0.6, 9.5, -1.5, 0, 2, -6.5, 55); });
-  shot('D1', T('ten', 1), 'DEALER', (s) => { phoneOn(false); return pov(6 - s.lt * 0.5, 1.9, 3.5 - s.lt * 0.4, 0, 0.6, -5, 56); });
+  shot('D1', T('ten', 1), 'DEALER', (s) => { phoneOn(false); return pov(6.5 - s.lt * 0.4, 2.6, 3.0 - s.lt * 0.3, 0, -1.6, -5, 54); });
   shot('F1', T('family'), 'FAMILY', (s) => { phoneOn(false); return pov(-2 + s.lt * 0.4, 2.0, 2 - s.lt * 0.6, 6, 1.4, -6.5, 56); });
   shot('W1', T('earn'), 'DINER', (s) => { phoneOn(false); return pov(1.4, 1.8, 2 - s.lt * 0.5, -1.2, 1.8, -8, 58); });
   shot('H1', T('now'), 'HOUSE', (s) => { phoneOn(false); const k = ease(s.p); return pov(lerp(-8, -4, k), 2.2, lerp(22, 14, k), -1, 2.2, 0, 56); });
@@ -235,7 +235,7 @@ window.buildFilm = (A) => {
   shot('E2', T('tell'), 'BEDROOM', (s) => { phoneOn(false); return pov(-3.4, 2.4 + s.lt * 0.2, 1.2, 0.6, 1.0, -4.4, 58); });
 
   shot('P1b', T('getting'), 'BEDROOM', (s) => { phoneOn(true); return pov(0.4, 1.7, -1.0 - s.lt * 0.05, 0.6, 1.2, -2.6, 46); });
-  shot('D2', T('already'), 'DEALER', (s) => { phoneOn(false); return pov(-5 + s.lt * 0.4, 1.4, 0.5, 0, 0.7, -5, 54); });
+  shot('D2', T('already'), 'DEALER', (s) => { phoneOn(false); return pov(-5.5 + s.lt * 0.4, 2.0, 0.0, 0, -1.2, -5, 54); });
   shot('W2', T('federal'), 'DINER', (s) => { phoneOn(false); return pov(-1.0, 3.2, -4.6 - s.lt * 0.3, -2.4, 4.0, -8.8, 50); });
   shot('H2', T('give'), 'HOUSE', (s) => { phoneOn(false); return pov(-1.4, 1.5, 11.5 - s.lt * 0.3, -2.2, 1.3, 8, 48); });
   shot('L2', T('before'), 'GARAGE', (s) => { phoneOn(false); return pov(-4.5 + s.lt * 0.4, 1.8, 1.5, 0, 0.4, -4, 54); });
@@ -245,6 +245,7 @@ window.buildFilm = (A) => {
   shot('X1b', T('stock'), 'CRASH', (s) => { phoneOn(false); return pov(-10 + s.lt * 2, 4, 12, 4 + s.lt * 2, 6, -6, 56); });
 
   shots.sort((a, b) => a.t0 - b.t0);
+  for (let i = shots.length - 2; i >= 0; i--) if (shots[i + 1].t0 - shots[i].t0 < 0.25) shots.splice(i, 1);
   shots.forEach((sh, i) => { if (sh.set === '__prev') { const prev = shots.slice(0, i).reverse().find((x) => x.id !== 'L3' && x.set !== '__prev'); sh.set = prev.set; sh.cam = prev.cam; sh.update = prev.update; sh.id = prev.id + 'r'; } });
   return { sets, shots, hud, wipes: [], end: A.duration };
 };
