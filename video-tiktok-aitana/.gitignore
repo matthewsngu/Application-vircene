@@ -1,0 +1,8 @@
+preview/*.mp4
+audio/mix-raw.wav
+audio/voix-ref/
+audio/voix-tmp.wav
+audio/phrases/
+audio/test/
+final/video-60fps.mp4
+audio/voice.log

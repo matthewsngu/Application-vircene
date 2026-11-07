@@ -1,0 +1,5 @@
+$1,000,000 right now… or 1 penny that doubles every day for 30 days? 🤔 Most people take the million. On day 20 the penny is only $5,242. On day 28 it passes the million. On day 30: $5,368,709 💰 Keep going to day 48 and you're richer than Elon Musk 🤯 Would you have taken the million? 👇
+
+Math: day n = $0.01 × 2^(n−1).
+
+#money #math #compoundinterest #doubling #millionaire #wouldyourather #finance #fyp
