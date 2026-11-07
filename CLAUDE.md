@@ -27,3 +27,9 @@
 - Mouvement (motion-doctrine) : une direction dominante pour les transitions, jamais d'aller-retour ;
   une pause de 0,3–0,75 s avant chaque révélation ; entrées ≤ 0,8 s ; pas d'easing bounce/elastic ;
   à tout instant quelque chose de significatif doit être en mouvement (révélation, caméra, compteur).
+
+## Format qui marche (retours de l'utilisateur)
+- Les **dilemmes « tu prends quoi ? »** (A ou B, calcul ou conséquence surprenante, question finale « Comment A or B ») font parler : continuer dans ce format (ex. « $1M now or a penny doubled »).
+- Hook dès la 1re seconde, dilemme clair, fin sur une question qui divise.
+- Qualité visuelle : moteur HQ (`video-tiktok-penny/film/engine-hq.js` : glTF animés, Poly Haven CC0, HDRI, post-traitement, typo fine Inter/Garamond). Personnages : chaque modèle garde ses propres animations (les clips d'un autre squelette tordent le corps) ; Michelle accepte les clips du Soldier sans la rotation des hanches.
+- Rendu : ~3,6 s/image sans GPU ; le conteneur s'arrête quand la session est inactive → `tools/render_chunks.py` (morceaux de 120 images, reprise automatique) + surveillance active (Monitor). Fichiers > 100 Mo interdits sur GitHub : pousser une copie CRF 22.
