@@ -58,7 +58,7 @@ window.buildFilm = (A) => {
     for (let i = 0; i < 18; i++) { const k = i % 6, lv = Math.floor(i / 6); const st = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.012, 0.064), [edge, edge, face, face, edge, edge]); st.position.set(-0.15 + (k % 3) * 0.15, 0.085 + lv * 0.012, -0.08 + Math.floor(k / 3) * 0.12); briefcase.add(st); const b = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.0125, 0.0645), std({ map: bandTex })); b.position.copy(st.position); briefcase.add(b); }
     const paper = new THREE.Mesh(new THREE.PlaneGeometry(0.21, 0.297), std({ map: canvasTex(420, 594, (c) => { c.fillStyle = '#f4f1ea'; c.fillRect(0, 0, 420, 594); c.fillStyle = '#2b2b30'; c.font = '700 26px Garamond'; c.textAlign = 'center'; c.fillText('AGREEMENT', 210, 60); c.font = '400 14px Garamond'; c.textAlign = 'left'; for (let i = 0; i < 22; i++) c.fillRect(40, 100 + i * 18, 340 - (i % 4) * 30, 3); c.font = 'italic 500 16px Garamond'; c.fillText('Upon signature, all memories of the undersigned', 40, 520); c.fillText('are permanently erased.', 40, 540); c.fillRect(40, 570, 200, 2); }), roughness: 0.9 })); paper.rotation.x = -Math.PI / 2; paper.rotation.z = 0.15; paper.position.set(0.32, 0.772, 0.12); paper.receiveShadow = true; g.add(paper);
     pen = new THREE.Group(); g.add(pen); const pb = new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.006, 0.14, 12), std({ color: '#0e0e12', metalness: 0.6, roughness: 0.3 })); pb.rotation.z = Math.PI / 2; pen.add(pb); const nib = new THREE.Mesh(new THREE.CylinderGeometry(0.0, 0.006, 0.02, 12), std({ color: '#d8b25a', metalness: 1, roughness: 0.2 })); nib.rotation.z = Math.PI / 2; nib.position.x = 0.08; pen.add(nib); pen.position.set(0.32, 0.778, 0.24);
-    stranger = actor('stranger', 1.85, { sidle: inPlace(SRC('stranger', 'Idle'), 'sidle') }); stranger.wrap.position.set(0, 0, -1.25); g.add(stranger.wrap);
+    stranger = actor('stranger', 1.85, { sidle: inPlace(SRC('stranger', 'Idle'), 'sidle') }); stranger.wrap.position.set(0, 0, -1.25); stranger.wrap.rotation.y = Math.PI; g.add(stranger.wrap);
     stranger.root.traverse((o) => { if (o.isMesh) { o.material = o.material.clone(); o.material.color.multiplyScalar(0.35); } });
     sets.OFFICE.update = (s) => { const k = easeOut(clamp((s.t - 0.2) / 1.6)); briefcase.position.set(0, 0.772, lerp(-0.7, 0.05, k)); briefcase.rotation.y = lerp(0.4, 0, k); stranger.act([['sidle', 1, s.t]]); const w = clamp((s.t - T('second')) / 1.6); pen.position.set(0.3 + Math.sin(w * 30) * 0.02 * (w > 0 && w < 1 ? 1 : 0), 0.79 + (w > 0 && w < 1 ? 0.004 : 0), 0.2 - w * 0.06); pen.rotation.y = 0.6; };
   }
@@ -90,23 +90,24 @@ window.buildFilm = (A) => {
   // BEDROOM — morning; a woman you don't recognize sits by your bed
   let mom;
   {
-    const g = mk('BEDROOM', { env: 'sky', envI: 0.6, bg: '#f2f0ea', fog: ['#f2f0ea', 6, 20], exposure: 0.95, bloom: 0.25 });
+    const g = mk('BEDROOM', { env: 'sky', envI: 0.45, bg: '#cfc6b8', fog: ['#cfc6b8', 6, 20], exposure: 0.72, bloom: 0.3 });
     const fl = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), std({ color: '#b8a088', roughness: 0.4 })); fl.rotation.x = -Math.PI / 2; fl.receiveShadow = true; g.add(fl);
-    const wall = new THREE.Mesh(new THREE.PlaneGeometry(10, 5), std({ color: '#ece6dc', roughness: 0.9 })); wall.position.set(0, 2.5, -2.4); g.add(wall);
+    const wall = new THREE.Mesh(new THREE.PlaneGeometry(10, 5), std({ color: '#c4b39c', roughness: 0.9 })); wall.position.set(0, 2.5, -2.4); g.add(wall);
+    { const wr = new THREE.Mesh(new THREE.PlaneGeometry(8, 5), std({ color: '#b9a892', roughness: 0.9 })); wr.position.set(2.0, 2.5, 0); wr.rotation.y = -Math.PI / 2; g.add(wr); const wf = new THREE.Mesh(new THREE.PlaneGeometry(10, 5), std({ color: '#b9a892', roughness: 0.9 })); wf.position.set(0, 2.5, 2.6); wf.rotation.y = Math.PI; g.add(wf); const wl = new THREE.Mesh(new THREE.PlaneGeometry(8, 5), std({ color: '#b9a892', roughness: 0.9 })); wl.position.set(-2.6, 2.5, 0); wl.rotation.y = Math.PI / 2; g.add(wl); const fr = new THREE.Mesh(new RB(0.9, 0.7, 0.04, 3, 0.01), std({ color: '#3a2a1e' })); fr.position.set(1.97, 1.6, -0.4); fr.rotation.y = -Math.PI / 2; g.add(fr); const ph = new THREE.Mesh(new THREE.PlaneGeometry(0.78, 0.58), std({ color: '#c9b49a' })); ph.position.set(1.94, 1.6, -0.4); ph.rotation.y = -Math.PI / 2; g.add(ph); }
     const win = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 2.2), new THREE.MeshBasicMaterial({ color: '#ffffff' })); win.position.set(1.4, 1.9, -2.38); g.add(win);
     for (let k = 0; k < 2; k++) { const mu = new THREE.Mesh(new THREE.BoxGeometry(0.06, 2.3, 0.06), std({ color: '#d8d0c4' })); mu.position.set(0.8 + k * 1.2, 1.9, -2.35); g.add(mu); }
     const curtain = new THREE.Mesh(new THREE.PlaneGeometry(0.7, 2.8, 8, 1), std({ color: '#d9c8b0', roughness: 0.95, side: THREE.DoubleSide })); { const p = curtain.geometry.attributes.position; for (let i = 0; i < p.count; i++) p.setZ(i, Math.sin(p.getX(i) * 25) * 0.04); curtain.geometry.computeVertexNormals(); } curtain.position.set(-0.05, 1.7, -2.3); g.add(curtain);
     const sun = new THREE.DirectionalLight(0xfff2dc, 3.2); sun.position.set(4, 5, -6); sun.target.position.set(0, 0.5, 0); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); Object.assign(sun.shadow.camera, { left: -4, right: 4, top: 4, bottom: -4 }); g.add(sun, sun.target);
-    const bed = new THREE.Mesh(new RB(1.8, 0.45, 2.2, 4, 0.08), std({ color: '#f4f1ea', roughness: 0.9 })); bed.position.set(-0.6, 0.35, -0.6); bed.castShadow = bed.receiveShadow = true; g.add(bed);
-    const duvet = new THREE.Mesh(new RB(1.86, 0.14, 1.4, 4, 0.06), std({ color: '#e8e2d6', roughness: 0.95 })); duvet.position.set(-0.6, 0.62, -0.2); duvet.castShadow = duvet.receiveShadow = true; g.add(duvet);
+    const bed = new THREE.Mesh(new RB(1.8, 0.45, 2.2, 4, 0.08), std({ color: '#d8cfc0', roughness: 0.9 })); bed.position.set(-0.6, 0.35, -0.6); bed.castShadow = bed.receiveShadow = true; g.add(bed);
+    const duvet = new THREE.Mesh(new RB(1.86, 0.14, 1.4, 4, 0.06), std({ color: '#9fb0c0', roughness: 0.95 })); duvet.position.set(-0.6, 0.62, -0.2); duvet.castShadow = duvet.receiveShadow = true; g.add(duvet);
     const head = new THREE.Mesh(new RB(1.9, 1.2, 0.12, 4, 0.05), std({ color: '#8a6a4c', roughness: 0.6 })); head.position.set(-0.6, 0.9, -1.75); g.add(head);
     const pil = new THREE.Mesh(new RB(0.7, 0.16, 0.42, 4, 0.08), std({ color: '#ffffff', roughness: 0.9 })); pil.position.set(-0.6, 0.66, -1.35); g.add(pil);
     const ns = new THREE.Mesh(new RB(0.5, 0.55, 0.45, 3, 0.03), std({ color: '#8a6a4c', roughness: 0.5 })); ns.position.set(0.7, 0.28, -1.45); g.add(ns);
     const vase = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.05, 0.2, 20), std({ color: '#ffffff', roughness: 0.2 })); vase.position.set(0.7, 0.65, -1.45); g.add(vase);
     for (let k = 0; k < 5; k++) { const fl2 = new THREE.Mesh(new THREE.SphereGeometry(0.035, 10, 8), std({ color: ['#e2879a', '#ffd23f', '#ffffff'][k % 3] })); fl2.position.set(0.7 + (hash(k) - 0.5) * 0.12, 0.8 + hash(k * 2) * 0.08, -1.45 + (hash(k * 3) - 0.5) * 0.12); g.add(fl2); }
-    mom = actor('mom', 1.65, { nidle: inPlace(SRC('stranger', 'Idle'), 'nidle', false) }); mom.wrap.position.set(0.55, -0.42, -0.35); mom.wrap.rotation.y = -1.35; g.add(mom.wrap);
+    mom = instance('you', { tint: '#cfae94', additive: ['sad_pose', 'headShake'] }); mom.wrap = new THREE.Group(); mom.wrap.add(mom.root); mom.wrap.scale.setScalar(0.92); mom.wrap.position.set(0.6, -0.4, -0.35); mom.wrap.rotation.y = -1.35; g.add(mom.wrap);
     const chair = new THREE.Mesh(new RB(0.5, 0.45, 0.5, 3, 0.04), std({ color: '#6a4a34', roughness: 0.6 })); chair.position.set(0.6, 0.22, -0.35); g.add(chair);
-    sets.BEDROOM.update = (s) => { mom.act([['nidle', 1, s.t * 0.6]]); };
+    sets.BEDROOM.update = (s) => { const t = s.t, sh = t > T('none') - 0.2 && t < T('none') + 1.6 ? Math.sin(Math.PI * clamp((t - T('none') + 0.2) / 1.8)) : 0; mom.act([['idle', 1, t * 0.6], ['sad_pose', 1, 0.5], ['headShake', sh, t - T('none') + 0.2]]); };
   }
 
   /* ─── HUD ─── */
@@ -114,8 +115,8 @@ window.buildFilm = (A) => {
     const t = s.t, endT = T('so', 1);
     if (t < endT) {
       const gone = ORDER.reduce((a, [, w, n]) => a + clamp((t - T(w, n) - 0.5) / 1.4), 0) / ORDER.length;
-      if (t > T('five', 1) - 0.1) { label(g, 'THE OFFER', 80, 900); figure(g, '$5,000,000', 74, 1010, { size: 112, color: '#e8f0d0' }); }
-      if (t > T('erased') - 0.2) { const mem = Math.round(100 * (1 - gone)); label(g, `MEMORIES · ${mem}%`, 80, 1062, { color: 'rgba(255,220,180,0.9)' }); rule(g, 80, 1080, 840, 'rgba(255,255,255,0.22)', 2); rule(g, 80, 1080, 840 * (1 - gone), '#ffcf9a', 3); }
+      if (t > T('five', 1) - 0.1) { label(g, 'THE OFFER', 80, 268); figure(g, '$5,000,000', 76, 350, { size: 84, color: '#e8f0d0' }); }
+      if (t > T('erased') - 0.2) { const mem = Math.round(100 * (1 - gone)); label(g, `MEMORIES · ${mem}%`, 80, 402, { color: 'rgba(255,220,180,0.9)' }); rule(g, 80, 420, 840, 'rgba(255,255,255,0.22)', 2); rule(g, 80, 420, 840 * (1 - gone), '#ffcf9a', 3); }
     }
     ev('hit', T('erased')); ev('pop', T('mother'));
     if (t >= endT) {
@@ -141,11 +142,12 @@ window.buildFilm = (A) => {
   shot('O4', T('second'), 'OFFICE', (s) => C([0.36, 1.05, 0.5], [0.32, 0.77, 0.14], 34, s.t, 0.003, { aperture: 0.02 }));
   shot('M0', T('all', 1) - 0.1, 'MEMORIES', (s) => C([0, 1.6, 2.4 - s.lt * 0.4], [0, 1.5, -8], 50, s.t, 0.006, { aperture: 0.001 }));
   ORDER.forEach(([key, w, n], i) => shot('M' + (i + 1), T(w, n) - 0.15, 'MEMORIES', (s) => { const p = mz(i); const side = i % 2 ? 1 : -1; return C([p.x - side * 0.9 + s.lt * 0.05 * side, p.y + 0.05, p.z + 2.0 - s.lt * 0.25], [p.x, p.y, p.z], 40, s.t, 0.005, { aperture: 0.004 }); }));
-  shot('B1', T('wake'), 'BEDROOM', (s) => C([-0.6, 0.95, -1.15 + s.lt * 0.02], [0.4, 1.1, 0.2], 58, s.t, 0.006, { aperture: 0.002 }));
-  shot('B2', T('woman'), 'BEDROOM', (s) => C([-0.5, 0.9, -1.1], [0.55, 0.95, -0.35], 40, s.t, 0.005, { aperture: 0.004 }));
-  shot('B3', T('stories'), 'BEDROOM', (s) => C([-0.1, 1.05, -0.9 + s.lt * 0.02], [0.55, 0.95, -0.35], 30, s.t, 0.004, { aperture: 0.006 }));
+  shot('B1', T('wake'), 'BEDROOM', (s) => C([-1.5 + s.lt * 0.05, 1.55, 1.9 - s.lt * 0.06], [0.15, 0.8, -0.6], 46, s.t, 0.004, { aperture: 0.002 }));
+  shot('B2', T('woman'), 'BEDROOM', (s) => C([-0.95, 1.2, 1.25 - s.lt * 0.05], [0.4, 0.95, -0.45], 40, s.t, 0.004, { aperture: 0.003 }));
+  shot('B2b', T('crying'), 'BEDROOM', (s) => C([2.2 - s.lt * 0.05, 1.3, 0.9], [0.3, 0.9, -0.7], 36, s.t, 0.003, { aperture: 0.004 }));
+  shot('B3', T('stories'), 'BEDROOM', (s) => C([-1.3, 1.3, -1.35 + s.lt * 0.03], [0.5, 1.0, -0.35], 34, s.t, 0.004, { aperture: 0.004 }));
   shot('F1', T('five', 2), 'OFFICE', (s) => C([0.3 - s.lt * 0.04, 1.3, 0.9], [0, 0.8, 0], 40, s.t, 0.004, { aperture: 0.004 }));
-  shot('F2', T('family'), 'MEMORIES', (s) => { const p = mz(7); return C([p.x + 1.2, p.y, p.z + 2.6 - s.lt * 0.15], [p.x, p.y, p.z], 40, s.t, 0.005, { aperture: 0.003 }); });
+  shot('F2', T('family'), 'BEDROOM', (s) => C([-0.1 + s.lt * 0.05, 1.5, 2.1 - s.lt * 0.05], [0.2, 0.85, -0.6], 44, s.t, 0.004, { aperture: 0.003 }));
   shot('F3', T('some'), 'OFFICE', (s) => C([-0.6 + s.lt * 0.08, 1.4, 1.4], [0, 0.85, 0], 44, s.t, 0.004, { aperture: 0.003 }));
   shot('E1', T('so', 1), 'MEMORIES', (s) => C([0, 1.6, 3 - s.lt * 0.2], [0, 1.5, -8], 50, s.t, 0.004, { aperture: 0.002 }));
 
