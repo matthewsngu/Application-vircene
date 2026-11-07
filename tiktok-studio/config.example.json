@@ -1,0 +1,25 @@
+{
+  "persona": {
+    "name": "Prénom de l'influenceuse",
+    "handle": "@soncompte",
+    "niche": "ex : skincare / routines beauté accessibles",
+    "audience": "ex : femmes 18-30, francophones, budget serré",
+    "tone": "ex : complice, cash, phrases courtes, tutoie, un peu d'autodérision",
+    "catchphrases": ["ex : « On se dit tout ? »"],
+    "never": ["sujets ou formulations à éviter"],
+    "look": "description visuelle stable : cheveux, style, décor habituel",
+    "higgsfield": {
+      "characterSheetJobId": null,
+      "voiceId": null
+    }
+  },
+  "watch": {
+    "accounts": ["@compte1", "@compte2"],
+    "hashtags": ["#skincare", "#routinebeaute"],
+    "videosPerAccount": 30
+  },
+  "thresholds": {
+    "minRatio": 3,
+    "minViews": 20000
+  }
+}
