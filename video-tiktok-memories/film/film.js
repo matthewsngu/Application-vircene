@@ -83,7 +83,7 @@ window.buildFilm = (A) => {
       frames.forEach((f, i) => { const [, w, n] = ORDER[i]; const t0 = T(w, n) + 0.5, k = clamp((t - t0) / 1.4); const flick = t > T('erased') && t < T('erased') + 1.2 ? (Math.sin(t * 60 + i) > 0.3 ? 0.4 : 1) : 1; const op = (1 - smooth(k)) * flick; f.pic.material.opacity = op; f.border.material.opacity = op; f.halo.material.opacity = 0.25 * op; f.fr.scale.setScalar(1 + k * 0.15); f.fr.position.y += 0; f.k = k; });
       const p = dust.geometry.attributes.position; for (let j = 0; j < 1500; j++) { const i = j % frames.length, f = frames[i], k = f.k || 0; const fx = f.fr.position.x, fy = f.fr.position.y, fz = f.fr.position.z; const r = (hash(j) - 0.5), q = (hash(j * 2) - 0.5); const drift = k * (1 + hash(j * 3) * 2.5); p.setXYZ(j, fx + r * 1.2 + drift * (hash(j * 5) - 0.5) * 2, fy + q * 0.9 + drift * 1.2, fz + drift * (hash(j * 7) - 0.5)); } p.needsUpdate = true;
       dust.material.opacity = 0.8;
-      const ci = frames.findIndex((f, i) => t < T(ORDER[i][1], ORDER[i][2]) + 1.6); const cz = ci >= 0 ? frames[ci].fr.position.z : frames[frames.length - 1].fr.position.z; sets.MEMORIES.kl.position.set(0, 1.8, cz + 1.2);
+      let cz = frames[0].fr.position.z; for (let i = 1; i < frames.length; i++) cz = lerp(cz, frames[i].fr.position.z, smooth(clamp((t - T(ORDER[i - 1][1], ORDER[i - 1][2]) - 1.2) / 0.8))); sets.MEMORIES.kl.position.set(0, 1.8, cz + 1.2);
     };
   }
 
