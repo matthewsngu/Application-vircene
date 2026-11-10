@@ -1,6 +1,6 @@
 """Free local AI upscale (Real-ESRGAN general x4v3, CPU) of a low-res video to 1080p.
 
-  python upscale.py IN.mp4 OUT.mp4 [--short 1080] [--denoise 0.5] [--crf 17]
+  python upscale.py IN.mp4 OUT.mp4 [--short 1080] [--denoise 0.5] [--crf 17] [--restore]
 
 - Every frame goes through Real-ESRGAN x4 (realesr-general-x4v3, works well on AI-generated
   and real footage), then is resized with Lanczos so the SHORT side = --short (1080 → 1080x1920
@@ -30,6 +30,7 @@ args = sys.argv[1:]
 src, dst = Path(args[0]), Path(args[1])
 opt = lambda k, d: type(d)(args[args.index(k) + 1]) if k in args else d
 short, dn, crf = opt("--short", 1080), opt("--denoise", 0.5), opt("--crf", 17)
+restore = "--restore" in args  # source already >= target: shrink to half first, then AI back up (sharpens fake-1080 videos)
 torch.set_num_threads(max(1, torch.get_num_threads()))
 
 
@@ -52,6 +53,11 @@ model = ModelLoader().load_from_state_dict(sd).model.eval()
 info = json.loads(subprocess.check_output(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries",
                                            "stream=width,height,r_frame_rate,nb_frames", "-of", "json", str(src)]))["streams"][0]
 w, h = info["width"], info["height"]
+vf = []
+if restore:
+    s0 = short // 2
+    w, h = (s0, round(h * s0 / w / 2) * 2) if w <= h else (round(w * s0 / h / 2) * 2, s0)
+    vf = ["-vf", f"scale={w}:{h}:flags=area"]
 fps = info["r_frame_rate"]
 if w <= h:
     ow, oh = short, round(h * short / w / 2) * 2
@@ -62,7 +68,7 @@ print(f"{w}x{h} → {ow}x{oh} @ {fps}", flush=True)
 
 fdir = Path(str(dst) + ".frames")
 fdir.mkdir(parents=True, exist_ok=True)
-dec = subprocess.Popen(["ffmpeg", "-v", "error", "-i", str(src), "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], stdout=subprocess.PIPE)
+dec = subprocess.Popen(["ffmpeg", "-v", "error", "-i", str(src), *vf, "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], stdout=subprocess.PIPE)
 n, t0 = 0, time.time()
 with torch.inference_mode():
     while True:
