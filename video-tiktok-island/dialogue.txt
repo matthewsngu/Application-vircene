@@ -1,0 +1,28 @@
+# SPEAKER: line   (one line per take)   [gap N] = silence of N seconds
+CAPTAIN: Brace! Brace! Brace for impact!
+EMMA: Dad, what's happening?
+DAD: Head down! Hold my hand, and don't let go!
+CAPTAIN: Mayday, mayday! Flight four one seven, going down!
+[gap 0.9]
+DAD: Emma? Emma!
+EMMA: Dad! I'm here!
+DAD: Get away from the plane. Run!
+[gap 0.9]
+GRACE: Over here! Are you two hurt?
+DAD: We're okay. Who else made it?
+GRACE: Just us. And the pilot. He's trapped.
+PILOT: My leg. I can't feel my leg.
+PILOT: Please, don't leave me here.
+DAD: On three. One, two, three!
+GRACE: His leg is bad. Really bad.
+[gap 0.7]
+EMMA: Is someone coming for us?
+GRACE: Not tonight.
+GRACE: That's all the water we have. Two bottles.
+DAD: His leg is infected. Without water, he won't make it through the night.
+PILOT: The emergency beacon. I'm the only one who can fix it.
+EMMA: Dad, I'm so thirsty.
+DAD: If I give him the water, Emma goes without.
+PILOT: And if you don't, nobody ever finds you.
+[gap 0.6]
+NARRATOR: Your daughter, or the only man who can get you home? Comment A or B.

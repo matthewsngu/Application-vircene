@@ -1,0 +1,140 @@
+[
+ {
+  "speaker": "CAPTAIN",
+  "text": "Brace! Brace! Brace for impact!",
+  "s": 0.3,
+  "e": 2.469
+ },
+ {
+  "speaker": "EMMA",
+  "text": "Dad, what's happening?",
+  "s": 2.639,
+  "e": 4.211
+ },
+ {
+  "speaker": "DAD",
+  "text": "Head down! Hold my hand, and don't let go!",
+  "s": 4.381,
+  "e": 6.999
+ },
+ {
+  "speaker": "CAPTAIN",
+  "text": "Mayday, mayday! Flight four one seven, going down!",
+  "s": 7.169,
+  "e": 9.978
+ },
+ {
+  "speaker": "DAD",
+  "text": "Emma? Emma!",
+  "s": 11.048,
+  "e": 12.151
+ },
+ {
+  "speaker": "EMMA",
+  "text": "Dad! I'm here!",
+  "s": 12.321,
+  "e": 13.879
+ },
+ {
+  "speaker": "DAD",
+  "text": "Get away from the plane. Run!",
+  "s": 14.049,
+  "e": 15.792
+ },
+ {
+  "speaker": "GRACE",
+  "text": "Over here! Are you two hurt?",
+  "s": 16.862,
+  "e": 19.053
+ },
+ {
+  "speaker": "DAD",
+  "text": "We're okay. Who else made it?",
+  "s": 19.223,
+  "e": 20.773
+ },
+ {
+  "speaker": "GRACE",
+  "text": "Just us. And the pilot. He's trapped.",
+  "s": 20.943,
+  "e": 23.902
+ },
+ {
+  "speaker": "PILOT",
+  "text": "My leg. I can't feel my leg.",
+  "s": 24.072,
+  "e": 27.393
+ },
+ {
+  "speaker": "PILOT",
+  "text": "Please, don't leave me here.",
+  "s": 27.563,
+  "e": 29.391
+ },
+ {
+  "speaker": "DAD",
+  "text": "On three. One, two, three!",
+  "s": 29.561,
+  "e": 31.987
+ },
+ {
+  "speaker": "GRACE",
+  "text": "His leg is bad. Really bad.",
+  "s": 32.157,
+  "e": 35.115
+ },
+ {
+  "speaker": "EMMA",
+  "text": "Is someone coming for us?",
+  "s": 35.985,
+  "e": 37.813
+ },
+ {
+  "speaker": "GRACE",
+  "text": "Not tonight.",
+  "s": 37.983,
+  "e": 39.022
+ },
+ {
+  "speaker": "GRACE",
+  "text": "That's all the water we have. Two bottles.",
+  "s": 39.192,
+  "e": 42.62
+ },
+ {
+  "speaker": "DAD",
+  "text": "His leg is infected. Without water, he won't make it through the night.",
+  "s": 42.79,
+  "e": 46.346
+ },
+ {
+  "speaker": "PILOT",
+  "text": "The emergency beacon. I'm the only one who can fix it.",
+  "s": 46.516,
+  "e": 49.709
+ },
+ {
+  "speaker": "EMMA",
+  "text": "Dad, I'm so thirsty.",
+  "s": 49.879,
+  "e": 51.942
+ },
+ {
+  "speaker": "DAD",
+  "text": "If I give him the water, Emma goes without.",
+  "s": 52.112,
+  "e": 54.303
+ },
+ {
+  "speaker": "PILOT",
+  "text": "And if you don't, nobody ever finds you.",
+  "s": 54.473,
+  "e": 57.346
+ },
+ {
+  "speaker": "NARRATOR",
+  "text": "Your daughter, or the only man who can get you home? Comment A or B.",
+  "s": 58.116,
+  "e": 62.227
+ }
+]
