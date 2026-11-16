@@ -1,5 +1,6 @@
 # Paris la nuit — Arc de Triomphe (outlier du compte)
 
+Légende : « #ootd #arcdetriomphe »
 Publiée le 15/11/2026 13:52 — 11,5 k vues en ~19 h — **x23 vs la normale du compte (~500)**
 J'aime 14 % · partages 2,1 % · enregistrements 1,8 % · abonnés 1/34 · vu en entier 19 % · durée 6 s
 
@@ -20,3 +21,8 @@ Lieu emblématique de nuit · selfie qui bouge · sourire + coucou dès la 1re i
 3. Pyramide du Louvre illuminée — texte : « POV : tu me croises à 2 h du mat »
 4. Marches du Sacré-Cœur, vue sur Paris — texte : « Note ce spot sur 10 »
 5. Terrasse de café parisien, verre à la main — texte : « Ton spot préféré à Paris ? »
+
+## Angle tenue (#ootd)
+La légende classe la vidéo en « tenue du jour » : le public mode/lifestyle la reçoit.
+Garder une tenue bien visible (plan en pied ou mi-corps au moins 1 s) et une tenue différente par lieu.
+Légende type : question courte + 3-5 hashtags, ex. « Tenue validée ? #ootd #paris #parisbynight #<lieu> #outfit »
