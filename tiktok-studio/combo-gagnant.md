@@ -33,3 +33,14 @@
 3. Bateau sur la Seine de nuit, Tour Eiffel derrière
 4. Balcon d'hôtel haussmannien, Tour Eiffel au loin
 5. Pont Alexandre III, réverbères, robe noire
+
+## Légendes
+| Tour Eiffel (190 k) | Arc de Triomphe (11,5 k) |
+|---|---|
+| « la plus belle vue 💁🏼‍♀️ » — 0 hashtag | « #ootd #arcdetriomphe » — pas de phrase |
+
+La légende à double sens (la vue sur la tour… ou elle) donne une personnalité et fait réagir.
+Les hashtags ne sont pas nécessaires : TikTok comprend le contenu grâce à l'image.
+Règle : 1 phrase courte, sûre d'elle, à double sens + 1 emoji. 0 à 2 hashtags maximum.
+Exemples : « vue imprenable 🤍 », « devine ce que je regardais 👀 », « Paris me va bien 💁🏼‍♀️ »,
+« je reste ici pour toujours », « ce soir j'ai mis la barre haut 🥂 ».
