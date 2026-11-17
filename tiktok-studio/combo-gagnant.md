@@ -44,3 +44,8 @@ Les hashtags ne sont pas nécessaires : TikTok comprend le contenu grâce à l'i
 Règle : 1 phrase courte, sûre d'elle, à double sens + 1 emoji. 0 à 2 hashtags maximum.
 Exemples : « vue imprenable 🤍 », « devine ce que je regardais 👀 », « Paris me va bien 💁🏼‍♀️ »,
 « je reste ici pour toujours », « ce soir j'ai mis la barre haut 🥂 ».
+
+## Test du 16/11 : plan posé sans selfie (rooftop Tour Eiffel)
+Décor et tenue au top, mais 1,4 k vues, 2,8 s de moyenne, 4 abonnés.
+Conclusion : le selfie proche + regard/sourire/geste vers la caméra est OBLIGATOIRE.
+Le décor seul ne retient pas et ne fait pas s'abonner. Il faut aussi du mouvement continu (pas un plan fixe).

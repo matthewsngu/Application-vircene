@@ -21,3 +21,9 @@ Potentiel moyen tel quel, bon après montage. C'est aussi un test utile : est-ce
 ## Montage v2 (fait)
 Coupe à 2,5 s → 8,4 s, révélation à ~1 s · zoom léger pour retirer du ciel noir · sans son (à ajouter dans TikTok).
 Légende : « la plus belle vue, partie 2 💁🏼‍♀️ » (rappel de la vidéo à 190 k).
+
+## Résultat à 26 h (montage v2)
+1,4 k vues · moyenne 2,8 s (33 %) · vue en entier 5,9 % · 4 abonnés (1/350) · la plupart partent à 0:02
+Comparaison Arc : 3,9 s (65 %) · 19 % · 338 abonnés (1/34)
+→ Échec du test. La révélation de la tour à ~1 s n'a pas suffi : après, il ne se passe plus rien de nouveau.
+→ Mon pronostic « bon après montage » était faux.
